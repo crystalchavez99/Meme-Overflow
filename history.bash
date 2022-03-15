@@ -24,12 +24,17 @@ npm install express-validator csurf
 require("crypto").randomBytes(32).toString("hex");
 
 npm install bcryptjs
- npx dotenv sequelize-cli db:drop
- npx dotenv sequelize-cli db:create
- npx dotenv sequelize-cli db:migrate
+npx dotenv sequelize-cli db:drop
+npx dotenv sequelize-cli db:create
+npx dotenv sequelize-cli db:migrate
 
 npx sequelize-cli seed:generate --name memes
 npx sequelize-cli seed:generate --name users
 npx sequelize-cli seed:generate --name questions
 npx sequelize-cli seed:generate --name answers
+npx dotenv sequelize-cli db:seed:all
+
+npx dotenv sequelize-cli db:drop
+npx dotenv sequelize-cli db:create
+npx dotenv sequelize-cli db:migrate
 npx dotenv sequelize-cli db:seed:all

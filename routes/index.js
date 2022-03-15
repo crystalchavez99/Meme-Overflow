@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { User } = require("../db/models");
+const { User, Question } = require("../db/models");
 const { check, validationResult } = require("express-validator")
 const { asyncHandler, handleValidationErrors, csrfProtection } = require("../utils")
 const { loginUser, restoreUser, requireAuth, logoutUser } = require('../auth');
@@ -48,9 +48,19 @@ const userValidators = [
 
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'a/A Express Skeleton Home' });
-});
+router.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    const questions = await Question.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.render('index', {
+      title: 'Meme Overflow',
+      questions,
+      isLoggedIn: res.locals.authenticated,
+    });
+  }));
 
 router.get(
   "/signup",
