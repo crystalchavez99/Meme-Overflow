@@ -1,1 +1,1 @@
-CREATE USER meme_overflow_app WITH PASSWORD 'password123' CREATEDB;
+CREATE USER meme_overflow_app WITH PASSWORD 'l8qfv39eVqfOUyyG' CREATEDB;

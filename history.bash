@@ -19,3 +19,8 @@ npx sequelize-cli model:generate --name Downvote --attributes userId:integer,ans
 npx sequelize-cli model:generate --name QuestionTag --attributes questionId:integer,tagId:integer
 npx dotenv sequelize-cli db:migrate
 npm install express-validator csurf
+
+# generate secret in node repl
+require("crypto").randomBytes(32).toString("hex");
+
+npm install bcryptjs
