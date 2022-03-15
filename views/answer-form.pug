@@ -1,0 +1,16 @@
+include utils.pug
+
+html
+    head
+        title Answer Page
+    body
+
+        h2 Your Answer
+        +errorBlock(errors)
+        form(method="post" action="/answers/new")
+            input(type="hidden" name="_csrf" value=csrfToken)
+            label(for="title") Title
+            input(type="title" name="title" id="title")
+            label(for="memeUrl") Upload Image
+            input(type="url" name="memeUrl" id="memeUrl")
+            button(type="submit") Submit

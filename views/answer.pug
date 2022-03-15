@@ -1,0 +1,26 @@
+html
+    head
+        title Answer Page
+    body
+
+        h2 Your Answer
+            each answer in answers
+                div
+                    p=answer.title
+                    img(src=`${answer.memeUrl}`)
+                    button(type="submit") Edit Answer
+                    button(type="submit") Delete Answer
+
+        //- form(method="post" action=`/${answer.id}`)
+        //-     input(type="hidden" name="_csrf" value=csrfToken)
+        //-     label(for="title") Title
+        //-     input(type="title" name="title" id="title")
+        //-     button(type="button")#modal Select Image
+        //-     div
+        //-         img(src='meme.id' name="image" id="image")
+        //-         //how can we display the meme images?
+        //-     button(type="submit") Submit
+
+//edit and delete function
+//meme deck
+
