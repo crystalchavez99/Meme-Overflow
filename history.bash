@@ -18,3 +18,4 @@ npx sequelize-cli model:generate --name Upvote --attributes userId:integer,answe
 npx sequelize-cli model:generate --name Downvote --attributes userId:integer,answerId:integer
 npx sequelize-cli model:generate --name QuestionTag --attributes questionId:integer,tagId:integer
 npx dotenv sequelize-cli db:migrate
+npm install express-validator csurf
