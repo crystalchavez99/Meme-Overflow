@@ -6,10 +6,13 @@ const logger = require('morgan');
 const { sequelize } = require('./db/models');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+const { sessionConfig } = require("./config")
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const { sessionConfig } = require("./config")
 const questionsRouter = require('./routes/questions');
+const { restoreUser } = require('./auth');
 
 const app = express();
 
@@ -19,9 +22,9 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cookieParser(sessionConfig.secret));
 // set up session middleware
 const store = new SequelizeStore({ db: sequelize });
 
@@ -31,12 +34,14 @@ app.use(
     store,
     saveUninitialized: false,
     resave: false,
+    name: 'meme-overflow.sid',
   })
 );
 
 // create Session table if it doesn't already exist
 store.sync();
 
+app.use(restoreUser);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/questions', questionsRouter);
