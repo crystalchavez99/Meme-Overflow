@@ -1,10 +1,19 @@
+body {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 h1 {
     color: #555555;
+}
+
+a {
+    text-decoration: none;
 }
 
 #top-nav {
     display: flex;
     flex-direction: row;
-    align-items: space-around;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
 }
