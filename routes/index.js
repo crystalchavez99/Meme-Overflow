@@ -52,18 +52,13 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     const questions = await Question.findAll({
-      order: [['createdAt', 'DESC']]
+      include: [Answer],
+      order: [['createdAt', 'DESC']],
     });
 
     if (req.session.auth) {
       questions.forEach(async (question) => {
-        const answers = await Answer.findAll({
-          where: {
-            questionId: question.id,
-          },
-        });
-
-        if ((question.userId === req.session.auth.userId) && (!answers.length)) {
+        if ((question.userId === req.session.auth.userId) && (!question.Answers.length)) {
           question.unlocked = true;
         }
       });
