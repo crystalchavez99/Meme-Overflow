@@ -9,6 +9,5 @@ append head
 block content
   if isLoggedIn
     .new-question
-      form
-        button#ask-question(action="post", href="/questions/new") Ask A Question
+      a(href="/questions/new"): button#ask-question Ask A Question
   include questions.pug

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { User, Question } = require("../db/models");
+const { User, Question, Answer } = require("../db/models");
 const { check, validationResult } = require("express-validator")
 const { asyncHandler, handleValidationErrors, csrfProtection } = require("../utils")
 const { loginUser, restoreUser, requireAuth, logoutUser } = require('../auth');
@@ -52,8 +52,17 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     const questions = await Question.findAll({
-      order: [['createdAt', 'DESC']]
+      include: [Answer],
+      order: [['createdAt', 'DESC']],
     });
+
+    if (req.session.auth) {
+      questions.forEach(async (question) => {
+        if ((question.userId === req.session.auth.userId) && (!question.Answers.length)) {
+          question.unlocked = true;
+        }
+      });
+    }
 
     res.render('index', {
       title: 'Meme Overflow',
@@ -79,7 +88,7 @@ router.post(
   csrfProtection,
   userValidators,
   asyncHandler(async (req, res) => {
-    const { username, email, password, confirmPassword } = req.body;
+    const { username, email, password } = req.body;
 
     const user = User.build({
       username,
