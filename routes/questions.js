@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Question } = require("../db/models");
+const { Question,Answer } = require("../db/models");
 const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
 
@@ -61,10 +61,18 @@ router.get(
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
         const question = await Question.findByPk(id);
+        const answers = await Answer.findAll({
+            where:{
+                questionId: question.id
+            },
+            order:[["createdAt","DESC"]]
+
+        })
 
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
+            answers,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });

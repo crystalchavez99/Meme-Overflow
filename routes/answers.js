@@ -37,7 +37,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     const { userId } = req.session.auth
     const answer = db.Answer.build({
         //answerId,
-        questionId:1,
+        questionId,
         title,
         userId,
         //memeId,
@@ -50,7 +50,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     if (validatorErrors.isEmpty()) {
         console.log("CHECK HERE ---------------------")
         await answer.save()
-        res.redirect('/answers');
+        res.redirect(`/questions/${answer.questionId}`);
     } else {
         console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
@@ -99,7 +99,7 @@ router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,r
     }
 
 
-    res.render('./answers/answer-edit',{answer,csrfToken:req.csrfToken()})
+    res.render('./answers/answer-edit',{answer,csrfToken:req.csrfToken(),isLoggedIn: res.locals.authenticated,})
 
 
 
@@ -119,7 +119,7 @@ router.post('/:answerId/edit',requireAuth,csrfProtection,answerValidators,asyncH
     if (validatorErrors.isEmpty()) {
         //console.log("CHECK HERE ---------------------")
         await answerUpdate.update(answer)
-        res.redirect('./answers//answers');
+        res.redirect(`/questions/${answerUpdate.questionId}`);
     } else {
         //console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
@@ -157,7 +157,7 @@ router.post('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(re
     const answer = await db.Answer.findByPk(answerId)
     await answer.destroy();
     console.log("DESTROY =============================================")
-    res.redirect('/answers')
+    res.redirect(`/questions/${answer.questionId}`)
 }))
 
 
