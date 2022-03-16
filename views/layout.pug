@@ -5,4 +5,23 @@ html
         title= title
         link(rel='stylesheet' href='/stylesheets/reset.css')
   body
-    block content
+    nav#top-nav
+      #logo: a(href="/"): img(src="/logo.png", alt="Meme Overflow")
+      #search-bar
+      #auth-buttons
+        if isLoggedIn
+          form(action="/logout" method="post")
+            #logout: button(type="submit") Log Out
+        else
+          #login: a(href="/login"): button Log In
+          #sign-up: a(href="/signup"): button Sign Up
+    main
+      #left-column
+        if isLoggedIn
+          #avatar: a(href="/profile") img(src="/avatar.png", alt="Your name")
+        #tags
+      #main-column
+        block content
+      #right-column
+        #creators
+    footer
