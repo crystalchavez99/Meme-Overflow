@@ -4,7 +4,7 @@ const { requireAuth } = require('../auth')
 const db = require('../db/models')
 const { check, validationResult } = require('express-validator')
 const { asyncHandler, handleValidationErrors, csrfProtection } = require('../utils')
-const { route } = require('.')
+// const { route } = require('.')
 //const modal = document.getElementById("modal")
 
 
@@ -21,8 +21,8 @@ router.get('/',asyncHandler(async(req,res)=>{
         order:[["createdAt","DESC"]]
 
     })
-    console.log(answers)
-    res.render("answer",{answers})
+    //console.log(answers)
+    res.render("./answers/answer",{answers})
 }))
 
 
@@ -54,7 +54,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     } else {
         console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
-        res.render('answer-form', {
+        res.render('./answers/answer-form', {
             title,
             memeUrl,
             errors,
@@ -78,7 +78,7 @@ router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) =>
     //const answer = await db.Answer.findByPk(answerId)
     //console.log("CHECK HERE =============", question)
     const answer = db.Answer.build();
-    res.render('answer-form', {answer,csrfToken:req.csrfToken()})
+    res.render('./answers/answer-form', {answer,csrfToken:req.csrfToken()})
 }
 )
 )
@@ -89,7 +89,7 @@ router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,r
     const answer = await db.Answer.findByPk(answerId)
     const { title, memeUrl } = req.body
 
-    res.render('answer-edit',{answer,csrfToken:req.csrfToken()})
+    res.render('./answers/answer-edit',{answer,csrfToken:req.csrfToken()})
 
 
 
@@ -109,32 +109,35 @@ router.post('/:answerId/edit',requireAuth,csrfProtection,answerValidators,asyncH
     if (validatorErrors.isEmpty()) {
         //console.log("CHECK HERE ---------------------")
         await answerUpdate.update(answer)
-        res.redirect('/answers');
+        res.redirect('./answers//answers');
     } else {
         //console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
-        res.render('answer-form', {
+        res.render('./answers/answer-form', {
             title,
             memeUrl,
             errors,
             csrfToken: req.csrfToken()
         });
     }
-
-
-
 }))
 
 
-router.post('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
+router.get('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
     const answerId = parseInt(req.params.answerId,10)
-    const answerDelete = await db.Answer.findByPk(answerId)
+    const answer = await db.Answer.findByPk(answerId)
+    res.render('./answers/answer-delete',{answer,csrfToken:req.csrfToken()})
+}))
 
-    await answerDelete.destroy()
+
+
+router.post('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
+    console.log("CHECK =============================================")
+    const answerId = parseInt(req.params.answerId,10)
+    const answer = await db.Answer.findByPk(answerId)
+    await answer.destroy();
+    console.log("DESTROY =============================================")
     res.redirect('/answers')
-
-
-
 }))
 
 

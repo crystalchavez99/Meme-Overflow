@@ -8,8 +8,9 @@ html
                 div
                     p=answer.title
                     img(src=`${answer.memeUrl}`)
-                    button(type="submit") Edit Answer
-                    button(type="submit") Delete Answer
+                    div
+                        a(href=`/answers/${answer.id}/edit`) Edit
+                        a(href=`/answers/${answer.id}/delete`) Delete
 
         //- form(method="post" action=`/${answer.id}`)
         //-     input(type="hidden" name="_csrf" value=csrfToken)
@@ -23,4 +24,3 @@ html
 
 //edit and delete function
 //meme deck
-
