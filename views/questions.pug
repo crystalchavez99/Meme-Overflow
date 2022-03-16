@@ -5,3 +5,4 @@
             .question-description: p= question.description
             if question.unlocked
                 a(href=`/questions/${question.id}/edit`): button Edit
+                a(href=`/questions/${question.id}/delete`): button Delete
