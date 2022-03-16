@@ -89,6 +89,16 @@ router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,r
     const answer = await db.Answer.findByPk(answerId)
     const { title, memeUrl } = req.body
 
+    if (!res.locals.authenticated) {
+        return res.redirect('/login');
+    }
+
+    if (req.session.auth.userId !== answer.userId) {
+        res.status = 403;
+        return res.redirect('/');
+    }
+
+
     res.render('./answers/answer-edit',{answer,csrfToken:req.csrfToken()})
 
 
@@ -126,6 +136,16 @@ router.post('/:answerId/edit',requireAuth,csrfProtection,answerValidators,asyncH
 router.get('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
     const answerId = parseInt(req.params.answerId,10)
     const answer = await db.Answer.findByPk(answerId)
+
+    if (!res.locals.authenticated) {
+        return res.redirect('/login');
+    }
+
+    if (req.session.auth.userId !== answer.userId) {
+        res.status = 403;
+        return res.redirect('/');
+    }
+
     res.render('./answers/answer-delete',{answer,csrfToken:req.csrfToken()})
 }))
 
