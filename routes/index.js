@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { User, Question, Answer } = require("../db/models");
+const { User, Question, Answer} = require("../db/models");
 const { check, validationResult } = require("express-validator")
 const { asyncHandler, handleValidationErrors, csrfProtection } = require("../utils")
 const { loginUser, restoreUser, requireAuth, logoutUser } = require('../auth');
@@ -54,7 +54,6 @@ router.get(
       include: [Answer],
       order: [['createdAt', 'DESC']],
     });
-
     if (req.session.auth) {
       questions.forEach(async (question) => {
         if ((question.userId === req.session.auth.userId) && (!question.Answers.length)) {
