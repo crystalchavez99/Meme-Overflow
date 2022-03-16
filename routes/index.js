@@ -63,8 +63,6 @@ router.get(
       });
     }
 
-    console.log(`====================== Loading home page -- req.session.auth: ${req.session.auth}`);
-    console.log(`====================== Loading home page -- res.locals.authenticated: ${res.locals.authenticated}`);
     res.render('index', {
       title: 'Meme Overflow',
       questions,
@@ -78,7 +76,6 @@ router.get(
   asyncHandler(async (req, res) => {
     const user = User.build();
 
-    console.log(`+++++++++++++++++++++++ Loading sign-up page -- isLoggedIn: ${req.session.auth}`);
     res.render("sign-up", {
       title: 'Sign Up',
       user,
@@ -107,7 +104,6 @@ router.post(
 
       await user.save();
       loginUser(req, res, user);
-      // res.redirect('/');
     } else {
       const errors = validatorErrors.array().map((err) => err.msg);
       res.render('sign-up', {
@@ -166,7 +162,6 @@ router.post(
 
         if (passwordMatch) {
           return loginUser(req, res, user);
-          // return res.redirect('/');
         }
       }
 
@@ -184,12 +179,6 @@ router.post(
     });
   }));
 
-router.post(
-  "/logout",
-  (req, res) => {
-    return logoutUser(req, res);
-    // console.log(`---------------------- Logging Out - isLoggedIn: ${req.session.auth}`);
-    // res.redirect('/');
-  });
+router.post("/logout", (req, res) => logoutUser(req, res));
 
 module.exports = router;

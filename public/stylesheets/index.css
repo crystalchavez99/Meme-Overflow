@@ -1,6 +1,7 @@
 body {
     max-width: 1000px;
     margin: 0 auto;
+    padding: 0 40px;
 }
 
 h1 {
@@ -16,4 +17,35 @@ a {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+
+#search-bar {
+    width: 400px;
+    height: 30px;
+    background-color: aquamarine;
+    border: 2px solid blue;
+}
+
+#auth-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-areas: "left main right";
+}
+
+main #left-column {
+    grid-area: left;
+}
+
+main #main-column {
+    grid-area: main;
+}
+
+main #right-column {
+    grid-area: right;
 }
