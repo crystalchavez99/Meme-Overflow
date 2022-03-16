@@ -32,12 +32,12 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     console.log("IN ANSWER POST ROUTE ======================================================")
     //parse in the string of the questionId into integer
     //const answerId = parseInt(req.params.answerId)
-    //const answer = await db.Answer.findByPk(answerId)
+    //const answer = await db.Answer.findByPk(answerId) 
     const { title, memeUrl } = req.body
     const { userId } = req.session.auth
     const answer = db.Answer.build({
         //answerId,
-        questionId,
+        questionId: questionId,
         title,
         userId,
         //memeId,
@@ -74,6 +74,8 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
 
 router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     console.log("GET WORKS ===============")
+    const url = req.url;
+    console.log(url);
     const answerId = parseInt(req.params.answerId, 10)
     //const answer = await db.Answer.findByPk(answerId)
     //console.log("CHECK HERE =============", question)
