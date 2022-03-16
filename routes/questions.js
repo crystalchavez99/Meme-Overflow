@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Question } = require("../db/models");
+const { Question,Answer } = require("../db/models");
 const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
 
@@ -15,6 +15,7 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
         title: 'Ask A Question',
         question,
         csrfToken: req.csrfToken(),
+        isLoggedIn: res.locals.authenticated,
     });
 }));
 
@@ -49,9 +50,33 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
             question,
             csrfToken: req.csrfToken(),
             errors,
+            isLoggedIn: res.locals.authenticated,
         });
     }
 }));
+
+router.get(
+    '/:questionId(\\d+)',
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        const id = parseInt(req.params.questionId, 10);
+        const question = await Question.findByPk(id);
+        const answers = await Answer.findAll({
+            where:{
+                questionId: question.id
+            },
+            order:[["createdAt","DESC"]]
+
+        })
+
+        res.render('questions/question-display.pug', {
+            title: question.title,
+            question,
+            answers,
+            csrfToken: req.csrfToken(),
+            isLoggedIn: res.locals.authenticated,
+        });
+    }));
 
 router.get(
     '/:questionId(\\d+)/edit',
@@ -73,6 +98,7 @@ router.get(
             title: 'Edit Question',
             question,
             csrfToken: req.csrfToken(),
+            isLoggedIn: res.locals.authenticated,
         });
     }));
 
@@ -98,6 +124,7 @@ router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, async
             question,
             csrfToken: req.csrfToken(),
             errors,
+            isLoggedIn: res.locals.authenticated,
         });
     }
 }));
@@ -122,6 +149,7 @@ router.get(
             title: 'Delete Question',
             question,
             csrfToken: req.csrfToken(),
+            isLoggedIn: res.locals.authenticated,
         });
     }));
 

@@ -1,0 +1,23 @@
+extends ../layout.pug
+block content
+    #question-container
+        div(id=`question-${question.id}`)
+            .question-title: p= question.title
+            .question-description: p= question.description
+            //- if question.unlocked
+            //-     a(href=`/questions/${question.id}/edit`): button Edit
+            //-     a(href=`/questions/${question.id}/delete`): button Delete
+            a(href="/answers/new") New Answer
+        hr
+        h2 Answers
+        each answer in answers
+            div
+                p=answer.title
+                img(src=`${answer.memeUrl}`)
+                div
+                    a(href=`/answers/${answer.id}/edit`) Edit
+                    a(href=`/answers/${answer.id}/delete`) Delete
+                    div
+                        //- comment
+                        p This is where comments are going to be
+                        hr
