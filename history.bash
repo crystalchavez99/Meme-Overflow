@@ -38,3 +38,8 @@ npx dotenv sequelize-cli db:drop
 npx dotenv sequelize-cli db:create
 npx dotenv sequelize-cli db:migrate
 npx dotenv sequelize-cli db:seed:all
+
+# test unauthorized user
+# Username: faker1
+# email: fake_1@user.com
+# password: Password1!
