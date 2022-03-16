@@ -103,7 +103,7 @@ router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, async
 }));
 
 router.get(
-    'questions/:questionId(\\d+)/delete',
+    '/:questionId(\\d+)/delete',
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
@@ -124,5 +124,26 @@ router.get(
             csrfToken: req.csrfToken(),
         });
     }));
+
+router.post(
+    '/:questionId(\\d+)/delete',
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        const id = parseInt(req.params.questionId, 10);
+        const question = await Question.findByPk(id);
+
+        if (!res.locals.authenticated) {
+            return res.redirect('/login');
+        }
+
+        if (req.session.auth.userId !== question.userId) {
+            res.status = 403;
+            return res.redirect('/');
+        }
+
+        await question.destroy();
+        res.redirect('/');
+    })
+)
 
 module.exports = router;

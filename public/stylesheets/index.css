@@ -1,3 +1,10 @@
 h1 {
     color: #555555;
 }
+
+#top-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: space-around;
+    justify-content: center;
+}
