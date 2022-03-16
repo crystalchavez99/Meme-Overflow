@@ -15,6 +15,7 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
         title: 'Ask A Question',
         question,
         csrfToken: req.csrfToken(),
+        isLoggedIn: res.locals.authenticated,
     });
 }));
 
@@ -49,9 +50,25 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
             question,
             csrfToken: req.csrfToken(),
             errors,
+            isLoggedIn: res.locals.authenticated,
         });
     }
 }));
+
+router.get(
+    '/:questionId(\\d+)',
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        const id = parseInt(req.params.questionId, 10);
+        const question = await Question.findByPk(id);
+
+        res.render('questions/question-display.pug', {
+            title: question.title,
+            question,
+            csrfToken: req.csrfToken(),
+            isLoggedIn: res.locals.authenticated,
+        });
+    }));
 
 router.get(
     '/:questionId(\\d+)/edit',
@@ -73,6 +90,7 @@ router.get(
             title: 'Edit Question',
             question,
             csrfToken: req.csrfToken(),
+            isLoggedIn: res.locals.authenticated,
         });
     }));
 
@@ -98,6 +116,7 @@ router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, async
             question,
             csrfToken: req.csrfToken(),
             errors,
+            isLoggedIn: res.locals.authenticated,
         });
     }
 }));
@@ -122,6 +141,7 @@ router.get(
             title: 'Delete Question',
             question,
             csrfToken: req.csrfToken(),
+            isLoggedIn: res.locals.authenticated,
         });
     }));
 

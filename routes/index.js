@@ -46,7 +46,6 @@ const userValidators = [
     }),
 ];
 
-
 /* GET home page. */
 router.get(
   '/',
@@ -64,10 +63,12 @@ router.get(
       });
     }
 
+    console.log(`====================== Loading home page -- req.session.auth: ${req.session.auth}`);
+    console.log(`====================== Loading home page -- res.locals.authenticated: ${res.locals.authenticated}`);
     res.render('index', {
       title: 'Meme Overflow',
       questions,
-      isLoggedIn: res.locals.authenticated,
+      isLoggedIn: req.session.auth,
     });
   }));
 
@@ -76,10 +77,13 @@ router.get(
   csrfProtection,
   asyncHandler(async (req, res) => {
     const user = User.build();
+
+    console.log(`+++++++++++++++++++++++ Loading sign-up page -- isLoggedIn: ${req.session.auth}`);
     res.render("sign-up", {
       title: 'Sign Up',
       user,
-      csrfToken: req.csrfToken()
+      csrfToken: req.csrfToken(),
+      isLoggedIn: res.locals.authenticated,
     })
   }));
 
@@ -103,7 +107,7 @@ router.post(
 
       await user.save();
       loginUser(req, res, user);
-      res.redirect('/');
+      // res.redirect('/');
     } else {
       const errors = validatorErrors.array().map((err) => err.msg);
       res.render('sign-up', {
@@ -111,6 +115,7 @@ router.post(
         user,
         errors,
         csrfToken: req.csrfToken(),
+        isLoggedIn: res.locals.authenticated,
       });
     }
   }));
@@ -124,6 +129,7 @@ router.get(
       title: 'Login',
       user,
       csrfToken: req.csrfToken(),
+      isLoggedIn: res.locals.authenticated,
     });
   }));
 
@@ -159,8 +165,8 @@ router.post(
           user.hashedPassword.toString());
 
         if (passwordMatch) {
-          loginUser(req, res, user);
-          return res.redirect('/');
+          return loginUser(req, res, user);
+          // return res.redirect('/');
         }
       }
 
@@ -174,14 +180,16 @@ router.post(
       email,
       errors,
       csrfToken: req.csrfToken(),
+      isLoggedIn: res.locals.authenticated,
     });
   }));
 
 router.post(
   "/logout",
   (req, res) => {
-    logoutUser(req, res);
-    res.redirect('/login');
+    return logoutUser(req, res);
+    // console.log(`---------------------- Logging Out - isLoggedIn: ${req.session.auth}`);
+    // res.redirect('/');
   });
 
 module.exports = router;
