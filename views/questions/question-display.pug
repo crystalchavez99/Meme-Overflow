@@ -12,13 +12,14 @@ block content
             div.modalForm.modal
                 h2 Your Answer
                 +errorBlock(errors)
-                form(id="newForm" method="POST" action=`/questions/${question.id}`)
-                    input(type="hidden" name="_csrf" value=csrfToken)
+                form(id="newAnswerForm" method="POST" action=`/answers`)
+                    input(type="hidden" name="_csrf" value=csrfToken )
+                    input(type="hidden" name="questionId" value=question.id  )
                     label(for="title") Title
                     input(type="title" name="title" id="title" required)
                     label(for="memeUrl") Upload Image
                     input(type="url" name="memeUrl" id="memeUrl" required)
-                    button(type="submit")#submit Submit
+                    button(type="submit" id="submit") Submit
                 button#cancel Cancel
             div
             h2 Answers

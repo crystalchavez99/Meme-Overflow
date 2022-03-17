@@ -25,7 +25,21 @@ router.get('/',asyncHandler(async(req,res)=>{
     res.render("./answers/answer",{answers})
 }))
 
+router.post('/',requireAuth,asyncHandler(async(req,res)=>{
+  const { title, memeUrl, questionId} = req.body
+  console.log("====== POST ANSWER IS RUNNING ======")
+  const { userId } = req.session.auth
+  const answer = await db.Answer.create({
+      title,
+      memeUrl,
+      questionId,
+      userId
+  })
+  res.json({message:"success"})
+}))
 
+
+//create = build + save
 
 
 router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(async (req, res) => {

@@ -7,6 +7,9 @@
 //     })
 // }
 
+// const { application } = require("express");
+// const { Json } = require("sequelize/types/lib/utils");
+
 // function commentForm() {
 //     const newComment = document.querySelectorAll(".newcomment");
 //     const modal = document.querySelectorAll(".modalComment");
@@ -80,26 +83,40 @@ function newForm() {
     // const cancel = document.querySelectorAll("#class");
     // cancel.addEventListener("click", hide)
 }
-const title = document.getElementById("title")
+//const title = document.getElementById("title")
 
 function submitForm() {
-    console.log("clicked")
-    const submitButton = document.querySelectorAll("#submit");
-    for (let i = 0; i < submitButton.length; i++) {
-        submitButton[i].addEventListener("click", e => {
-            e.preventDefault()
-            console.log(title.value)
-            fetch(`/questions/${question.id}`, {
-                method: "POST",
-                // body: JSON.stringify({
-                //     title,
-                //     memeUrl
-                // })
-            })
-                .then(res => res.json())
-        });
+    console.log("submitformfunctionran")
+    const form = document.querySelector("#newAnswerForm")
+    console.log(form, "=====================");
+    // for (let i = 0; i < form.length; i++) {
+    form.addEventListener("submit", async (e) => {
+        console.log("submitformclicked")
+        e.preventDefault()
+        const formData = new FormData(form)
+        const title = formData.get("title")
+        const memeUrl = formData.get("memeUrl")
+        const questionId = formData.get("questionId")
+        console.log(title, memeUrl, "=====THIS IS THE TITLE  +  URL =========")
+        const body = JSON.stringify({ title: title, memeUrl: memeUrl, questionId: questionId})
+        const res= await fetch(`/answers`, {
+            method: "POST",
+            body,
+            headers:{
+                "Content-Type":'application/JSON'
+            }
+        })
 
-    }
+        //how to render?
+        const { message}  = await res.json()
+        // if (res.ok){
+        //     console.log("+++++++RESPONSE IS OK+++++++")
+
+        // }
+        console.log(message, "RESPONSE MSG=========")
+    });
+
+    // }
 }
 
 // editSubmit.addEventListener("click",editAnswer)
@@ -113,3 +130,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     //commentForm()
 
 });
+
+
+//
