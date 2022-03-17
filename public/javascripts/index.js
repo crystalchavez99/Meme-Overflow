@@ -68,19 +68,20 @@ function deleteAnswer(){
 }
 
 
-
+function hide(){
+    const modal = document.querySelector(".modal");
+    modal.style.display="none";
+}
 
 function newForm(){
     const form = document.getElementById("newForm");
-    const h2 = document.createElement("h2");
-    h2.innerText = "Your Answer";
+    // const h2 = document.createElement("h2");
+    // h2.innerText = "Your Answer";
     const modal = document.querySelector(".modal");
     //modal.appendChild(h2);
     modal.style.display="block"
-    // const cancel = document.getElementById("cancel");
-    // cancel.addEventListener("click",{
-    //     modal.style.display = "none";
-    // });
+    const cancel = document.querySelectorAll("#class");
+    cancel.addEventListener("click",hide)
 }
 
 
@@ -88,7 +89,7 @@ function newForm(){
 document.addEventListener("DOMContentLoaded", (event) => {
     //answerForm();
     const newAnswer = document.getElementById("newanswer");
-    //const cancel = document.querySelectorAll(".class");
+    //const cancel = document.querySelectorAll("#class");
     newAnswer.addEventListener("click",newForm)
     //cancel.addEventListener("click",hide)
     editAnswer();

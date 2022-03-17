@@ -10,51 +10,50 @@ block content
             //-     a(href=`/questions/${question.id}/delete`): button Delete
             button(type="submit" id="newanswer").newanswer New Answer
             div.modalForm.modal
-                 h2 Your Answer
-                 +errorBlock(errors)
-                 form(id="newForm" method="POST" action=`/questions/${question.id}`)
-                     input(type="hidden" name="_csrf" value=csrfToken)
-                     label(for="title") Title
-                     input(type="title" name="title" id="title")
-                     label(for="memeUrl") Upload Image
-                     input(type="url" name="memeUrl" id="memeUrl")
-                     button(type="submit") Submit
-                 a(href=`/questions/${question.id}` id="cancel"): button Cancel
-        hr
-        div
-        h2 Answers
-        each answer in answers
-            div(id=`answer`)
-                p.title=answer.title
-                img(src=`${answer.memeUrl}`)
-                if answer.unlocked
+                h2 Your Answer
+                +errorBlock(errors)
+                form(id="newForm" method="POST" action=`/questions/${question.id}`)
+                    input(type="hidden" name="_csrf" value=csrfToken)
+                    label(for="title") Title
+                    input(type="title" name="title" id="title")
+                    label(for="memeUrl") Upload Image
+                    input(type="url" name="memeUrl" id="memeUrl")
+                    button(type="submit") Submit
+                button#cancel Cancel
+            div
+            h2 Answers
+            each answer in answers
+                div(id=`answer`)
+                    p.title=answer.title
+                    img(src=`${answer.memeUrl}`)
+                    if answer.unlocked
+                        div
+                            button(type="submit" class="edit")  Edit
+                            div.modalEdit.modal
+                                h2 Your Answer
+                                +errorBlock(errors)
+                                form(method="post" action=`/answers/${answer.id}/edit`)
+                                    input(type="hidden" name="_csrf" value=csrfToken)
+                                    label(for="title") Title
+                                    input(type="title" name="title" id="title" value=answer.title)
+                                    label(for="memeUrl") Upload Image
+                                    input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
+                                    button(type="submit" id="editSubmit") Submit
+                                button#cancel Cancel
+                            button(type="submit" class="delete")  Delete
+                            div.modalDelete.modal
+                                form(method="post" action=`/answers/${answer.id}/delete`)
+                                    input(type="hidden" name="_csrf" value=csrfToken)
+                                    p Do you want to delete this answer?
+                                    button(type="submit") Yes
+                                button#cancel No
                     div
-                        button(type="submit" class="edit")  Edit
-                        div.modalEdit.modal
-                            h2 Your Answer
-                            +errorBlock(errors)
-                            form(method="post" action=`/answers/${answer.id}/edit`)
+                        button(type="submit" id="newcomment").newcomment New Comment
+                        div.modalComment.modal
+                            form(method="POST" action=`/questions/${question.id}`)
                                 input(type="hidden" name="_csrf" value=csrfToken)
-                                label(for="title") Title
-                                input(type="title" name="title" id="title" value=answer.title)
-                                label(for="memeUrl") Upload Image
-                                input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
-                                button(type="submit" id="editSubmit") Submit
-                            a(href=`/questions/${question.id}` id="cancel"): button Cancel
-                        button(type="submit" class="delete")  Delete
-                        div.modalDelete.modal
-                            form(method="post" action=`/answers/${answer.id}/delete`)
-                                input(type="hidden" name="_csrf" value=csrfToken)
-                                p Do you want to delete this answer?
-                                button(type="submit") Yes
-                            a(href=`/questions/${question.id}` class="cancel"): button No
-                div
-                    button(type="submit" id="newcomment").newcomment New Comment
-                    div.modalComment.modal
-                        form(method="POST" action=`/questions/${question.id}`)
-                            input(type="hidden" name="_csrf" value=csrfToken)
-                            textarea(name="content" id="content")
-                            button(type="submit") Submit
-                        a(href=`/questions/${question.id}` class="cancel"): button Cancel
-                    //- each comment in comments
-                    //-     p= comment.content
+                                textarea(name="content" id="content")
+                                button(type="submit") Submit
+                            button#cancel Cancel
+                        //- each comment in comments
+                        //-     p= comment.content
