@@ -16,6 +16,7 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
         question,
         csrfToken: req.csrfToken(),
         isLoggedIn: res.locals.authenticated,
+        action: `/questions/new`
     });
 }));
 
@@ -140,23 +141,27 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            action: `/questions/${id}/edit`
         });
     }));
 
 router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, asyncHandler(async (req, res) => {
     const { title, description } = req.body;
     const { userId } = req.session.auth;
+    const questionId = parseInt(req.params.questionId, 10)
+    const question = await db.Question.findByPk(questionId)
 
-    const question = db.Question.build({
-        title,
-        description,
-        userId,
-    });
 
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
-        await question.save();
+        question.update({
+            title,
+            description,
+            userId,
+
+        });
+
         res.redirect('/');
     } else {
         const errors = validatorErrors.array().map((err) => err.msg);
