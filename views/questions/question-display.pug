@@ -27,9 +27,12 @@ block content
                         div.single-answer(id=`answer-${answer.id}`)
                             .vote(id=`vote-${answer.id}`)
                                 .vote-button-group
-                                    .upvote(id=`upvote-${answer.id}`)
-                                        img(src="/images/upvote.png", alt="Upvote")
-                                    span(id=`vote-count-${answer.id}`)= answer.voteCount
+                                    .upvote
+                                        form(action=`/answers/${answer.id}/upvote` method="post")
+                                            input(type="hidden" name="_csrf" value=csrfToken)
+                                            button(type="submit" id=`upvote-${answer.id}`) Upvote
+                                            //- img(src="/images/upvote.png", alt="Upvote")
+                                    span.vote-count(id=`vote-count-${answer.id}`)= answer.voteCount
                                     .downvote(id=`downvote-${answer.id}`)
                                         img(src="/images/downvote.png", alt="Downvote")
                                 .vote-placeholder

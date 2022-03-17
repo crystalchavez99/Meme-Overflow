@@ -56,7 +56,7 @@ router.get(
     });
     if (req.session.auth) {
       questions.forEach(async (question) => {
-        if ((question.userId === req.session.auth.userId) && (!question.Answers.length)) {
+        if ((question.userId === req.session.auth.userId)) {
           question.unlocked = true;
         }
       });

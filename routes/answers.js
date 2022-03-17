@@ -161,16 +161,18 @@ router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async
 
 
 router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    console.log("Upvote rout=====================================")
     const answerId = parseInt(req.params.answerId, 10);
     const { userId: voterId } = req.session.auth;
     let voteCount = 0;
 
     const answer = await db.Answer.findByPk(answerId, {
-        include: [User, Upvote, Downvote],
+        include: [db.User, db.Upvote, db.Downvote],
     });
-    console.log(JSON.stringify(answer, null, 2));
+    console.log(JSON.stringify(answer.Upvotes.length, null, 2));
 
-    if (answer.Upvote.length) {
+
+    if (answer.Upvotes.length) {
         // originally had upvote, user clicks it and gets rid of upvote
         const upvote = await db.Upvote.findOne({
             where: {
@@ -181,7 +183,7 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler
 
         await upvote.destroy();
         res.json({ voteCount: voteCount - 1 });
-    } else if (answer.Downvote.length) {
+    } else if (answer.Downvotes.length) {
         // originally had downvote, user clicks it and changes downvote to upvote
         const downvote = await db.Downvote.findOne({
             where: {
@@ -201,7 +203,7 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler
     } else {
         // user clicks upvote, just do upvote
 
-        await db.Upvote.create();
+
         await db.Upvote.create({
             answerId,
             userId: voterId,
