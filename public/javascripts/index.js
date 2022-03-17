@@ -17,7 +17,14 @@ function commentForm(){
     }
 }
 
-
+// const editSubmit = document.getElementById("editSubmit");
+// const answerBlock = document.querySelector("#answer");
+// const editAnswer = e=>{
+//     const input = document.querySelector("#title");
+//     const value = input.value;
+//     const title = document.getElementsByClassName("title");
+//     title.innerText = value;
+// }
 
 function editAnswer(){
     const edit = document.querySelectorAll(".edit");
@@ -59,10 +66,34 @@ function deleteAnswer(){
         })
     }
 }
+
+
+
+
+function newForm(){
+    const form = document.getElementById("newForm");
+    const h2 = document.createElement("h2");
+    h2.innerText = "Your Answer";
+    const modal = document.querySelector(".modal");
+    //modal.appendChild(h2);
+    modal.style.display="block"
+    // const cancel = document.getElementById("cancel");
+    // cancel.addEventListener("click",{
+    //     modal.style.display = "none";
+    // });
+}
+
+
+// editSubmit.addEventListener("click",editAnswer)
 document.addEventListener("DOMContentLoaded", (event) => {
-    answerForm();
+    //answerForm();
+    const newAnswer = document.getElementById("newanswer");
+    //const cancel = document.querySelectorAll(".class");
+    newAnswer.addEventListener("click",newForm)
+    //cancel.addEventListener("click",hide)
     editAnswer();
     cancelAnswer();
     deleteAnswer();
     commentForm()
+
 });

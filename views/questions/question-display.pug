@@ -10,16 +10,16 @@ block content
             //-     a(href=`/questions/${question.id}/delete`): button Delete
             button(type="submit" id="newanswer").newanswer New Answer
             div.modalForm.modal
-                h2 Your Answer
-                +errorBlock(errors)
-                form(method="POST" action=`/questions/${question.id}`)
-                    input(type="hidden" name="_csrf" value=csrfToken)
-                    label(for="title") Title
-                    input(type="title" name="title" id="title")
-                    label(for="memeUrl") Upload Image
-                    input(type="url" name="memeUrl" id="memeUrl")
-                    button(type="submit") Submit
-                a(href=`/questions/${question.id}` id="cancel"): button Cancel
+                 h2 Your Answer
+                 +errorBlock(errors)
+                 form(id="newForm" method="POST" action=`/questions/${question.id}`)
+                     input(type="hidden" name="_csrf" value=csrfToken)
+                     label(for="title") Title
+                     input(type="title" name="title" id="title")
+                     label(for="memeUrl") Upload Image
+                     input(type="url" name="memeUrl" id="memeUrl")
+                     button(type="submit") Submit
+                 a(href=`/questions/${question.id}` id="cancel"): button Cancel
         hr
         div
         h2 Answers
@@ -47,7 +47,7 @@ block content
                                 input(type="hidden" name="_csrf" value=csrfToken)
                                 p Do you want to delete this answer?
                                 button(type="submit") Yes
-                            a(href=`/questions/${question.id}` id="cancel"): button No
+                            a(href=`/questions/${question.id}` class="cancel"): button No
                 div
                     button(type="submit" id="newcomment").newcomment New Comment
                     div.modalComment.modal
@@ -55,6 +55,6 @@ block content
                             input(type="hidden" name="_csrf" value=csrfToken)
                             textarea(name="content" id="content")
                             button(type="submit") Submit
-                        a(href=`/questions/${question.id}` id="cancel"): button Cancel
+                        a(href=`/questions/${question.id}` class="cancel"): button Cancel
                     //- each comment in comments
                     //-     p= comment.content
