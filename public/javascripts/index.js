@@ -28,9 +28,9 @@
 
  function editAnswer() {
      const edit = document.querySelectorAll(".edit");
-     console.log(edit)
+     //console.log(edit)
      const modal = document.querySelectorAll(".modalEdit");
-     console.log(modal)
+     //console.log(modal)
      for (let i = 0; i < edit.length; i++) {
          edit[i].addEventListener("click", () => {
             modal[i].style.display = "block"
@@ -52,6 +52,7 @@ function cancelAnswer() {
 }
  function deleteAnswer() {
      const deleteButton = document.querySelectorAll(".delete");
+     console.log(deleteButton)
      const modal = document.querySelectorAll(".modalDelete");
 
      for (let i = 0; i < deleteButton.length; i++) {
@@ -63,11 +64,11 @@ function cancelAnswer() {
  }
 
 
-function hide() {
-    const modal = document.querySelector(".modal");
-    console.log("click")
-    modal.style.display = "none";
-}
+// function hide() {
+//     const modal = document.querySelector(".modal");
+//     console.log("click")
+//     modal.style.display = "none";
+// }
 
 function newForm() {
     const form = document.getElementById("newForm");
@@ -76,39 +77,49 @@ function newForm() {
     const modal = document.querySelector(".modal");
     //modal.appendChild(h2);
     modal.style.display = "block"
-    const cancel = document.querySelectorAll("#class");
-    cancel.addEventListener("click", hide)
+    // const cancel = document.querySelectorAll("#class");
+    // cancel.addEventListener("click", hide)
 }
 
-async function submit() {
+function submit() {
     console.log("click")
     const form = document.getElementById("newForm");
-    const data = new FormData(form);
-    await fetch(`/questions/${question.id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            title,
-            memeUrl
+    form.addEventListener("submit",e=>{
+        e.preventDefault();
+        fetch(`/questions/${question.id}`,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+
         })
-    }).then((res) => { return res.text() })
-    return false;
+        .then(res =>{
+            return res.text();
+        })
+        .then(data =>{
+            return res.data();
+        })
+        return false;
+    })
 }
+
+// function submitForm(){
+//     console.log("clicked")
+//     const submitButton = document.querySelectorAll("#submit");
+//     for(let i = 0; i < submitButton.length;i++){
+//         submitButton[i].addEventListener("click",submit);
+//         console.log()
+//     }
+// }
 
 // editSubmit.addEventListener("click",editAnswer)
 document.addEventListener("DOMContentLoaded", (event) => {
-    //answerForm();
     const newAnswer = document.getElementById("newanswer");
-    //const submitButton = document.querySelectorAll("#submit");
-    //const cancel = document.querySelectorAll("#class");
     newAnswer.addEventListener("click", newForm);
-    //submitButton.addEventListener("click",submit);
-    //cancel.addEventListener("click",hide)
+    //submit();
     editAnswer();
     cancelAnswer();
-    //deleteAnswer();
+    deleteAnswer();
     //commentForm()
 
 });
