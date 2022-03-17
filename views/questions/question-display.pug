@@ -24,8 +24,8 @@ block content
         div
         h2 Answers
         each answer in answers
-            div(id=`answer-${answer.id}`)
-                p=answer.title
+            div(id=`answer`)
+                p.title=answer.title
                 img(src=`${answer.memeUrl}`)
                 if answer.unlocked
                     div
@@ -39,7 +39,7 @@ block content
                                 input(type="title" name="title" id="title" value=answer.title)
                                 label(for="memeUrl") Upload Image
                                 input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
-                                button(type="submit") Submit
+                                button(type="submit" id="editSubmit") Submit
                             a(href=`/questions/${question.id}` id="cancel"): button Cancel
                         button(type="submit" class="delete")  Delete
                         div.modalDelete.modal
