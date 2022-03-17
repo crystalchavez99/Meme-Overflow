@@ -1,4 +1,4 @@
-function displayForm(){
+function answerForm(){
     const newAnswer = document.getElementById("newanswer");
     const modal = document.querySelector(".modalForm");
     newAnswer.addEventListener("click",()=>{
@@ -7,7 +7,19 @@ function displayForm(){
     })
 }
 
-function displayAnswer(){
+function commentForm(){
+    const newComment = document.querySelectorAll(".newcomment");
+    const modal = document.querySelectorAll(".modalComment");
+    for(let i = 0; i < newComment.length; i++){
+        newComment[i].addEventListener("click",()=>{
+            modal[i].style.display="block"
+        })
+    }
+}
+
+
+
+function editAnswer(){
     const edit = document.querySelectorAll(".edit");
     //console.log(edit)
     const modal = document.querySelectorAll(".modalEdit");
@@ -22,6 +34,9 @@ function displayAnswer(){
         })
     }
 }
+
+
+
 function cancelAnswer(){
     const cancel = document.getElementById("cancel");
     const modal = document.querySelector(".modal");
@@ -45,9 +60,9 @@ function deleteAnswer(){
     }
 }
 document.addEventListener("DOMContentLoaded", (event) => {
-    displayForm();
-    displayAnswer();
+    answerForm();
+    editAnswer();
     cancelAnswer();
     deleteAnswer();
-
+    commentForm()
 });

@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Question, Answer } = require("../db/models");
+const { Question, Answer, Comment} = require("../db/models");
 const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
+
 
 router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
     const question = await Question.build();
@@ -65,14 +66,44 @@ router.get(
             where: {
                 questionId: question.id
             },
+            include:[Comment],
             order: [["createdAt", "DESC"]]
 
         })
+        // const comments= await Comment.findAll({
+        //     where:{
+        //         answerId: answers.id
+        //     },
+        //     order: [["createdAt", "DESC"]]
+        // })
+        // const comment = await Comment.findAll({
+        //     where: {
+        //         questionId: question.id,
+        //         answerId: answers.id
+        //     },
+        //     order: [["createdAt", "DESC"]]
+        // })
+
+
+        if (req.session.auth) {
+            answers.forEach(async (answer) => {
+              if ((answer.userId === req.session.auth.userId) && (!answer.Comments.length)) {
+                answer.unlocked = true;
+              }
+            });
+            // comments.forEach(async (comment) => {
+            //     if ((comment.userId === req.session.auth.userId)) {
+            //       comment.unlocked = true;
+            //     }
+            //   });
+          }
+
 
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
             answers,
+            // comments,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
@@ -93,12 +124,18 @@ router.post(
         userId,
         //memeId,
         memeUrl
-    })
+        });
+        // const comment = await Comment.build({
+        //     userId: 1,
+        //     answerId: 1,
+        //     content
+        // })
         const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
         console.log("CHECK HERE ---------------------")
         await answer.save()
+        // await comment.save()
         res.redirect(`/questions/${question.id}`);
     } else {
         console.log("LOOK HERE +++++++++++++++")

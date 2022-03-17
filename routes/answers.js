@@ -32,7 +32,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     console.log("IN ANSWER POST ROUTE ======================================================")
     //parse in the string of the questionId into integer
     //const answerId = parseInt(req.params.answerId)
-    //const answer = await db.Answer.findByPk(answerId) 
+    //const answer = await db.Answer.findByPk(answerId)
     const { title, memeUrl } = req.body
     const { userId } = req.session.auth
     const answer = db.Answer.build({
@@ -84,7 +84,36 @@ router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) =>
 }
 )
 )
+router.get('/:answerId',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
+    const answerId = parseInt(req.params.answerId,10);
+    const answer = await db.Answer.findByPk(answerId);
+    const comments= await Comment.findAll({
+        where:{
+            answerId: answer.id
+        },
+        order: [["createdAt", "DESC"]]
+    })
+    const { content } = req.body
 
+    if (!res.locals.authenticated) {
+        return res.redirect('/login');
+    }
+
+    if (req.session.auth) {
+        comments.forEach(async (comment) => {
+          if ((comment.userId === req.session.auth.userId)) {
+            comment.unlocked = true;
+          }
+        });
+
+      }
+
+
+    res.render('./answers/answer',{answer,comments,csrfToken:req.csrfToken(),isLoggedIn: res.locals.authenticated,})
+
+
+
+}))
 
 router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
     const answerId = parseInt(req.params.answerId,10)
