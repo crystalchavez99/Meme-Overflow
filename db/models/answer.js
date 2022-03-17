@@ -37,6 +37,12 @@ module.exports = (sequelize, DataTypes) => {
     Answer.belongsTo(models.Question, { foreignKey: "questionId" });
     Answer.belongsTo(models.Meme, { foreignKey: "memeId" });
     Answer.hasMany(models.Comment, { foreignKey: "answerId" });
+    Answer.hasMany(models.Upvote, {
+      foreignKey: "answerId",
+    });
+    Answer.hasMany(models.Downvote, {
+      foreignKey: "answerId",
+    });
     Answer.belongsToMany(models.User, {
       through: "Upvote",
       otherKey: "userId",
