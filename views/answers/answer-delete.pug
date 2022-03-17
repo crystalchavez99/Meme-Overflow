@@ -15,8 +15,10 @@ html
         h2= answer.title
         img(src=`${answer.memeUrl}`)
         div
-            button(type="submit") Delete
-            a(href=`/answers`) Cancel
+            form(method="post" action=`/answers/${answer.id}/delete`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                button(type="submit") Delete
+                a(href=`/`) Cancel
 
 
 

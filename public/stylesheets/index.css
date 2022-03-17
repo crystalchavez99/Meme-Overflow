@@ -17,3 +17,7 @@ a {
     align-items: center;
     justify-content: space-between;
 }
+
+.modal{
+    display: none;
+}

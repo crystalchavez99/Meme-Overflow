@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Question } = require("../db/models");
+const { Question, Answer } = require("../db/models");
 const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
 
@@ -61,14 +61,61 @@ router.get(
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
         const question = await Question.findByPk(id);
+        const answers = await Answer.findAll({
+            where: {
+                questionId: question.id
+            },
+            order: [["createdAt", "DESC"]]
+
+        })
 
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
+            answers,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
     }));
+
+router.post(
+    '/:questionId(\\d+)',
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        const questionId = parseInt(req.params.questionId, 10);
+        const question = await Question.findByPk(questionId);
+        const { title, memeUrl } = req.body
+        const { userId } = req.session.auth
+        const answer = await Answer.build({
+        //answerId,
+        questionId: questionId,
+        title,
+        userId,
+        //memeId,
+        memeUrl
+    })
+        const validatorErrors = validationResult(req);
+
+    if (validatorErrors.isEmpty()) {
+        console.log("CHECK HERE ---------------------")
+        await answer.save()
+        res.redirect(`/questions/${question.id}`);
+    } else {
+        console.log("LOOK HERE +++++++++++++++")
+        const errors = validatorErrors.array().map((err) => err.msg);
+        res.render('./questions/question-display', {
+            title,
+            memeUrl,
+            errors,
+            csrfToken: req.csrfToken()
+        });
+    }
+    }));
+
+
+
+
+
 
 router.get(
     '/:questionId(\\d+)/edit',
