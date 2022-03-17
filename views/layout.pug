@@ -6,17 +6,19 @@ html
         script(src='../javascripts/index.js')
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(rel='stylesheet' href='/stylesheets/index.css')
+        link(rel='stylesheet' href='https://use.fontawesome.com/releases/v6.1.0/css/all.css')
   body
-    nav#top-nav
-      #logo: a(href="/"): img(src="/logo.png", alt="Meme Overflow")
-      #search-bar
-      #auth-buttons
-        if isLoggedIn
-          form(action="/logout" method="post")
-            #logout: button(type="submit") Log Out
-        else
-          #login: a(href="/login"): button Log In
-          #sign-up: a(href="/signup"): button Sign Up
+    header
+      nav#top-nav
+        a(href="/"): #logo: i.fa-solid.fa-cards-blank
+        #search-bar
+        #auth-buttons
+          if isLoggedIn
+            form(action="/logout" method="post")
+              #logout: button(type="submit") Log Out
+          else
+            #login: a(href="/login"): button Log In
+            #sign-up: a(href="/signup"): button Sign Up
     main
       #left-column
         if isLoggedIn

@@ -13,11 +13,13 @@ block content
                     each answer in question.Answers
                         div.single-answer(id=`answer-${answer.id}`)
                             .vote(id=`vote-${answer.id}`)
-                                div(id=`upvote-${answer.id}`)
-                                    img(src="/upvote-button.png", alt="Upvote")
-                                span(id=`vote-count-${answer.id}`)= answer.voteCount
-                                div(id=`downvote-${answer.id}`)
-                                    img(src="/downvote-button.png", alt="Downvote")
+                                .vote-button-group
+                                    .upvote(id=`upvote-${answer.id}`)
+                                        img(src="/images/upvote.png", alt="Upvote")
+                                    span(id=`vote-count-${answer.id}`)= answer.voteCount
+                                    .downvote(id=`downvote-${answer.id}`)
+                                        img(src="/images/downvote.png", alt="Downvote")
+                                .vote-placeholder
                             .answer-content
                                 .answer-title: p= answer.title
                                 .answer-meme: img(src=`${answer.memeUrl}`)
@@ -41,7 +43,7 @@ block content
                 a(href=`/questions/${question.id}` id="cancel"): button Cancel
         hr
         h2 Answers
-        each answer in answers
+        each answer in question.Answers
             div
                 p=answer.title
                 img(src=`${answer.memeUrl}`)
