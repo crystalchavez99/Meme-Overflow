@@ -26,17 +26,17 @@
 //     title.innerText = value;
 // }
 
- function editAnswer() {
-     const edit = document.querySelectorAll(".edit");
-     //console.log(edit)
-     const modal = document.querySelectorAll(".modalEdit");
-     //console.log(modal)
-     for (let i = 0; i < edit.length; i++) {
-         edit[i].addEventListener("click", () => {
+function editAnswer() {
+    const edit = document.querySelectorAll(".edit");
+    //console.log(edit)
+    const modal = document.querySelectorAll(".modalEdit");
+    //console.log(modal)
+    for (let i = 0; i < edit.length; i++) {
+        edit[i].addEventListener("click", () => {
             modal[i].style.display = "block"
-         })
-     }
- }
+        })
+    }
+}
 
 
 
@@ -50,18 +50,18 @@ function cancelAnswer() {
         })
     }
 }
- function deleteAnswer() {
-     const deleteButton = document.querySelectorAll(".delete");
-     console.log(deleteButton)
-     const modal = document.querySelectorAll(".modalDelete");
+function deleteAnswer() {
+    const deleteButton = document.querySelectorAll(".delete");
+    console.log(deleteButton)
+    const modal = document.querySelectorAll(".modalDelete");
 
-     for (let i = 0; i < deleteButton.length; i++) {
-         deleteButton[i].addEventListener("click", () => {
-             console.log("clicked")
-             modal[i].style.display="block"
-         })
-     }
- }
+    for (let i = 0; i < deleteButton.length; i++) {
+        deleteButton[i].addEventListener("click", () => {
+            console.log("clicked")
+            modal[i].style.display = "block"
+        })
+    }
+}
 
 
 // function hide() {
@@ -80,43 +80,33 @@ function newForm() {
     // const cancel = document.querySelectorAll("#class");
     // cancel.addEventListener("click", hide)
 }
+const title = document.getElementById("title")
 
-function submit() {
-    console.log("click")
-    const form = document.getElementById("newForm");
-    form.addEventListener("submit",e=>{
-        e.preventDefault();
-        fetch(`/questions/${question.id}`,{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              },
+function submitForm() {
+    console.log("clicked")
+    const submitButton = document.querySelectorAll("#submit");
+    for (let i = 0; i < submitButton.length; i++) {
+        submitButton[i].addEventListener("click", e => {
+            e.preventDefault()
+            console.log(title.value)
+            fetch(`/questions/${question.id}`, {
+                method: "POST",
+                // body: JSON.stringify({
+                //     title,
+                //     memeUrl
+                // })
+            })
+                .then(res => res.json())
+        });
 
-        })
-        .then(res =>{
-            return res.text();
-        })
-        .then(data =>{
-            return res.data();
-        })
-        return false;
-    })
+    }
 }
-
-// function submitForm(){
-//     console.log("clicked")
-//     const submitButton = document.querySelectorAll("#submit");
-//     for(let i = 0; i < submitButton.length;i++){
-//         submitButton[i].addEventListener("click",submit);
-//         console.log()
-//     }
-// }
 
 // editSubmit.addEventListener("click",editAnswer)
 document.addEventListener("DOMContentLoaded", (event) => {
     const newAnswer = document.getElementById("newanswer");
     newAnswer.addEventListener("click", newForm);
-    //submit();
+    submitForm();
     editAnswer();
     cancelAnswer();
     deleteAnswer();
