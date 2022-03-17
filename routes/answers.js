@@ -16,17 +16,14 @@ const answerValidators = [
         .withMessage('Please put a meme for the answer')
 ]
 
-router.get('/',asyncHandler(async(req,res)=>{
+router.get('/', asyncHandler(async (req, res) => {
     const answers = await db.Answer.findAll({
-        order:[["createdAt","DESC"]]
+        order: [["createdAt", "DESC"]]
 
     })
     //console.log(answers)
-    res.render("./answers/answer",{answers})
+    res.render("./answers/answer", { answers })
 }))
-
-
-
 
 router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(async (req, res) => {
     console.log("IN ANSWER POST ROUTE ======================================================")
@@ -37,7 +34,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     const { userId } = req.session.auth
     const answer = db.Answer.build({
         //answerId,
-        questionId:1,
+        questionId: 1,
         title,
         userId,
         //memeId,
@@ -78,14 +75,14 @@ router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) =>
     //const answer = await db.Answer.findByPk(answerId)
     //console.log("CHECK HERE =============", question)
     const answer = db.Answer.build();
-    res.render('./answers/answer-form', {answer,csrfToken:req.csrfToken()})
+    res.render('./answers/answer-form', { answer, csrfToken: req.csrfToken() })
 }
 )
 )
 
 
-router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
-    const answerId = parseInt(req.params.answerId,10)
+router.get('/:answerId/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    const answerId = parseInt(req.params.answerId, 10)
     const answer = await db.Answer.findByPk(answerId)
     const { title, memeUrl } = req.body
 
@@ -99,7 +96,7 @@ router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,r
     }
 
 
-    res.render('./answers/answer-edit',{answer,csrfToken:req.csrfToken()})
+    res.render('./answers/answer-edit', { answer, csrfToken: req.csrfToken() })
 
 
 
@@ -108,11 +105,11 @@ router.get('/:answerId/edit',requireAuth,csrfProtection,asyncHandler(async(req,r
 
 
 
-router.post('/:answerId/edit',requireAuth,csrfProtection,answerValidators,asyncHandler(async(req,res)=>{
-    const answerId = parseInt(req.params.answerId,10)
+router.post('/:answerId/edit', requireAuth, csrfProtection, answerValidators, asyncHandler(async (req, res) => {
+    const answerId = parseInt(req.params.answerId, 10)
     const answerUpdate = await db.Answer.findByPk(answerId)
     const { title, memeUrl } = req.body
-    const answer = {title,memeUrl}
+    const answer = { title, memeUrl }
 
     const validatorErrors = validationResult(req);
 
@@ -133,8 +130,8 @@ router.post('/:answerId/edit',requireAuth,csrfProtection,answerValidators,asyncH
 }))
 
 
-router.get('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
-    const answerId = parseInt(req.params.answerId,10)
+router.get('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    const answerId = parseInt(req.params.answerId, 10)
     const answer = await db.Answer.findByPk(answerId)
 
     if (!res.locals.authenticated) {
@@ -146,14 +143,14 @@ router.get('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req
         return res.redirect('/');
     }
 
-    res.render('./answers/answer-delete',{answer,csrfToken:req.csrfToken()})
+    res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
 }))
 
 
 
-router.post('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
+router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     console.log("CHECK =============================================")
-    const answerId = parseInt(req.params.answerId,10)
+    const answerId = parseInt(req.params.answerId, 10)
     const answer = await db.Answer.findByPk(answerId)
     await answer.destroy();
     console.log("DESTROY =============================================")
@@ -161,5 +158,56 @@ router.post('/:answerId/delete',requireAuth,csrfProtection,asyncHandler(async(re
 }))
 
 
+router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    const answerId = parseInt(req.params.answerId, 10);
+    const { userId: voterId } = req.session.auth;
+    let voteCount = 0;
+
+    const answer = await db.Answer.findByPk(answerId, {
+        include: [User, Upvote, Downvote],
+    });
+    console.log(JSON.stringify(answer, null, 2));
+
+    if (answer.Upvote.length) {
+        // originally had upvote, user clicks it and gets rid of upvote
+        const upvote = await db.Upvote.findOne({
+            where: {
+                answerId,
+                userId: voterId,
+            }
+        });
+
+        await upvote.destroy();
+        res.json({ voteCount: voteCount - 1 });
+    } else if (answer.Downvote.length) {
+        // originally had downvote, user clicks it and changes downvote to upvote
+        const downvote = await db.Downvote.findOne({
+            where: {
+                answerId,
+                userId: voterId,
+            }
+        });
+
+        await downvote.destroy();
+
+        await db.Upvote.create({
+            answerId,
+            userId: voterId,
+        });
+
+        res.json({ voteCount: voteCount + 2 });
+    } else {
+        // user clicks upvote, just do upvote
+
+        await db.Upvote.create();
+        await db.Upvote.create({
+            answerId,
+            userId: voterId,
+        });
+
+        res.json({ voteCount: voteCount + 1 });
+    }
+}
+))
 
 module.exports = router;

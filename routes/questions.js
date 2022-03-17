@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Question } = require("../db/models");
+const db = require("../db/models");
 const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
 
 router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
-    const question = await Question.build();
+    const question = await db.Question.build();
 
     if (!res.locals.authenticated) {
         return res.redirect('/login');
@@ -32,7 +32,7 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
     const { title, description } = req.body;
     const { userId } = req.session.auth;
 
-    const question = Question.build({
+    const question = db.Question.build({
         title,
         description,
         userId,
@@ -60,7 +60,17 @@ router.get(
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
-        const question = await Question.findByPk(id);
+        const question = await db.Question.findByPk(id, {
+            include: {
+                model: db.Answer,
+                include: [db.Comment, db.Upvote, db.Downvote],
+            },
+        });
+
+        for (let answer of question.Answers) {
+            answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
+        }
+        // console.log(JSON.stringify(question, null, 2));
 
         res.render('questions/question-display.pug', {
             title: question.title,
@@ -75,7 +85,7 @@ router.get(
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
-        const question = await Question.findByPk(id);
+        const question = await db.Question.findByPk(id);
 
         if (!res.locals.authenticated) {
             return res.redirect('/login');
@@ -126,7 +136,7 @@ router.get(
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
-        const question = await Question.findByPk(id);
+        const question = await db.Question.findByPk(id);
 
         if (!res.locals.authenticated) {
             return res.redirect('/login');
@@ -150,7 +160,7 @@ router.post(
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
-        const question = await Question.findByPk(id);
+        const question = await db.Question.findByPk(id);
 
         if (!res.locals.authenticated) {
             return res.redirect('/login');

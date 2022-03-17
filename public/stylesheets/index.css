@@ -49,3 +49,25 @@ main #main-column {
 main #right-column {
     grid-area: right;
 }
+
+.answer-meme img {
+    width: 450px;
+}
+
+.single-answer {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    grid-template-areas: "vote answer-content";
+}
+
+.single-answer .vote {
+    grid-area: vote;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.single-answer .answer-content {
+    grid-area: answer-content;
+}

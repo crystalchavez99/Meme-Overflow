@@ -5,6 +5,22 @@ block content
         div(id=`question-${question.id}`)
             .question-title: p= question.title
             .question-description: p= question.description
-            //- if question.unlocked
-            //-     a(href=`/questions/${question.id}/edit`): button Edit
-            //-     a(href=`/questions/${question.id}/delete`): button Delete
+            if question.unlocked
+                a(href=`/questions/${question.id}/edit`): button Edit
+                a(href=`/questions/${question.id}/delete`): button Delete
+            else
+                #answer-container
+                    each answer in question.Answers
+                        div.single-answer(id=`answer-${answer.id}`)
+                            .vote(id=`vote-${answer.id}`)
+                                div(id=`upvote-${answer.id}`)
+                                    img(src="/upvote-button.png", alt="Upvote")
+                                span(id=`vote-count-${answer.id}`)= answer.voteCount
+                                div(id=`downvote-${answer.id}`)
+                                    img(src="/downvote-button.png", alt="Downvote")
+                            .answer-content
+                                .answer-title: p= answer.title
+                                .answer-meme: img(src=`${answer.memeUrl}`)
+                                div
+                                    a(href=`/answers/${answer.id}/edit`) Edit
+                                    a(href=`/answers/${answer.id}/delete`) Delete
