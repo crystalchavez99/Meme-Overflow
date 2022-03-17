@@ -41,7 +41,7 @@ block content
                 a(href=`/questions/${question.id}` id="cancel"): button Cancel
         hr
         h2 Answers
-        each answer in answers
+        each answer in question.Answers
             div
                 p=answer.title
                 img(src=`${answer.memeUrl}`)

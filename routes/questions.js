@@ -75,7 +75,7 @@ router.get(
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
-            answers,
+
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
