@@ -160,19 +160,26 @@ router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async
 }))
 
 
-router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+router.post('/:answerId(\\d+)/upvote', requireAuth, asyncHandler(async (req, res) => {
     console.log("Upvote rout=====================================")
     const answerId = parseInt(req.params.answerId, 10);
     const { userId: voterId } = req.session.auth;
-    let voteCount = 0;
 
-    const answer = await db.Answer.findByPk(answerId, {
-        include: [db.User, db.Upvote, db.Downvote],
-    });
-    console.log(JSON.stringify(answer.Upvotes.length, null, 2));
+    const upvotes = await db.Upvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    })
 
+    const downvotes = await db.Downvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    })
 
-    if (answer.Upvotes.length) {
+    if (upvotes.length) {
         // originally had upvote, user clicks it and gets rid of upvote
         const upvote = await db.Upvote.findOne({
             where: {
@@ -182,8 +189,7 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler
         });
 
         await upvote.destroy();
-        res.json({ voteCount: voteCount - 1 });
-    } else if (answer.Downvotes.length) {
+    } else if (downvotes.length) {
         // originally had downvote, user clicks it and changes downvote to upvote
         const downvote = await db.Downvote.findOne({
             where: {
@@ -198,19 +204,76 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler
             answerId,
             userId: voterId,
         });
-
-        res.json({ voteCount: voteCount + 2 });
     } else {
         // user clicks upvote, just do upvote
-
-
         await db.Upvote.create({
             answerId,
             userId: voterId,
         });
-
-        res.json({ voteCount: voteCount + 1 });
     }
+    const updatedAnswer = await db.Answer.findByPk(answerId, {
+        include: [db.User, db.Upvote, db.Downvote],
+    });
+    const newVoteCount = updatedAnswer.Upvotes.length - updatedAnswer.Downvotes.length;
+    res.json({ voteCount: newVoteCount });
+}
+))
+
+router.post('/:answerId(\\d+)/downvote', requireAuth, asyncHandler(async (req, res) => {
+    const answerId = parseInt(req.params.answerId, 10);
+    const { userId: voterId } = req.session.auth;
+
+    const upvotes = await db.Upvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    })
+
+    const downvotes = await db.Downvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    })
+
+    if (downvotes.length) {
+        // originally had downvote, user clicks it and gets rid of downvote
+        const downvote = await db.Downvote.findOne({
+            where: {
+                answerId,
+                userId: voterId,
+            }
+        });
+
+        await downvote.destroy();
+    } else if (upvotes.length) {
+        // originally had upvote, user clicks it and changes upvote to downvote
+        const upvote = await db.Upvote.findOne({
+            where: {
+                answerId,
+                userId: voterId,
+            }
+        });
+
+        await upvote.destroy();
+
+        await db.Downvote.create({
+            answerId,
+            userId: voterId,
+        });
+    } else {
+        // user clicks downvote, just do downvote
+        await db.Downvote.create({
+            answerId,
+            userId: voterId,
+        });
+    }
+    const updatedAnswer = await db.Answer.findByPk(answerId, {
+        include: [db.User, db.Upvote, db.Downvote],
+    });
+    const newVoteCount = updatedAnswer.Upvotes.length - updatedAnswer.Downvotes.length;
+    res.json({ voteCount: newVoteCount });
 }
 ))
 

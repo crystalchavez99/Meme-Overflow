@@ -28,13 +28,10 @@ block content
                             .vote(id=`vote-${answer.id}`)
                                 .vote-button-group
                                     .upvote
-                                        form(action=`/answers/${answer.id}/upvote` method="post")
-                                            input(type="hidden" name="_csrf" value=csrfToken)
-                                            button(type="submit" id=`upvote-${answer.id}`) Upvote
-                                            //- img(src="/images/upvote.png", alt="Upvote")
+                                        img(src="/images/upvote.png", alt="Upvote" class="upvote-button" id=`upvote-${answer.id}`)
                                     span.vote-count(id=`vote-count-${answer.id}`)= answer.voteCount
-                                    .downvote(id=`downvote-${answer.id}`)
-                                        img(src="/images/downvote.png", alt="Downvote")
+                                    .downvote
+                                        img(src="/images/downvote.png", alt="Downvote" class="downvote-button" id=`downvote-${answer.id}`)
                                 .vote-placeholder
                             .answer-content
                                 .answer-title: p= answer.title
@@ -75,3 +72,4 @@ block content
                         //- comment
                         p This is where comments are going to be
                         hr
+    script(src='../../javascripts/question-display.js')
