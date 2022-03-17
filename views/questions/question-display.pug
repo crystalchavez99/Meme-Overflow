@@ -15,10 +15,10 @@ block content
                 form(id="newForm" method="POST" action=`/questions/${question.id}`)
                     input(type="hidden" name="_csrf" value=csrfToken)
                     label(for="title") Title
-                    input(type="title" name="title" id="title")
+                    input(type="title" name="title" id="title" required)
                     label(for="memeUrl") Upload Image
-                    input(type="url" name="memeUrl" id="memeUrl")
-                    button(type="submit") Submit
+                    input(type="url" name="memeUrl" id="memeUrl" required)
+                    button(type="submit")#submit Submit
                 button#cancel Cancel
             div
             h2 Answers
