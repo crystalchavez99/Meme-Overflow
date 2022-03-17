@@ -34,7 +34,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     const { userId } = req.session.auth
     const answer = db.Answer.build({
         //answerId,
-        questionId: 1,
+        questionId: questionId,
         title,
         userId,
         //memeId,
@@ -47,7 +47,7 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
     if (validatorErrors.isEmpty()) {
         console.log("CHECK HERE ---------------------")
         await answer.save()
-        res.redirect('/answers');
+        res.redirect(`/questions/${answer.questionId}`);
     } else {
         console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
@@ -71,6 +71,8 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
 
 router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     console.log("GET WORKS ===============")
+    const url = req.url;
+    console.log(url);
     const answerId = parseInt(req.params.answerId, 10)
     //const answer = await db.Answer.findByPk(answerId)
     //console.log("CHECK HERE =============", question)
@@ -96,7 +98,7 @@ router.get('/:answerId/edit', requireAuth, csrfProtection, asyncHandler(async (r
     }
 
 
-    res.render('./answers/answer-edit', { answer, csrfToken: req.csrfToken() })
+    res.render('./answers/answer-edit', { answer, csrfToken: req.csrfToken(), isLoggedIn: res.locals.authenticated, })
 
 
 
@@ -116,7 +118,7 @@ router.post('/:answerId/edit', requireAuth, csrfProtection, answerValidators, as
     if (validatorErrors.isEmpty()) {
         //console.log("CHECK HERE ---------------------")
         await answerUpdate.update(answer)
-        res.redirect('./answers//answers');
+        res.redirect(`/questions/${answerUpdate.questionId}`);
     } else {
         //console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
@@ -154,7 +156,7 @@ router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async
     const answer = await db.Answer.findByPk(answerId)
     await answer.destroy();
     console.log("DESTROY =============================================")
-    res.redirect('/answers')
+    res.redirect(`/questions/${answer.questionId}`)
 }))
 
 

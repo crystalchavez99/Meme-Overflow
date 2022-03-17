@@ -71,3 +71,7 @@ main #right-column {
 .single-answer .answer-content {
     grid-area: answer-content;
 }
+
+.modal{
+    display: none;
+}

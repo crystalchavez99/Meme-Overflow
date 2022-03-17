@@ -1,0 +1,12 @@
+html
+    head
+    body
+        h2 Post Your Comment
+            each comment in comments
+                div
+                    p=comment.content
+                    div
+                        a(href=`/comments/${comment.id}/edit`) Edit
+                        a(href=`/comments/${comment.id}/delete`) Delete
+                        hr
+                        

@@ -1,0 +1,10 @@
+html
+    head
+        title Delete
+    body
+    h2= comment.content
+    div
+        form(method="post" action=`/comments/${comment.id}/delete`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                button(type="submit") Delete
+                a(href=`/`) Cancel
