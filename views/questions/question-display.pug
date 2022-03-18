@@ -9,6 +9,19 @@ block content
                 a(href=`/questions/${question.id}/edit`): button Edit
                 a(href=`/questions/${question.id}/delete`): button Delete
             else
+                button(type="submit" id="newanswer").newanswer New Answer
+                div.modalForm.modal
+                    h2 Your Answer
+                    +errorBlock(errors)
+                    form(method="POST" action=`/questions/${question.id}`)
+                        input(type="hidden" name="_csrf" value=csrfToken)
+                        label(for="title") Title
+                        input(type="title" name="title" id="title")
+                        label(for="memeUrl") Upload Image
+                        input(type="url" name="memeUrl" id="memeUrl")
+                        button(type="submit") Submit
+                    a(href=`/questions/${question.id}` id="cancel"): button Cancel
+                hr
                 #answer-container
                     each answer in question.Answers
                         div.single-answer(id=`answer-${answer.id}`)
@@ -27,19 +40,7 @@ block content
             //- if question.unlocked
             //-     a(href=`/questions/${question.id}/edit`): button Edit
             //-     a(href=`/questions/${question.id}/delete`): button Delete
-            button(type="submit" id="newanswer").newanswer New Answer
-            div.modalForm.modal
-                h2 Your Answer
-                +errorBlock(errors)
-                form(method="POST" action=`/questions/${question.id}`)
-                    input(type="hidden" name="_csrf" value=csrfToken)
-                    label(for="title") Title
-                    input(type="title" name="title" id="title")
-                    label(for="memeUrl") Upload Image
-                    input(type="url" name="memeUrl" id="memeUrl")
-                    button(type="submit") Submit
-                a(href=`/questions/${question.id}` id="cancel"): button Cancel
-        hr
+
         //- h2 Answers
         //- each answer in answers
         //-     div
