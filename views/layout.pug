@@ -9,7 +9,9 @@ html
   body
     header
       nav#top-nav
-        a(href="/"): #logo: img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
+        a(href="/"): #logo
+          //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
+          img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
         #search-bar
         #auth-buttons
           if isLoggedIn
