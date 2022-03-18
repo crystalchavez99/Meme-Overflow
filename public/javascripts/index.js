@@ -40,9 +40,17 @@ function deleteAnswer(){
             console.log("clicked")
             modal[i].style.display="block"
 
-            // const res = await fetch(`/questions/${question.id}`, {
-            //     method: 'DELETE'
-            // })
+        })
+        yes[i].addEventListener("click", async (e) =>{
+            e.preventDefault()
+             const res = await fetch(`/answer/${answer.id}`, {
+                 method: 'DELETE'
+             })
+             const data = await res.json()
+             if (data.message === "Success") {
+                 const container = document.getElementById(`answer-${answer.id}`)
+                 container.remove()
+             }
         })
     }
 }

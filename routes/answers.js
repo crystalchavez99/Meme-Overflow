@@ -154,9 +154,17 @@ router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async
     console.log("CHECK =============================================")
     const answerId = parseInt(req.params.answerId, 10)
     const answer = await db.Answer.findByPk(answerId)
-    await answer.destroy();
-    console.log("DESTROY =============================================")
-    res.redirect(`/questions/${answer.questionId}`)
+    if(answer){
+        await answer.destroy()
+        console.log("DESTROY =============================================")
+        res.json({message: "Success"})
+        //res.redirect(`/questions/${answer.questionId}`)
+    }else{
+        res.json({message: "Failure"})
+    }
+    //await answer.destroy();
+
+
 }))
 
 
