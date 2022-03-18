@@ -150,7 +150,7 @@ router.get('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async 
 
 
 
-router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+router.delete('/:answerId',asyncHandler(async (req, res) => {
     console.log("CHECK =============================================")
     const answerId = parseInt(req.params.answerId, 10)
     const answer = await db.Answer.findByPk(answerId)
@@ -159,12 +159,8 @@ router.post('/:answerId/delete', requireAuth, csrfProtection, asyncHandler(async
         console.log("DESTROY =============================================")
         res.json({message: "Success"})
         //res.redirect(`/questions/${answer.questionId}`)
-    }else{
-        res.json({message: "Failure"})
     }
     //await answer.destroy();
-
-
 }))
 
 
