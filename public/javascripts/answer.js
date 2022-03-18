@@ -69,7 +69,7 @@ function deleteAnswer(){
                 method: 'DELETE'
             })
             const data = await res.json()
-            console.log("delete request sent",data)
+            //console.log("delete request sent",data)
             if(data.message === "Success"){
                 const answerContainer = document.getElementById(`answer-${answerId}`);
                 //console.log(answerContainer)

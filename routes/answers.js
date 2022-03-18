@@ -31,15 +31,15 @@ router.get('/', asyncHandler(async (req, res) => {
 }))
 
 router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHandler(async (req, res) => {
-    console.log("IN ANSWER POST ROUTE ======================================================")
+    //console.log("IN ANSWER POST ROUTE ======================================================")
     //parse in the string of the questionId into integer
     const answerId = parseInt(req.params.answerId)
     const answerBuild = await db.Answer.findByPk(answerId)
     const { content } = req.body
     const { userId } = req.session.auth;
-    console.log(userId,"USER")
-    console.log(content,"CONTENT")
-    console.log(answerBuild.id,"ANSWER")
+    //console.log(userId,"USER")
+    //console.log(content,"CONTENT")
+    //console.log(answerBuild.id,"ANSWER")
     const comment = await db.Comment.build({
         //answerId,
         answerId: answerBuild.id,
@@ -53,12 +53,12 @@ router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHa
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
-        console.log("CHECK HERE ---------------------")
+        //console.log("CHECK HERE ---------------------")
         //console.log(comment)
         await comment.save()
         res.redirect(`/questions/${answerBuild.questionId}`);
     } else {
-        console.log("LOOK HERE +++++++++++++++")
+        //console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
         res.render('./comments/comment-form', {
             content,
