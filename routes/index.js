@@ -66,8 +66,8 @@ router.get(
       title: 'Meme Overflow',
       questions,
       isLoggedIn: req.session.auth,
-      currentUserAvatarUrl: res.locals.user.avatarUrl,
-      currentUsername: res.locals.user.username || "",
+      currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
+      currentUsername: res.locals.user ? res.locals.user.username : "",
     });
   }));
 
