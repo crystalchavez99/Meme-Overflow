@@ -14,3 +14,9 @@ mixin questionForm(action)
         label(for="description") Description:
         textarea(name="description" id="description" rows="3" required)= question.description
         button(type="submit") Submit
+
+mixin authorAvatar(avatarUrl, username)
+    if avatarUrl
+        .author-avatar: img.avatar(src=avatarUrl, alt=username)
+    else
+        .author-avatar: img.default-avatar(src="/icons/user-circle-regular.svg", alt=username)

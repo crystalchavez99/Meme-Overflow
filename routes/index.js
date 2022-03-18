@@ -51,14 +51,17 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     const questions = await Question.findAll({
-      include: [Answer],
+      include: [Answer, User],
       order: [['createdAt', 'DESC']],
     });
     if (req.session.auth) {
-      questions.forEach(async (question) => {
+      questions.forEach((question, i) => {
         if ((question.userId === req.session.auth.userId)) {
-          question.unlocked = true;
+          question.isAuthorized = true;
         }
+
+        question.colorIndex = i % 5;
+
       });
     }
 

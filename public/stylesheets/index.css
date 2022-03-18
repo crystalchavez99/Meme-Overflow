@@ -67,6 +67,65 @@ main #right-column {
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
 }
 
+#questions-container .question-card {
+    box-sizing: border-box;
+    width: 500px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    padding: 1px 10px 10px 15px;
+    position: relative;
+    color: white;
+}
+
+.question-card .question-edit-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.question-card > a {
+    top: 10px;
+    left: 10px;
+}
+
+#questions-container .color-0 {
+    background-color: #c95844;
+    box-shadow: 5px 5px 5px #cf8578;
+}
+
+#questions-container .color-1 {
+    background-color: #30aac9;
+    box-shadow: 5px 5px 5px #73c2d6;
+}
+
+#questions-container .color-2 {
+    background-color: #c93a43;
+    box-shadow: 5px 5px 5px #cf797f;
+}
+
+#questions-container .color-3 {
+    background-color: #875f3a;
+    box-shadow: 5px 5px 5px #a3876d;
+}
+
+#questions-container .color-4 {
+    background-color: #469b5b;
+    box-shadow: 5px 5px 5px #79b187;
+}
+
+.question-author {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.question-author .avatar,
+.question-author .default-avatar {
+    width: 15px;
+    height: 15px;
+}
+
 .answer-meme img {
     width: 450px;
 }
