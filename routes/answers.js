@@ -155,16 +155,23 @@ router.post('/:answerId/edit', requireAuth, csrfProtection, answerValidators, as
 //     res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
 // }))
 
-
+router.use((req,res,next)=>{
+    console.log("------REQUEST HITS HERE RIGHT BEFORE ROUTE-------")
+    next();
+})
 
 router.delete('/:answerId', requireAuth, asyncHandler(async (req, res) => {
     console.log("CHECK =============================================")
+    console.log(req.session,"THIS IS SESSION")
     const answerId = parseInt(req.params.answerId, 10)
+    console.log("ANSWER ID IN ANSWERrouter.JS", answerId)
     const answer = await db.Answer.findByPk(answerId)
+    console.log("THIS IS ANSWER RETURN VALUE OF QUERY", answer)
     if(answer){
+        console.log("IF ANSWER CONDITIONAL TRUE")
         await answer.destroy()
         console.log("DESTROY =============================================")
-        res.json({message: "Success"})
+        res.json({"message": "Success"})
         //res.redirect(`/questions/${answer.questionId}`)
     }
     //await answer.destroy();

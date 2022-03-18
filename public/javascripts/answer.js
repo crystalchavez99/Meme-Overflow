@@ -64,7 +64,7 @@ function deleteAnswer(){
         yes[i].addEventListener("click",async(e)=>{
             e.preventDefault();
             const answerId = e.target.id.split('-')[1];
-            //console.log(answerId)
+            console.log("ANSWER ID IN ANSWERScript.JS", answerId)
             const res = await fetch(`/answers/${answerId}`, {
                 method: 'DELETE'
             })

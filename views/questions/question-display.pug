@@ -40,11 +40,11 @@ block content
                                 a(href=`/answers/${answer.id}/edit`) Edit
                                 a(href=`/questions/${question.id}` class="delete" id=`delete-${answer.id}`) Delete
                                 div.modalDelete.modal
-                                    form(id="deleteForm" method="post" action=`/answers/${answer.id}`)
-                                        input(type="hidden" name="id" value=answer.id)
-                                        input(type="hidden" name="_csrf" value=csrfToken)
-                                        p Do you want to delete this answer?
-                                        button(type="submit" class="yes" id=`yes-${answer.id}`) Yes
+                                    //- form(id="deleteForm" method="post" action=`/answers/${answer.id}`)
+                                    //-     input(type="hidden" name="id" value=answer.id)
+                                    //-     input(type="hidden" name="_csrf" value=csrfToken)
+                                    p Do you want to delete this answer?
+                                    button(type="submit" class="yes" id=`yes-${answer.id}`) Yes
                                     button#cancel No
                             button(type="submit" class="newcomment") New Comment
                             div.modalComment.modal
