@@ -150,7 +150,7 @@ router.get('/:answerId/delete', requireAuth, asyncHandler(async (req, res) => {
 
 
 
-router.delete('/:answerId', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+router.delete('/:answerId', requireAuth, asyncHandler(async (req, res) => {
     console.log("CHECK =============================================")
     const answerId = parseInt(req.params.answerId, 10)
     const answer = await db.Answer.findByPk(answerId)
