@@ -30,8 +30,7 @@ router.post('/new', requireAuth, csrfProtection, commentValidators, asyncHandler
     const { content } = req.body
     const { userId } = req.session.auth
     const comment = db.Comment.build({
-        questionId:1,
-        answerId:1,
+        answerId,
         content,
         userId
     })

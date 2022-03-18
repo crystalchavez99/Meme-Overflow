@@ -15,30 +15,38 @@ const answerValidators = [
         .exists({ checkFalsy: true })
         .withMessage('Please put a meme for the answer')
 ]
+const commentValidators = [
+    check('content')
+        .exists({ checkFalsy: true })
+        .withMessage('Please put a content for the content')
+]
 
 router.get('/', asyncHandler(async (req, res) => {
     const answers = await db.Answer.findAll({
+        include: db.Comment,
         order: [["createdAt", "DESC"]]
 
     })
-    //console.log(answers)
     res.render("./answers/answer", { answers })
 }))
 
-router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(async (req, res) => {
+router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHandler(async (req, res) => {
     console.log("IN ANSWER POST ROUTE ======================================================")
     //parse in the string of the questionId into integer
-    //const answerId = parseInt(req.params.answerId)
-    //const answer = await db.Answer.findByPk(answerId)
-    const { title, memeUrl } = req.body
-    const { userId } = req.session.auth
-    const answer = db.Answer.build({
+    const answerId = parseInt(req.params.answerId)
+    const answerBuild = await db.Answer.findByPk(answerId)
+    const { content } = req.body
+    const { userId } = req.session.auth;
+    console.log(userId,"USER")
+    console.log(content,"CONTENT")
+    console.log(answerBuild.id,"ANSWER")
+    const comment = db.Comment.build({
         //answerId,
-        questionId: questionId,
-        title,
-        userId,
+        answerId: answerBuild.id,
+        content: content,
+        userId: userId,
         //memeId,
-        memeUrl
+        //memeUrl
     })
 
 
@@ -46,15 +54,14 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
 
     if (validatorErrors.isEmpty()) {
         console.log("CHECK HERE ---------------------")
-        await answer.save()
-        res.redirect(`/questions/${answer.questionId}`);
+        console.log(comment)
+        await comment.save()
+        res.redirect(`/questions/${answerBuild.questionId}`);
     } else {
         console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
-        res.render('./answers/answer-form', {
-            title,
-            memeUrl,
-            errors,
+        res.render('./comments/comment-form', {
+            content,
             csrfToken: req.csrfToken()
         });
     }

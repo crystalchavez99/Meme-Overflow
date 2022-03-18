@@ -67,7 +67,7 @@ router.get(
                 include: [db.Comment, db.Upvote, db.Downvote],
             },
         });
-        console.log(question.Answers.Comments)
+        console.log(question.Answers)
         for (let answer of question.Answers) {
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
         }
@@ -77,7 +77,7 @@ router.get(
             title: question.title,
             question,
             answers:question.Answers,
-            comments:question.Answers.Comments,
+            //comments: question.Answers.Comments,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
@@ -99,6 +99,7 @@ router.post(
             //memeId,
             memeUrl
         })
+
         const validatorErrors = validationResult(req);
 
         if (validatorErrors.isEmpty()) {

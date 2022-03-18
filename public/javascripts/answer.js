@@ -17,6 +17,13 @@ function cancelAnswer() {
     }
 }
 
+function displayCommentForm(){
+    const newComment = document.getElementById("newcomment");
+    const modal = document.querySelector(".modalComment");
+    newComment.addEventListener("click", ()=>{
+        modal.style.display = "block"
+    })
+}
 
 function displayAnswer(){
     const edit = document.querySelectorAll(".edit");
@@ -98,4 +105,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
     cancelAnswer();
     displayDelete();
     deleteAnswer();
+    displayCommentForm();
 });
