@@ -164,6 +164,7 @@ router.delete('/:answerId', requireAuth, asyncHandler(async (req, res) => {
 }))
 
 
+
 router.post('/:answerId(\\d+)/upvote', requireAuth, asyncHandler(async (req, res) => {
     const answerId = parseInt(req.params.answerId, 10);
     const { userId: voterId } = req.session.auth;
