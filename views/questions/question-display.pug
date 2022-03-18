@@ -54,6 +54,6 @@ block content
                                     input(type="text" name="content" id="content")
                                     button(type="submit") Submit
                                 button#cancel Cancel
-                        //- #comment-container
-                        //-     each comment in comments
-                        //-         p= comment.content
+                        #comment-container
+                            each comment in answer.Comments
+                                p= comment.content

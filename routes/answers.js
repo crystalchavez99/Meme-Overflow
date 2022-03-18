@@ -40,7 +40,7 @@ router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHa
     console.log(userId,"USER")
     console.log(content,"CONTENT")
     console.log(answerBuild.id,"ANSWER")
-    const comment = db.Comment.build({
+    const comment = await db.Comment.build({
         //answerId,
         answerId: answerBuild.id,
         content: content,
@@ -54,7 +54,7 @@ router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHa
 
     if (validatorErrors.isEmpty()) {
         console.log("CHECK HERE ---------------------")
-        console.log(comment)
+        //console.log(comment)
         await comment.save()
         res.redirect(`/questions/${answerBuild.questionId}`);
     } else {

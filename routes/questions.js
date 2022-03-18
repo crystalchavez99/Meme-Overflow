@@ -67,9 +67,10 @@ router.get(
                 include: [db.Comment, db.Upvote, db.Downvote],
             },
         });
-        console.log(question.Answers)
+        //console.log(question.Answers)
         for (let answer of question.Answers) {
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
+            console.log(answer.Comments)
         }
         // console.log(JSON.stringify(question, null, 2));
 
@@ -77,7 +78,7 @@ router.get(
             title: question.title,
             question,
             answers:question.Answers,
-            //comments: question.Answers.Comments,
+            //comments,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
