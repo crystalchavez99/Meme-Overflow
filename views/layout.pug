@@ -6,21 +6,30 @@ html
         script(src='../javascripts/index.js')
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(rel='stylesheet' href='/stylesheets/index.css')
+        link(rel='icon' href='/icons/favicon.ico' type='image/x-icon')
   body
-    nav#top-nav
-      #logo: a(href="/"): img(src="/logo.png", alt="Meme Overflow")
-      #search-bar
-      #auth-buttons
-        if isLoggedIn
-          form(action="/logout" method="post")
-            #logout: button(type="submit") Log Out
-        else
-          #login: a(href="/login"): button Log In
-          #sign-up: a(href="/signup"): button Sign Up
+    header
+      nav#top-nav
+        a(href="/"): #logo
+          //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
+          img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
+        #search-bar
+        #auth-buttons
+          if isLoggedIn
+            form(action="/logout" method="post")
+              #logout: button(type="submit") Log Out
+          else
+            #login: a(href="/login"): button Log In
+            #sign-up: a(href="/signup"): button Sign Up
     main
       #left-column
         if isLoggedIn
-          #avatar: a(href="/profile") img(src="/avatar.png", alt="Your name")
+          #avatar: a(href="/profile")
+            if currentUserAvatarUrl
+              img(src=currentUserAvatarUrl, alt=currentUsername)
+            else
+              //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
+              img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername)
         #tags
       #main-column
         block content

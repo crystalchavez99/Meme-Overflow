@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { User, Question, Answer} = require("../db/models");
+const { User, Question, Answer } = require("../db/models");
 const { check, validationResult } = require("express-validator")
 const { asyncHandler, handleValidationErrors, csrfProtection } = require("../utils")
 const { loginUser, restoreUser, requireAuth, logoutUser } = require('../auth');
@@ -56,7 +56,7 @@ router.get(
     });
     if (req.session.auth) {
       questions.forEach(async (question) => {
-        if ((question.userId === req.session.auth.userId) && (!question.Answers.length)) {
+        if ((question.userId === req.session.auth.userId)) {
           question.unlocked = true;
         }
       });
@@ -66,6 +66,8 @@ router.get(
       title: 'Meme Overflow',
       questions,
       isLoggedIn: req.session.auth,
+      currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
+      currentUsername: res.locals.user ? res.locals.user.username : "",
     });
   }));
 
@@ -177,6 +179,12 @@ router.post(
       isLoggedIn: res.locals.authenticated,
     });
   }));
+
+router.post('/login-demo', csrfProtection, asyncHandler(async (req, res) => {
+  const user = await User.findByPk(1);
+
+  return loginUser(req, res, user);
+}));
 
 router.post("/logout", (req, res) => logoutUser(req, res));
 

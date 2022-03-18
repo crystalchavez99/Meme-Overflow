@@ -1,7 +1,12 @@
 body {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 40px;
+}
+
+header,
+main,
+footer {
+    margin: 0 40px;
 }
 
 h1 {
@@ -17,6 +22,12 @@ a {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+
+#logo img {
+    width: 48px;
+    height: 62px;
+    filter: invert(71%) sepia(62%) saturate(5581%) hue-rotate(337deg) brightness(101%) contrast(102%);
 }
 
 #search-bar {
@@ -50,6 +61,12 @@ main #right-column {
     grid-area: right;
 }
 
+.default-avatar {
+    width: 100px;
+    height: 100px;
+    filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
+}
+
 .answer-meme img {
     width: 450px;
 }
@@ -64,8 +81,39 @@ main #right-column {
     grid-area: vote;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-end;
+}
+
+.vote .vote-button-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
+}
+
+.vote .vote-placeholder {
+    height: 50px;
+}
+
+.upvote img,
+.downvote img {
+    width: 60px;
+    opacity: 60%;
+}
+
+.upvote img:hover,
+.downvote img:hover {
+    cursor: pointer;
+}
+
+.upvote img.voted,
+.downvote img.voted {
+    opacity: 100%;
+}
+
+.vote-count {
+    font-size: 35px;
+    color: #aaa;
 }
 
 .single-answer .answer-content {

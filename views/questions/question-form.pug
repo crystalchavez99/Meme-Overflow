@@ -2,10 +2,4 @@ extends ../layout.pug
 include ../utils.pug
 block content
     +errorBlock(errors)
-    form#question-form(action="/questions/new", method="post")
-        input(type="hidden" name="_csrf" value=csrfToken)
-        label(for="title") Title:
-        input(type="text" name="title" id="title" required value=question.title)
-        label(for="description") Description:
-        textarea(name="description" id="description" rows="3" required)= question.description
-        button(type="submit") Submit
+    +questionForm(action)

@@ -164,17 +164,30 @@ router.delete('/:answerId', requireAuth, csrfProtection, asyncHandler(async (req
 }))
 
 
-router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+router.post('/:answerId(\\d+)/upvote', requireAuth, asyncHandler(async (req, res) => {
     const answerId = parseInt(req.params.answerId, 10);
     const { userId: voterId } = req.session.auth;
-    let voteCount = 0;
 
-    const answer = await db.Answer.findByPk(answerId, {
-        include: [User, Upvote, Downvote],
+    const upvotes = await db.Upvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
     });
-    console.log(JSON.stringify(answer, null, 2));
 
-    if (answer.Upvote.length) {
+    const downvotes = await db.Downvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    });
+
+    // geting Answerers maxLikes and currentLikes
+    const answer = await db.Answer.findByPk(answerId);
+    const answerer = await db.User.findByPk(answer.userId);
+    let { maxLikes, currentLikes } = answerer;
+
+    if (upvotes.length) {
         // originally had upvote, user clicks it and gets rid of upvote
         const upvote = await db.Upvote.findOne({
             where: {
@@ -184,8 +197,11 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler
         });
 
         await upvote.destroy();
-        res.json({ voteCount: voteCount - 1 });
-    } else if (answer.Downvote.length) {
+
+        // decrement currentLikes by one
+        currentLikes--;
+
+    } else if (downvotes.length) {
         // originally had downvote, user clicks it and changes downvote to upvote
         const downvote = await db.Downvote.findOne({
             where: {
@@ -200,19 +216,116 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, csrfProtection, asyncHandler
             answerId,
             userId: voterId,
         });
+        // increment currentLikes by 2
+        currentLikes += 2;
+        // if currentLikes > maxLikes then set maxLikes to currentLikes
+        if (currentLikes > maxLikes) maxLikes = currentLikes;
 
-        res.json({ voteCount: voteCount + 2 });
     } else {
         // user clicks upvote, just do upvote
-
-        await db.Upvote.create();
         await db.Upvote.create({
             answerId,
             userId: voterId,
         });
 
-        res.json({ voteCount: voteCount + 1 });
+        //increment currentLikes by one
+        currentLikes++;
+        // if currentLikes > maxLikes then set maxLikes to currentLikes
+        if (currentLikes > maxLikes) maxLikes = currentLikes;
+
     }
+
+    await answerer.update({
+        currentLikes,
+        maxLikes
+    });
+
+    const updatedAnswer = await db.Answer.findByPk(answerId, {
+        include: [db.User, db.Upvote, db.Downvote],
+    });
+    const newVoteCount = updatedAnswer.Upvotes.length - updatedAnswer.Downvotes.length;
+    res.json({ voteCount: newVoteCount });
+}
+))
+
+router.post('/:answerId(\\d+)/downvote', requireAuth, asyncHandler(async (req, res) => {
+    const answerId = parseInt(req.params.answerId, 10);
+    const { userId: voterId } = req.session.auth;
+
+    const upvotes = await db.Upvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    })
+
+    const downvotes = await db.Downvote.findAll({
+        where: {
+            userId: voterId,
+            answerId
+        }
+    })
+
+    // geting Answerers maxLikes and currentLikes
+    const answer = await db.Answer.findByPk(answerId);
+    const answerer = await db.User.findByPk(answer.userId);
+    let { maxLikes, currentLikes } = answerer;
+
+    if (downvotes.length) {
+        // originally had downvote, user clicks it and gets rid of downvote
+        const downvote = await db.Downvote.findOne({
+            where: {
+                answerId,
+                userId: voterId,
+            }
+        });
+
+        await downvote.destroy();
+
+        // increment currentLikes by 1
+        currentLikes++;
+
+    } else if (upvotes.length) {
+        // originally had upvote, user clicks it and changes upvote to downvote
+        const upvote = await db.Upvote.findOne({
+            where: {
+                answerId,
+                userId: voterId,
+            }
+        });
+
+        await upvote.destroy();
+
+        await db.Downvote.create({
+            answerId,
+            userId: voterId,
+        });
+
+        // decrement currentLikes by 2
+        currentLikes -= 2;
+
+    } else {
+        // user clicks downvote, just do downvote
+        await db.Downvote.create({
+            answerId,
+            userId: voterId,
+        });
+
+        // decrement currentLikes by 1
+        currentLikes--;
+
+    }
+
+    await answerer.update({
+        currentLikes,
+        maxLikes
+    });
+
+    const updatedAnswer = await db.Answer.findByPk(answerId, {
+        include: [db.User, db.Upvote, db.Downvote],
+    });
+    const newVoteCount = updatedAnswer.Upvotes.length - updatedAnswer.Downvotes.length;
+    res.json({ voteCount: newVoteCount });
 }
 ))
 
