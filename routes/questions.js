@@ -72,6 +72,11 @@ router.get(
                 if(answer.userId===req.session.auth.userId){
                     answer.unlocked = true;
                 }
+                answer.Comments.forEach(async(comment)=>{
+                    if(comment.userId===req.session.auth.userId){
+                        comment.unlocked = true;
+                    }
+                })
             })
         }
 
