@@ -178,8 +178,14 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, asyncHandler(async (req, res
             answerId
         }
     })
-
+    // geting Answerers maxLikes and currentLikes
+    const answer = await db.Answer.findByPk(answerId);
+    const answerer = await db.User.findByPk(answer.userId);
+    const { maxLikes: oldMax, currentLikes: oldCurrent } = answerer;
+    console.log(currentLikes, maxLikes)
     if (upvotes.length) {
+        // decrement currentLikes by one
+
         // originally had upvote, user clicks it and gets rid of upvote
         const upvote = await db.Upvote.findOne({
             where: {
@@ -189,6 +195,11 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, asyncHandler(async (req, res
         });
 
         await upvote.destroy();
+
+        await answerer.update({
+            currentLikes: oldCurrent - 1,
+        })
+
     } else if (downvotes.length) {
         // originally had downvote, user clicks it and changes downvote to upvote
         const downvote = await db.Downvote.findOne({
@@ -204,13 +215,31 @@ router.post('/:answerId(\\d+)/upvote', requireAuth, asyncHandler(async (req, res
             answerId,
             userId: voterId,
         });
+        // increment currentLikes  by 2
+        // if currentLikes > maxLikes then set maxLike to currentLikes
+        await answerer.update({
+            currentLikes: oldCurrent + 2,
+            maxLikes: (oldCurrent + 2 > oldMax) ? oldCurrent + 2 : oldMax
+        })
+
     } else {
+        //increment currentLikes by one
         // user clicks upvote, just do upvote
         await db.Upvote.create({
             answerId,
             userId: voterId,
         });
+        await answerer.update({
+            currentLikes: oldCurrent + 1,
+            maxLikes: (oldCurrent + 1 > oldMax) ? oldCurrent + 1 : oldMax
+        })
+
     }
+    // console.log(currentLikes, maxLikes)
+    // await answerer.update({
+    //     currentLikes,
+    //     maxLikes
+    // })
     const updatedAnswer = await db.Answer.findByPk(answerId, {
         include: [db.User, db.Upvote, db.Downvote],
     });
