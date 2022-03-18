@@ -14,9 +14,8 @@ html
                         hr
                         div
                             //- comment
-                            p This is where comments are going to be
-                            hr
-                            block answer
+                            each comment in answer.comments
+                                p= comment.content
 
 
 

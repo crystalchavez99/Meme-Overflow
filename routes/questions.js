@@ -67,17 +67,27 @@ router.get(
                 include: [db.Comment, db.Upvote, db.Downvote],
             },
         });
-        console.log(question.Answers.Comments)
+        if(req.session.auth){
+            question.Answers.forEach(async(answer)=>{
+                if(answer.userId===req.session.auth.userId){
+                    answer.unlocked = true;
+                }
+                answer.Comments.forEach(async(comment)=>{
+                    if(comment.userId===req.session.auth.userId){
+                        comment.unlocked = true;
+                    }
+                })
+            })
+        }
+
         for (let answer of question.Answers) {
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
         }
-        // console.log(JSON.stringify(question, null, 2));
 
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
             answers:question.Answers,
-            comments:question.Answers.Comments,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
@@ -98,7 +108,8 @@ router.post(
             userId,
             //memeId,
             memeUrl
-        })
+        });
+
         const validatorErrors = validationResult(req);
 
         if (validatorErrors.isEmpty()) {
