@@ -54,6 +54,9 @@ block content
                                     input(type="text" name="content" id="content")
                                     button(type="submit") Submit
                                 button#cancel Cancel
+                        h4 Comments
                         #comment-container
                             each comment in answer.Comments
                                 p= comment.content
+                                div
+                                a(href=`/comments/${comment.id}/edit`) Edit

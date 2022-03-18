@@ -74,7 +74,12 @@ router.get('/:commentId/edit', requireAuth,csrfProtection,asyncHandler(async(req
 
 router.post('/:commentId/edit', requireAuth, csrfProtection, commentValidators, asyncHandler(async(req,res)=>{
     const commentId = parseInt(req.params.commentId,10)
-    const commentUpdate = await db.Comment.findByPk(commentId)
+    const commentUpdate = await db.Comment.findByPk(commentId,{
+        include: {
+            model: db.Answer
+        }
+    });
+    const answer = await db.Answer.findByPk(commentUpdate.answerId);
     const { content } = req.body
     const comment = {content}
 
@@ -82,7 +87,7 @@ router.post('/:commentId/edit', requireAuth, csrfProtection, commentValidators, 
 
     if (validatorErrors.isEmpty()){
         await commentUpdate.update(comment)
-        res.redirect(`/comments`);
+        res.redirect(`/questions/${answer.questionId}`);
     } else {
         const errors = validatorErrors.array().map((err)=> err.msg)
         res.render('./comments/comment-form',{
