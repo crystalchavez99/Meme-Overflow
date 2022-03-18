@@ -69,18 +69,18 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
 
 // })
 
-router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
-    console.log("GET WORKS ===============")
-    const url = req.url;
-    console.log(url);
-    const answerId = parseInt(req.params.answerId, 10)
-    //const answer = await db.Answer.findByPk(answerId)
-    //console.log("CHECK HERE =============", question)
-    const answer = db.Answer.build();
-    res.render('./answers/answer-form', { answer, csrfToken: req.csrfToken() })
-}
-)
-)
+// router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+//     console.log("GET WORKS ===============")
+//     const url = req.url;
+//     console.log(url);
+//     const answerId = parseInt(req.params.answerId, 10)
+//     //const answer = await db.Answer.findByPk(answerId)
+//     //console.log("CHECK HERE =============", question)
+//     const answer = db.Answer.build();
+//     res.render('./answers/answer-form', { answer, csrfToken: req.csrfToken() })
+// }
+// )
+// )
 
 
 router.get('/:answerId/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
@@ -132,21 +132,21 @@ router.post('/:answerId/edit', requireAuth, csrfProtection, answerValidators, as
 }))
 
 
-router.get('/:answerId/delete', requireAuth, asyncHandler(async (req, res) => {
-    const answerId = parseInt(req.params.answerId, 10)
-    const answer = await db.Answer.findByPk(answerId)
+// router.get('/:answerId/delete', requireAuth, asyncHandler(async (req, res) => {
+//     const answerId = parseInt(req.params.answerId, 10)
+//     const answer = await db.Answer.findByPk(answerId)
 
-    if (!res.locals.authenticated) {
-        return res.redirect('/login');
-    }
+//     if (!res.locals.authenticated) {
+//         return res.redirect('/login');
+//     }
 
-    if (req.session.auth.userId !== answer.userId) {
-        res.status = 403;
-        return res.redirect('/');
-    }
+//     if (req.session.auth.userId !== answer.userId) {
+//         res.status = 403;
+//         return res.redirect('/');
+//     }
 
-    res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
-}))
+//     res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
+// }))
 
 
 
