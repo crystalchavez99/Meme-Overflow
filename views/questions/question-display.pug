@@ -36,6 +36,7 @@ block content
                             .answer-title: p= answer.title
                             .answer-meme: img(src=`${answer.memeUrl}`)
                             div
+                            if answer.unlocked
                                 a(href=`/answers/${answer.id}/edit`) Edit
                                 a(href=`/questions/${question.id}` class="delete" id=`delete-${answer.id}`) Delete
                                 div.modalDelete.modal
