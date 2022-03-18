@@ -2,10 +2,21 @@ function displayForm(){
     const newAnswer = document.getElementById("newanswer");
     const modal = document.querySelector(".modalForm");
     newAnswer.addEventListener("click",()=>{
-        console.log("clicked")
+        //console.log("clicked")
         modal.style.display="block"
     })
 }
+function cancelAnswer() {
+    const cancel = document.querySelectorAll("#cancel");
+    const modal = document.querySelectorAll(".modal");
+    for (let i = 0; i < cancel.length; i++) {
+        cancel[i].addEventListener("click", () => {
+            console.log("clicked")
+            modal[i].style.display = "none"
+        })
+    }
+}
+
 
 function displayAnswer(){
     const edit = document.querySelectorAll(".edit");
@@ -14,7 +25,7 @@ function displayAnswer(){
     //console.log(modal)
     for(let i = 0; i < edit.length; i++){
         edit[i].addEventListener("click",()=>{
-            console.log("clicked")
+            //console.log("clicked")
             //modal.style.display="block"
             //for(let j = i; j <= edit.length;j++){
                 modal[i].style.display="block"
@@ -22,14 +33,7 @@ function displayAnswer(){
         })
     }
 }
-function cancelAnswer(){
-    const cancel = document.getElementById("cancel");
-    const modal = document.querySelector(".modal");
-    cancel.addEventListener("click",()=>{
-        console.log("clicked")
-        modal.style.display="none"
-    })
-}
+
 function deleteAnswer(){
     const deleteButton = document.querySelectorAll(".delete");
     const modal = document.querySelectorAll(".modalDelete");
@@ -37,20 +41,8 @@ function deleteAnswer(){
     for(let i = 0; i < deleteButton.length; i++){
         deleteButton[i].addEventListener("click",(e)=>{
             e.preventDefault()
-            console.log("clicked")
+            //console.log("clicked")
             modal[i].style.display="block"
-
-        })
-        yes[i].addEventListener("click", async (e) =>{
-            e.preventDefault()
-             const res = await fetch(`/answer/${answer.id}`, {
-                 method: 'DELETE'
-             })
-             const data = await res.json()
-             if (data.message === "Success") {
-                 const container = document.getElementById(`answer-${answer.id}`)
-                 container.remove()
-             }
         })
     }
 }
