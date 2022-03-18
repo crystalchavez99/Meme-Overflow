@@ -9,6 +9,18 @@ block content
                 a(href=`/questions/${question.id}/edit`): button Edit
                 a(href=`/questions/${question.id}/delete`): button Delete
             else
+                button(type="submit" id="newanswer").newanswer New Answer
+                div.modalForm.modal
+                    h2 Your Answer
+                    +errorBlock(errors)
+                    form(method="POST" action=`/questions/${question.id}`)
+                        input(type="hidden" name="_csrf" value=csrfToken)
+                        label(for="title") Title
+                        input(type="title" name="title" id="title")
+                        label(for="memeUrl") Upload Image
+                        input(type="url" name="memeUrl" id="memeUrl")
+                        button(type="submit") Submit
+                    button#cancel Cancel
                 #answer-container
                     each answer in question.Answers
                         div.single-answer(id=`answer-${answer.id}`)
@@ -23,49 +35,11 @@ block content
                                 .answer-meme: img(src=`${answer.memeUrl}`)
                                 div
                                     a(href=`/answers/${answer.id}/edit`) Edit
-                                    a(href=`/answers/${answer.id}/delete`) Delete
-            //- if question.unlocked
-            //-     a(href=`/questions/${question.id}/edit`): button Edit
-            //-     a(href=`/questions/${question.id}/delete`): button Delete
-            button(type="submit" id="newanswer").newanswer New Answer
-            div.modalForm.modal
-                h2 Your Answer
-                +errorBlock(errors)
-                form(method="POST" action=`/questions/${question.id}`)
-                    input(type="hidden" name="_csrf" value=csrfToken)
-                    label(for="title") Title
-                    input(type="title" name="title" id="title")
-                    label(for="memeUrl") Upload Image
-                    input(type="url" name="memeUrl" id="memeUrl")
-                    button(type="submit") Submit
-                a(href=`/questions/${question.id}` id="cancel"): button Cancel
-        hr
-        h2 Answers
-        each answer in answers
-            div
-                p=answer.title
-                img(src=`${answer.memeUrl}`)
-                div
-                    button(type="submit" class="edit")  Edit
-                    div.modalEdit.modal
-                        h2 Your Answer
-                        +errorBlock(errors)
-                        form(method="post" action=`/answers/${answer.id}/edit`)
-                            input(type="hidden" name="_csrf" value=csrfToken)
-                            label(for="title") Title
-                            input(type="title" name="title" id="title" value=answer.title)
-                            label(for="memeUrl") Upload Image
-                            input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
-                            button(type="submit") Submit
-                        a(href=`/questions/${question.id}` id="cancel"): button Cancel
-                    button(type="submit" class="delete")  Delete
-                    div.modalDelete.modal
-                        form(method="post" action=`/answers/${answer.id}/delete`)
-                            input(type="hidden" name="_csrf" value=csrfToken)
-                            p Do you want to delete this answer?
-                            button(type="submit") Yes
-                        a(href=`/questions/${question.id}` id="cancel"): button No
-                    div
-                        //- comment
-                        p This is where comments are going to be
-                        hr
+                                    a(href=`/questions/${question.id}` class="delete" id=`delete-${answer.id}`) Delete
+                                    div.modalDelete.modal
+                                        form(id="deleteForm" method="post" action=`/answers/${answer.id}`)
+                                            input(type="hidden" name="id" value=answer.id)
+                                            input(type="hidden" name="_csrf" value=csrfToken)
+                                            p Do you want to delete this answer?
+                                            button(type="submit" class="yes" id=`yes-${answer.id}`) Yes
+                                        button#cancel No
