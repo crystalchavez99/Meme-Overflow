@@ -54,7 +54,8 @@ router.post('/new', requireAuth, csrfProtection, commentValidators, asyncHandler
 
 router.get('/:commentId/edit', requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
     const commentId = parseInt(req.params.commentId, 10)
-    const comment = await db.Comment.findByPk(commentId)
+    const comment = await db.Comment.findByPk(commentId);
+    const answer = await db.Answer.findByPk(comment.answerId)
     const { content } = req.body
 
     if(!res.locals.authenticated){
@@ -66,7 +67,7 @@ router.get('/:commentId/edit', requireAuth,csrfProtection,asyncHandler(async(req
         return res.redirect('/');
     }
 
-    res.render('./comments/comment-edit', {comment,csrfToken:req.csrfToken(), isLoggedIn: res.locals.authenticated,})
+    res.render('./comments/comment-edit', {comment,answer,csrfToken:req.csrfToken(), isLoggedIn: res.locals.authenticated,})
    //isLoggedIn: res.locals.authenticated,} what is this trying to do?
 
 }))
