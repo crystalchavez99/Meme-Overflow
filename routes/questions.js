@@ -66,7 +66,7 @@ router.get(
                 include: [db.Comment, db.Upvote, db.Downvote],
             },
         });
-
+        console.log(question)
         for (let answer of question.Answers) {
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
         }
@@ -75,7 +75,7 @@ router.get(
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
-            answers,
+            answers:question.Answers,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });
