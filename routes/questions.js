@@ -72,12 +72,14 @@ router.get(
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
         }
         // console.log(JSON.stringify(question, null, 2));
-
+        if ((question.userId === req.session.auth.userId)) {
+            question.isAuthorized = true;
+        }
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
-            answers:question.Answers,
-            comments:question.Answers.Comments,
+            answers: question.Answers,
+            comments: question.Answers.Comments,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
         });

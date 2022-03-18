@@ -4,6 +4,6 @@
             div(id=`question-${question.id}`)
                 .question-title: p= question.title
                 .question-description: p= question.description
-                if question.unlocked
+                if question.isAuthorized
                     a(href=`/questions/${question.id}/edit`): button Edit
                     a(href=`/questions/${question.id}/delete`): button Delete

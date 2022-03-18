@@ -57,7 +57,7 @@ router.get(
     if (req.session.auth) {
       questions.forEach(async (question) => {
         if ((question.userId === req.session.auth.userId)) {
-          question.unlocked = true;
+          question.isAuthorized = true;
         }
       });
     }
