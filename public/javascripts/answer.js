@@ -18,11 +18,13 @@ function cancelAnswer() {
 }
 
 function displayCommentForm(){
-    const newComment = document.getElementById("newcomment");
-    const modal = document.querySelector(".modalComment");
-    newComment.addEventListener("click", ()=>{
-        modal.style.display = "block"
+    const newComment = document.querySelectorAll(".newcomment");
+    const modal = document.querySelectorAll(".modalComment");
+    for (let i=0;i<newComment.length;i++){
+        newComment[i].addEventListener("click", ()=>{
+        modal[i].style.display = "block"
     })
+    }
 }
 
 function displayAnswer(){
