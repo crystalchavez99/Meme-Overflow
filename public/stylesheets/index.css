@@ -61,6 +61,12 @@ main #right-column {
     grid-area: right;
 }
 
+.default-avatar {
+    width: 100px;
+    height: 100px;
+    filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
+}
+
 .answer-meme img {
     width: 450px;
 }

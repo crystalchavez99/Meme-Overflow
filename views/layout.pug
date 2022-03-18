@@ -6,6 +6,7 @@ html
         script(src='../javascripts/index.js')
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(rel='stylesheet' href='/stylesheets/index.css')
+        link(rel='icon' href='/icons/favicon.ico' type='image/x-icon')
   body
     header
       nav#top-nav
@@ -23,7 +24,12 @@ html
     main
       #left-column
         if isLoggedIn
-          #avatar: a(href="/profile") img(src="/avatar.png", alt="Your name")
+          #avatar: a(href="/profile")
+            if currentUserAvatarUrl
+              img(src=currentUserAvatarUrl, alt=currentUsername)
+            else
+              //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
+              img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername)
         #tags
       #main-column
         block content
