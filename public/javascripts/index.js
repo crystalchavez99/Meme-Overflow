@@ -33,14 +33,16 @@ function cancelAnswer(){
 function deleteAnswer(){
     const deleteButton = document.querySelectorAll(".delete");
     const modal = document.querySelectorAll(".modalDelete");
-
+    const yes = document.querySelectorAll(".yes")
     for(let i = 0; i < deleteButton.length; i++){
-        deleteButton[i].addEventListener("click",()=>{
+        deleteButton[i].addEventListener("click",(e)=>{
+            e.preventDefault()
             console.log("clicked")
-            //modal.style.display="block"
-            //for(let j = i; j <= edit.length;j++){
-                modal[i].style.display="block"
-            //}
+            modal[i].style.display="block"
+
+            // const res = await fetch(`/questions/${question.id}`, {
+            //     method: 'DELETE'
+            // })
         })
     }
 }
