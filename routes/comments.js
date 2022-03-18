@@ -110,7 +110,7 @@ router.get('/:commentId/delete',requireAuth,csrfProtection,asyncHandler(async(re
     res.render('./comments/comment-delete',{comment,csrfToken:req.csrfToken()})
 }))
 
-router.post('/:commentId/delete',requireAuth, csrfProtection, asyncHandler(async(req,res)=>{
+router.delete('/:commentId',requireAuth, asyncHandler(async(req,res)=>{
     const commentId = parseInt(req.params.commentId,10)
     const comment = await db.Comment.findByPk(commentId)
     await comment.destroy()
