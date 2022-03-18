@@ -15,46 +15,53 @@ const answerValidators = [
         .exists({ checkFalsy: true })
         .withMessage('Please put a meme for the answer')
 ]
+const commentValidators = [
+    check('content')
+        .exists({ checkFalsy: true })
+        .withMessage('Please put a content for the content')
+]
 
 router.get('/', asyncHandler(async (req, res) => {
     const answers = await db.Answer.findAll({
+        include: db.Comment,
         order: [["createdAt", "DESC"]]
 
     })
-    //console.log(answers)
     res.render("./answers/answer", { answers })
 }))
 
-router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(async (req, res) => {
-    console.log("IN ANSWER POST ROUTE ======================================================")
+router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHandler(async (req, res) => {
+    //console.log("IN ANSWER POST ROUTE ======================================================")
     //parse in the string of the questionId into integer
-    //const answerId = parseInt(req.params.answerId)
-    //const answer = await db.Answer.findByPk(answerId)
-    const { title, memeUrl } = req.body
-    const { userId } = req.session.auth
-    const answer = db.Answer.build({
+    const answerId = parseInt(req.params.answerId)
+    const answerBuild = await db.Answer.findByPk(answerId)
+    const { content } = req.body
+    const { userId } = req.session.auth;
+    //console.log(userId,"USER")
+    //console.log(content,"CONTENT")
+    //console.log(answerBuild.id,"ANSWER")
+    const comment = await db.Comment.build({
         //answerId,
-        questionId: questionId,
-        title,
-        userId,
+        answerId: answerBuild.id,
+        content: content,
+        userId: userId,
         //memeId,
-        memeUrl
+        //memeUrl
     })
 
 
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
-        console.log("CHECK HERE ---------------------")
-        await answer.save()
-        res.redirect(`/questions/${answer.questionId}`);
+        //console.log("CHECK HERE ---------------------")
+        //console.log(comment)
+        await comment.save()
+        res.redirect(`/questions/${answerBuild.questionId}`);
     } else {
-        console.log("LOOK HERE +++++++++++++++")
+        //console.log("LOOK HERE +++++++++++++++")
         const errors = validatorErrors.array().map((err) => err.msg);
-        res.render('./answers/answer-form', {
-            title,
-            memeUrl,
-            errors,
+        res.render('./comments/comment-form', {
+            content,
             csrfToken: req.csrfToken()
         });
     }
@@ -69,18 +76,18 @@ router.post('/new', requireAuth, csrfProtection, answerValidators, asyncHandler(
 
 // })
 
-router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
-    console.log("GET WORKS ===============")
-    const url = req.url;
-    console.log(url);
-    const answerId = parseInt(req.params.answerId, 10)
-    //const answer = await db.Answer.findByPk(answerId)
-    //console.log("CHECK HERE =============", question)
-    const answer = db.Answer.build();
-    res.render('./answers/answer-form', { answer, csrfToken: req.csrfToken() })
-}
-)
-)
+// router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+//     console.log("GET WORKS ===============")
+//     const url = req.url;
+//     console.log(url);
+//     const answerId = parseInt(req.params.answerId, 10)
+//     //const answer = await db.Answer.findByPk(answerId)
+//     //console.log("CHECK HERE =============", question)
+//     const answer = db.Answer.build();
+//     res.render('./answers/answer-form', { answer, csrfToken: req.csrfToken() })
+// }
+// )
+// )
 
 
 router.get('/:answerId/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
@@ -132,32 +139,39 @@ router.post('/:answerId/edit', requireAuth, csrfProtection, answerValidators, as
 }))
 
 
-router.get('/:answerId/delete', requireAuth, asyncHandler(async (req, res) => {
-    const answerId = parseInt(req.params.answerId, 10)
-    const answer = await db.Answer.findByPk(answerId)
+// router.get('/:answerId/delete', requireAuth, asyncHandler(async (req, res) => {
+//     const answerId = parseInt(req.params.answerId, 10)
+//     const answer = await db.Answer.findByPk(answerId)
 
-    if (!res.locals.authenticated) {
-        return res.redirect('/login');
-    }
+//     if (!res.locals.authenticated) {
+//         return res.redirect('/login');
+//     }
 
-    if (req.session.auth.userId !== answer.userId) {
-        res.status = 403;
-        return res.redirect('/');
-    }
+//     if (req.session.auth.userId !== answer.userId) {
+//         res.status = 403;
+//         return res.redirect('/');
+//     }
 
-    res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
-}))
+//     res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
+// }))
 
-
+router.use((req,res,next)=>{
+    console.log("------REQUEST HITS HERE RIGHT BEFORE ROUTE-------")
+    next();
+})
 
 router.delete('/:answerId', requireAuth, asyncHandler(async (req, res) => {
     console.log("CHECK =============================================")
+    console.log(req.session,"THIS IS SESSION")
     const answerId = parseInt(req.params.answerId, 10)
+    console.log("ANSWER ID IN ANSWERrouter.JS", answerId)
     const answer = await db.Answer.findByPk(answerId)
+    console.log("THIS IS ANSWER RETURN VALUE OF QUERY", answer)
     if(answer){
+        console.log("IF ANSWER CONDITIONAL TRUE")
         await answer.destroy()
         console.log("DESTROY =============================================")
-        res.json({message: "Success"})
+        res.json({"message": "Success"})
         //res.redirect(`/questions/${answer.questionId}`)
     }
     //await answer.destroy();

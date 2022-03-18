@@ -30,8 +30,7 @@ router.post('/new', requireAuth, csrfProtection, commentValidators, asyncHandler
     const { content } = req.body
     const { userId } = req.session.auth
     const comment = db.Comment.build({
-        questionId:1,
-        answerId:1,
+        answerId,
         content,
         userId
     })
@@ -55,7 +54,8 @@ router.post('/new', requireAuth, csrfProtection, commentValidators, asyncHandler
 
 router.get('/:commentId/edit', requireAuth,csrfProtection,asyncHandler(async(req,res)=>{
     const commentId = parseInt(req.params.commentId, 10)
-    const comment = await db.Comment.findByPk(commentId)
+    const comment = await db.Comment.findByPk(commentId);
+    const answer = await db.Answer.findByPk(comment.answerId)
     const { content } = req.body
 
     if(!res.locals.authenticated){
@@ -67,7 +67,7 @@ router.get('/:commentId/edit', requireAuth,csrfProtection,asyncHandler(async(req
         return res.redirect('/');
     }
 
-    res.render('./comments/comment-edit', {comment,csrfToken:req.csrfToken(), isLoggedIn: res.locals.authenticated,})
+    res.render('./comments/comment-edit', {comment,answer,csrfToken:req.csrfToken(), isLoggedIn: res.locals.authenticated,})
    //isLoggedIn: res.locals.authenticated,} what is this trying to do?
 
 }))
@@ -75,7 +75,12 @@ router.get('/:commentId/edit', requireAuth,csrfProtection,asyncHandler(async(req
 
 router.post('/:commentId/edit', requireAuth, csrfProtection, commentValidators, asyncHandler(async(req,res)=>{
     const commentId = parseInt(req.params.commentId,10)
-    const commentUpdate = await db.Comment.findByPk(commentId)
+    const commentUpdate = await db.Comment.findByPk(commentId,{
+        include: {
+            model: db.Answer
+        }
+    });
+    const answer = await db.Answer.findByPk(commentUpdate.answerId);
     const { content } = req.body
     const comment = {content}
 
@@ -83,7 +88,7 @@ router.post('/:commentId/edit', requireAuth, csrfProtection, commentValidators, 
 
     if (validatorErrors.isEmpty()){
         await commentUpdate.update(comment)
-        res.redirect(`/comments`);
+        res.redirect(`/questions/${answer.questionId}`);
     } else {
         const errors = validatorErrors.array().map((err)=> err.msg)
         res.render('./comments/comment-form',{
@@ -110,11 +115,12 @@ router.get('/:commentId/delete',requireAuth,csrfProtection,asyncHandler(async(re
     res.render('./comments/comment-delete',{comment,csrfToken:req.csrfToken()})
 }))
 
-router.delete('/:commentId',requireAuth, asyncHandler(async(req,res)=>{
+router.post('/:commentId/delete',requireAuth, asyncHandler(async(req,res)=>{
     const commentId = parseInt(req.params.commentId,10)
     const comment = await db.Comment.findByPk(commentId)
+    const answer = await db.Answer.findByPk(comment.answerId);
     await comment.destroy()
-    res.redirect(`/comments`)
+    res.redirect(`/questions/${answer.questionId}`)
 }))
 
 module.exports = router;

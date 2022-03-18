@@ -36,12 +36,16 @@ module.exports = (sequelize, DataTypes) => {
     Answer.belongsTo(models.User, { foreignKey: "userId" });
     Answer.belongsTo(models.Question, { foreignKey: "questionId" });
     Answer.belongsTo(models.Meme, { foreignKey: "memeId" });
-    Answer.hasMany(models.Comment, { foreignKey: "answerId" });
+    Answer.hasMany(models.Comment, { foreignKey: "answerId", onDelete:"cascade", hooks:true});
     Answer.hasMany(models.Upvote, {
       foreignKey: "answerId",
+      onDelete:"cascade",
+      hooks:true
     });
     Answer.hasMany(models.Downvote, {
       foreignKey: "answerId",
+      onDelete:"cascade",
+      hooks:true
     });
     Answer.belongsToMany(models.User, {
       through: "Upvote",
