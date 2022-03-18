@@ -21,7 +21,7 @@ block content
                     input(type="url" name="memeUrl" id="memeUrl")
                     button(type="submit") Submit
                 button#cancel Cancel
-            #answer-container
+    #answer-container
                 each answer in question.Answers
                     div.single-answer(id=`answer-${answer.id}`)
                         .vote(id=`vote-${answer.id}`)
