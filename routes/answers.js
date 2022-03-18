@@ -35,7 +35,7 @@ router.post('/',requireAuth,asyncHandler(async(req,res)=>{
       questionId,
       userId
   })
-  res.json({message:"success"})
+  res.json({message:"success"} )
 }))
 
 
