@@ -24,11 +24,10 @@ a {
     justify-content: space-between;
 }
 
-#logo i {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
-    line-height: 24px;
+#logo img {
+    width: 48px;
+    height: 62px;
+    filter: invert(71%) sepia(62%) saturate(5581%) hue-rotate(337deg) brightness(101%) contrast(102%);
 }
 
 #search-bar {
