@@ -21,7 +21,6 @@ block content
                 a(href=`/questions/${question.id}/edit`): button Edit
                 a(href=`/questions/${question.id}/delete`): button Delete
             else
-
                 #answer-container
                     each answer in question.Answers
                         div.single-answer(id=`answer-${answer.id}`)

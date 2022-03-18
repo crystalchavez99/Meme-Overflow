@@ -93,6 +93,22 @@ main #right-column {
 .upvote img,
 .downvote img {
     width: 60px;
+    opacity: 60%;
+}
+
+.upvote img:hover,
+.downvote img:hover {
+    cursor: pointer;
+}
+
+.upvote img.voted,
+.downvote img.voted {
+    opacity: 100%;
+}
+
+.vote-count {
+    font-size: 35px;
+    color: #aaa;
 }
 
 .single-answer .answer-content {
