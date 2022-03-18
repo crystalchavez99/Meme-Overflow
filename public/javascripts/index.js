@@ -147,7 +147,7 @@ function submitForm() {
             //this varaible now contains the html needed and use appendchild to put inside the containerDiv
             const newVar = containerDiv.appendChild(answerHtml)
             //after we appendchild, queryselect the new edit button as well as delete button and add event listener to show the form
-            const  document.querySelector()
+            //const  document.querySelector()
             const postEle = document.getElementById(`answer`)
             console.log("===SHOW=== ")
             postEle.innerHTML = answer
