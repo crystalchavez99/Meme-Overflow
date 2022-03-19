@@ -15,7 +15,7 @@ html
           img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
         #search-bar
           //form(action='/search' method="get")
-          form(action="/search/${search_keyword}", method="get")
+          form(action="/search/search_keyword", method="get")
             input(type="text" name="search_keyword" id="search_keyword" required)
             button(type="submit") Search
             //how to link input to the form
