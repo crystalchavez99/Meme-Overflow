@@ -55,6 +55,7 @@ router.get(
       order: [['createdAt', 'DESC']],
     });
     const user = await User.findByPk(req.session.auth.userId)
+    console.log(user)
     if (req.session.auth) {
       questions.forEach((question, i) => {
         if ((question.userId === req.session.auth.userId)) {
@@ -65,22 +66,10 @@ router.get(
 
       });
     }
-    const userQuestions = await Question.findAll({
-      where:{
-        userId: user.id
-      }
-    });
-    const userAnswers = await Answer.findAll({
-      where:{
-        userId: user.id
-      }
-    });
     res.render('index', {
       title: 'Meme Overflow',
       questions,
       user,
-      userQuestions,
-      userAnswers,
       isLoggedIn: req.session.auth,
       currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
       currentUsername: res.locals.user ? res.locals.user.username : "",

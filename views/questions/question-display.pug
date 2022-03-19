@@ -43,7 +43,7 @@ block content
                             .answer-meme: img(src=`${answer.memeUrl}`)
                             div
                             if answer.unlocked
-                                a(href=`/answers/${answer.id}/edit`) Edit
+                                a(href=`/answers/${answer.id}/edit` class="edit") Edit
                                 a(href=`/questions/${question.id}` class="delete" id=`delete-${answer.id}`) Delete
                                 div.modalDelete.modal
                                     //- form(id="deleteForm" method="post" action=`/answers/${answer.id}`)
@@ -61,6 +61,7 @@ block content
                                     input(type="text" name="content" id="content")
                                     button(type="submit") Submit
                                 button#cancel Cancel
+                            hr
                         h4 Comments
                         #comment-container
                             each comment in answer.Comments
@@ -68,7 +69,7 @@ block content
                                     p= comment.content
                                     div
                                     if comment.unlocked
-                                        a(href=`/comments/${comment.id}/edit`) Edit
+                                        a(href=`/comments/${comment.id}/edit` class="edit") Edit
                                         a(href=`/questions/${question.id}` class="delete" id=`delete-${comment.id}`) Delete
                                         div.modalDelete.modal
                                             form(method="post" action=`/comments/${comment.id}/delete`)
