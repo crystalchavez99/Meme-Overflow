@@ -6,6 +6,7 @@ html
         script(src='../javascripts/index.js')
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(rel='stylesheet' href='/stylesheets/index.css')
+        link(rel='stylesheet' href='/stylesheets/registration.css')
         link(rel='icon' href='/icons/favicon.ico' type='image/x-icon')
   body
     header
@@ -30,6 +31,10 @@ html
             else
               //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
               img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername)
+          #greeting: p Welcome #{currentUsername}!
+          #user-links: ul
+            li: a(href="my-questions") Your Questions
+
         #tags
       #main-column
         block content

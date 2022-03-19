@@ -11,5 +11,5 @@ include utils.pug
                         span= question.User.username
             if question.isAuthorized
                 .question-edit-delete
-                    a(href=`/questions/${question.id}/edit`): button.question-edit(id=`edit-${question.id}`) Edit
+                    a#buttons(href=`/questions/${question.id}/edit`): button.question-edit(id=`edit-${question.id}`) Edit
                     a(href=`/questions/${question.id}/delete`): button.question-delete(id=`delete-${question.id}`) Delete
