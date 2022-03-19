@@ -5,7 +5,10 @@ if isLoggedIn
         else
             //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
             img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUser.username)
-    p Welcome, #{currentUser.username}!
+        .username @#{currentUser.username}
+        .user-since User Since: #{currentUser.createdAt.toISOString().split('T')[0]}
+    #greeting
+        p Welcome to Meme Overflow, #{currentUser.username}!
     ul#user-links
         li#my-questions: a(href=`/users/${currentUser.id}/questions`) My Questions
         li#my-answers: a(href=`/users/${currentUser.id}/answers`) My Answers
