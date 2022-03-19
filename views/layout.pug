@@ -14,6 +14,13 @@ html
           //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
           img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
         #search-bar
+          form(action="/search", method="get")
+            input(type="text" name="search_keyword" id="search_keyword" required)
+            button(type="submit") Search
+            //a(href=`/search/:search_keyword`): button Search
+            //how to link input to the form
+            //how to get rid of the "?"
+
         #auth-buttons
           if isLoggedIn
             form(action="/logout" method="post")
