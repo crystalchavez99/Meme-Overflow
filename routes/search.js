@@ -20,20 +20,31 @@ router.get(
     //   });
 
     asyncHandler(async (req, res) => {
-        const keyword = req.query.search_keyword;
-        const questions = await Question.findAll({
-            include: [Answer, User],
-            where: {
-                title: {
-                    [Op.iLike]: '%' + keyword + '%'
+        //const keyword = req.query.search_keyword;
+        console.log(req.query)
+        const keywords = req.query.search_keyword.split(" ")
+        let questionArr = [];
+        for(let keyword of keywords){
+        //(async (keyword) => {
 
-                }
-            },
-            limit: 15,
-            order: [['createdAt', 'DESC']],
-        });
-        //console.log(questions);
-        //console.log(JSON.stringify(questions,null,2))
+            const questions = await Question.findAll({
+                include: [Answer, User],
+                where: {
+                    title: {
+                        [Op.iLike]: '%' + keyword + '%'
+
+                    }
+                },
+                limit: 15,
+                order: [['createdAt', 'DESC']],
+            });
+            questionArr = [...questionArr, ...questions]
+            //console.log(JSON.stringify(questionArr,null,2))
+
+        };
+        //questionArr.sort(?) this way sort by createdAt as one big group
+        console.log(questionArr.length);
+
 
         //add the search results function
 
@@ -42,10 +53,10 @@ router.get(
         //   })
 
         const user = await User.findByPk(req.session.auth.userId)
-       // console.log(user)
-       // console.log(req.session.auth.userId);
+        // console.log(user)
+        // console.log(req.session.auth.userId);
         if (req.session.auth) {
-            questions.forEach((question, i) => {
+            questionArr.forEach((question, i) => {
                 if ((question.userId === req.session.auth.userId)) {
                     question.isAuthorized = true;
                 }
@@ -54,12 +65,12 @@ router.get(
 
             });
         }
-        res.render('search', {
+        res.render('index', {
             title: 'Meme Overflow',
-            questions,
-            //user
-            isLoggedIn: false,
-            currentUser: undefined
+            questions: questionArr,
+            user,
+            isLoggedIn: req.session.auth,
+            currentUser: res.locals.user ? res.locals.user : undefined,
         });
     }));
 
