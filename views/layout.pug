@@ -34,10 +34,18 @@ html
           #greeting: p Welcome #{currentUsername}!
           #user-links: ul
             li: a(href="my-questions") Your Questions
+            li: a(href="") Your Answers
+            li: a(href="") Your Comments
 
         #tags
       #main-column
         block content
       #right-column
         #creators
+         if isLoggedIn
+            #groutInformation
+              .adamBox: p Adam
+              .crystalBox: p Crystal
+              .kikiBox: p Kiki
+              .katBox: p Kat
     footer
