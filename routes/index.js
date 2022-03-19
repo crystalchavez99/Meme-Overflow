@@ -46,6 +46,8 @@ const userValidators = [
     }),
 ];
 
+const isAuthorized = (req, res, resource) => ((res.locals.user) && (resource.userId === res.locals.user.id));
+
 /* GET home page. */
 router.get(
   '/',
@@ -54,22 +56,20 @@ router.get(
       include: [Answer, User],
       order: [['createdAt', 'DESC']],
     });
-    const user = await User.findByPk(req.session.auth.userId)
-    console.log(user)
+
+    questions.forEach((question, i) => {
+      question.colorIndex = i % 5;
+    });
+
     if (req.session.auth) {
-      questions.forEach((question, i) => {
-        if ((question.userId === req.session.auth.userId)) {
-          question.isAuthorized = true;
-        }
-
-        question.colorIndex = i % 5;
-
+      questions.forEach((question) => {
+        question.isAuthorized = isAuthorized(req, res, question);
       });
     }
+
     res.render('index', {
       title: 'Meme Overflow',
       questions,
-      user,
       isLoggedIn: req.session.auth,
       currentUser: res.locals.user ? res.locals.user : undefined,
     });

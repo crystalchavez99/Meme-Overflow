@@ -50,9 +50,9 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
         res.render('questions/question-form', {
             title: 'Ask A Question',
             question,
+            isLoggedIn: res.locals.authenticated,
             csrfToken: req.csrfToken(),
             errors,
-            isLoggedIn: res.locals.authenticated,
         });
     }
 }));
@@ -69,13 +69,14 @@ router.get(
                 include: [db.Comment, db.Upvote, db.Downvote],
             },
         });
-        if(req.session.auth){
-            question.Answers.forEach(async(answer)=>{
-                if(answer.userId===req.session.auth.userId){
+
+        if (req.session.auth) {
+            question.Answers.forEach(async (answer) => {
+                if (answer.userId === req.session.auth.userId) {
                     answer.unlocked = true;
                 }
-                answer.Comments.forEach(async(comment)=>{
-                    if(comment.userId===req.session.auth.userId){
+                answer.Comments.forEach(async (comment) => {
+                    if (comment.userId === req.session.auth.userId) {
                         comment.unlocked = true;
                     }
                 })
@@ -102,13 +103,14 @@ router.get(
         if ((question.userId === req.session.auth.userId)) {
             question.isAuthorized = true;
         }
+
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
             answers: question.Answers,
             comments: question.Answers.Comments,
-            csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            csrfToken: req.csrfToken(),
         });
     }));
 
