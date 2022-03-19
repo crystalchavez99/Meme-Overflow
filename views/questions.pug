@@ -6,9 +6,10 @@ include utils.pug
                 .question-body(id=`question-${question.id}`)
                     .question-title: p= question.title
                     .question-description: p= question.description
-                    .question-author
-                        +authorAvatar(question.User.avatarUrl, question.User.username)
-                        span= question.User.username
+            a(href=`/users/${question.User.id}/profile`)
+                .question-author
+                    +authorAvatar(question.User.avatarUrl, question.User.username)
+                    span= question.User.username
             if question.isAuthorized
                 .question-edit-delete
                     a(href=`/questions/${question.id}/edit`): button.question-edit(id=`edit-${question.id}`) Edit
