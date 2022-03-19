@@ -1,5 +1,10 @@
 //GET SEARCH PAGE
 
+
+
+
+
+
 router.get(
     '/',
     asyncHandler(async (req, res) => {
