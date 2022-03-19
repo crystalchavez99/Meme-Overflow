@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require("../db/models");
-const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
+const { asyncHandler, csrfProtection, isAuthorized } = require("../utils");
+const { requireAuth } = require('../auth');
 
 router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
     const question = await db.Question.build();
@@ -20,7 +21,6 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
     });
 }));
 
-
 const questionValidators = [
     check('title')
         .exists({ checkFalsy: true })
@@ -30,7 +30,7 @@ const questionValidators = [
         .withMessage('Please provide a value for description'),
 ];
 
-router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req, res) => {
+router.post('/new', requireAuth, csrfProtection, questionValidators, asyncHandler(async (req, res) => {
     const { title, description } = req.body;
     const { userId } = req.session.auth;
 
@@ -64,23 +64,25 @@ router.get(
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
         const question = await db.Question.findByPk(id, {
-            include: {
-                model: db.Answer,
-                include: [db.Comment, db.Upvote, db.Downvote],
-            },
+            include: [
+                db.User,
+                {
+                    model: db.Answer,
+                    include: [db.Comment, db.Upvote, db.Downvote],
+                },
+            ]
         });
+
+        question.isAuthorized = isAuthorized(req, res, question);
 
         if (req.session.auth) {
             question.Answers.forEach(async (answer) => {
-                if (answer.userId === req.session.auth.userId) {
-                    answer.unlocked = true;
-                }
+                answer.isAuthorized = isAuthorized(req, res, answer);
+
                 answer.Comments.forEach(async (comment) => {
-                    if (comment.userId === req.session.auth.userId) {
-                        comment.unlocked = true;
-                    }
+                    comment.isAuthorized = isAuthorized(req, res, comment);
                 })
-            })
+            });
         }
 
         for (let answer of question.Answers) {
@@ -100,9 +102,6 @@ router.get(
             })
             answer.downvoted = !!downvote;
         }
-        if ((question.userId === req.session.auth.userId)) {
-            question.isAuthorized = true;
-        }
 
         res.render('questions/question-display.pug', {
             title: question.title,
@@ -110,6 +109,7 @@ router.get(
             answers: question.Answers,
             comments: question.Answers.Comments,
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
             csrfToken: req.csrfToken(),
         });
     }));

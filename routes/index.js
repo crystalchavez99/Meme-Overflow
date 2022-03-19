@@ -3,8 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { User, Question, Answer } = require("../db/models");
 const { check, validationResult } = require("express-validator")
-const { asyncHandler, handleValidationErrors, csrfProtection } = require("../utils")
-const { loginUser, restoreUser, requireAuth, logoutUser } = require('../auth');
+const { asyncHandler, csrfProtection, isAuthorized } = require("../utils")
+const { loginUser, logoutUser } = require('../auth');
 
 const userValidators = [
   check('username')
@@ -45,8 +45,6 @@ const userValidators = [
       return true;
     }),
 ];
-
-const isAuthorized = (req, res, resource) => ((res.locals.user) && (resource.userId === res.locals.user.id));
 
 /* GET home page. */
 router.get(

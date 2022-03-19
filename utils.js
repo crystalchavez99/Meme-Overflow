@@ -27,8 +27,11 @@ const handleValidationErrors = (req, res, next) => {
     next();
 };
 
+const isAuthorized = (req, res, resource) => ((res.locals.user) && (resource.userId === res.locals.user.id));
+
 module.exports = {
     asyncHandler,
     handleValidationErrors,
     csrfProtection,
+    isAuthorized,
 };
