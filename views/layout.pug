@@ -23,16 +23,9 @@ html
             #sign-up: a(href="/signup"): button Sign Up
     main
       #left-column
-        if isLoggedIn
-          #avatar: a(href="/profile")
-            if currentUserAvatarUrl
-              img(src=currentUserAvatarUrl, alt=currentUsername)
-            else
-              //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
-              img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername)
-        #tags
+        include left-column.pug
       #main-column
         block content
       #right-column
-        #creators
+        include right-column.pug
     footer

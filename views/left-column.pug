@@ -1,0 +1,13 @@
+if isLoggedIn
+    #avatar: a(href="/profile")
+        if currentUser.avatarUrl
+            img(src=currentUser.avatarUrl, alt=currentUser.username)
+        else
+            //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
+            img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUser.username)
+    p Welcome, #{currentUser.username}!
+    ul#user-links
+        li#my-questions: a(href=`/users/${currentUser.id}/questions`) My Questions
+        li#my-answers: a(href=`/users/${currentUser.id}/answers`) My Answers
+        li#my-comments: a(href=`/users/${currentUser.id}/comments`) My Comments
+    #tags
