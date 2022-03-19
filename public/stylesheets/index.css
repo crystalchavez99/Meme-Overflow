@@ -81,6 +81,23 @@ main #right-column {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.question-edit-delete .question-edit {
+    width: 15px;
+    height: 15px;
+}
+
+.question-edit-delete .question-delete {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    top: -3px;
 }
 
 .question-card > a {
