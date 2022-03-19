@@ -20,6 +20,7 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
     });
 }));
 
+
 const questionValidators = [
     check('title')
         .exists({ checkFalsy: true })
@@ -55,6 +56,7 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
         });
     }
 }));
+
 
 router.get(
     '/:questionId(\\d+)',
@@ -97,7 +99,6 @@ router.get(
             })
             answer.downvoted = !!downvote;
         }
-        // console.log(JSON.stringify(question, null, 2));
         if ((question.userId === req.session.auth.userId)) {
             question.isAuthorized = true;
         }
