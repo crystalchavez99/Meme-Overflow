@@ -14,7 +14,6 @@ html
           //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
           img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
         #search-bar
-          input(type="text" placeholder="search")
         #auth-buttons
           if isLoggedIn
             form(action="/logout" method="post")
@@ -31,13 +30,15 @@ html
             else
               //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
               img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername)
+            h3 Welcome to Meme Overflow #{user.username}!
             p @#{user.username}
             p User Since: #{user.createdAt.toISOString().split('T')[0]}
-            p Max Likes: #{user.maxLikes}
             #links
               p: a(href=`/users/${user.id}/questions`) My Questions
               p: a(href=`/users/${user.id}/answers`) My Answers
               p: a(href=`/users/${user.id}/comments`) My Comments
+
+
         #tags
       #main-column
         block content

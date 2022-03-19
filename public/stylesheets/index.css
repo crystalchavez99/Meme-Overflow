@@ -188,11 +188,6 @@ main #right-column {
     border-bottom: 5px solid gray;
     width: 100%;
 }
-#search-bar input {
-    width: 400px;
-    height: 30px;
-    border: 2px solid blue;
-}
 #logout{
     border-radius: 28px;
   font-family: Arial;
@@ -245,9 +240,7 @@ main #right-column {
     margin: 10px;
     border-radius: 10px;
 }
-.single-answer{
-    border: 1px solid black;
-}
+
 .single-comment{
     margin: 10px;
     background-color: lightgray;
@@ -261,17 +254,4 @@ main #right-column {
 }
 #comment-container{
     width: 100%;
-}
-button{
-    border-radius: 20px;
-    font-size: 15px;
-    text-decoration: none;
-}
-.creator{
-    display: flex;
-    align-items: center;
-}
-.creator img{
-    width: 50px;
-
 }
