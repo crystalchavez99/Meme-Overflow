@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { User, Question, Answer } = require("../db/models");
 const { check, validationResult } = require("express-validator")
 const { asyncHandler, csrfProtection, isAuthorized } = require("../utils")
-const { loginUser, logoutUser } = require('../auth');
+const { loginUser, logoutUser, requireAuth } = require('../auth');
 
 const userValidators = [
   check('username')
@@ -189,5 +189,10 @@ router.post('/login-demo', csrfProtection, asyncHandler(async (req, res) => {
 }));
 
 router.post("/logout", (req, res) => logoutUser(req, res));
+
+router.get("/profile", requireAuth, (req, res) => {
+  const currentUser = res.locals.user;
+  res.redirect(`/users/${currentUser.id}/profile`);
+})
 
 module.exports = router;

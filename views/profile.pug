@@ -1,0 +1,31 @@
+extends layout.pug
+include utils.pug
+append head
+  //- add page specific styles by appending to the head
+  link(rel="stylesheet" href="/stylesheets/index.css")
+  //- add page specific js
+  script(src="/javascripts/index.js" type="module" defer)
+block content
+  #user-card
+    #avatar
+      if user.avatarUrl
+        img(src=user.avatarUrl, alt=user.username)
+      else
+        //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
+        img.default-avatar(src="/icons/user-circle-regular.svg", alt=user.username)
+    #user-info
+      .username= user.username
+      .user-since User Since: #{user.createdAt.toISOString().split('T')[0]}
+      .user-likes
+        .point-icon
+          +fireIcon("#000000")
+        .point-value= user.maxLikes
+        .like-icon
+          +likeIcon("#000000")
+        .current-likes-value= user.currentLikes
+  h2 My Questions
+  #questions-container
+  h2 My Answers
+  #answers-container
+  h2 My Comments
+  #comments-container
