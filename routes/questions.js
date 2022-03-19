@@ -97,7 +97,6 @@ router.get(
             })
             answer.downvoted = !!downvote;
         }
-        // console.log(JSON.stringify(question, null, 2));
         if ((question.userId === req.session.auth.userId)) {
             question.isAuthorized = true;
         }
