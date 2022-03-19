@@ -48,6 +48,10 @@ main #left-column {
     grid-area: left;
 }
 
+p a:hover{
+    opacity: .5;
+}
+
 main #main-column {
     grid-area: main;
 }

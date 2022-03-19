@@ -20,6 +20,7 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
     });
 }));
 
+
 const questionValidators = [
     check('title')
         .exists({ checkFalsy: true })
@@ -55,6 +56,7 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
         });
     }
 }));
+
 
 router.get(
     '/:questionId(\\d+)',

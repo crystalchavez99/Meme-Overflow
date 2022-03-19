@@ -34,25 +34,13 @@ html
             p @#{user.username}
             p User Since: #{user.createdAt.toISOString().split('T')[0]}
             p Max Likes: #{user.maxLikes}
-            a(href=`/questions/${user.id}`) My Questions
-            a(href=`/answers/${user.id}`) My Answers
-            a(href=`/comments/${user.id}`) My Comments
+            #links
+              p: a(href=`/users/${user.id}/questions`) My Questions
+              p: a(href=`/users/${user.id}/answers`) My Answers
+              p: a(href=`/users/${user.id}/comments`) My Comments
         #tags
       #main-column
         block content
       #right-column
         #creators
-          .creator
-            img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername).creator
-            p Crystal Chavez
-            img(src="https://assets.stickpng.com/images/584856b4e0bb315b0f7675ac.png", alt="email" class="email")
-          .creator
-            img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername).creator
-            p Kicky Lu
-          .creator
-            img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername).creator
-            p Adam Tang
-          .creator
-            img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername).creator
-            p Kateryna Tsymbal
     footer
