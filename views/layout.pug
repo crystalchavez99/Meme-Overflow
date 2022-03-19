@@ -23,6 +23,7 @@ html
             #sign-up: a(href="/signup"): button Sign Up
     main
       #left-column
+
         if isLoggedIn
           #avatar: a(href="/profile")
             if currentUserAvatarUrl
@@ -40,8 +41,9 @@ html
 
 
         #tags
+
       #main-column
         block content
       #right-column
-        #creators
+        include right-column.pug
     footer

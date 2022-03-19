@@ -71,8 +71,7 @@ router.get(
       questions,
       user,
       isLoggedIn: req.session.auth,
-      currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
-      currentUsername: res.locals.user ? res.locals.user.username : "",
+      currentUser: res.locals.user ? res.locals.user : undefined,
     });
   }));
 

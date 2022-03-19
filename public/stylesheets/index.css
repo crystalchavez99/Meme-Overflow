@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     max-width: 1000px;
     margin: 0 auto;
@@ -17,6 +18,7 @@ a {
     text-decoration: none;
 }
 
+/* Top Nav Styles */
 #top-nav {
     display: flex;
     flex-direction: row;
@@ -38,6 +40,7 @@ a {
     gap: 10px;
 }
 
+/* Main Styles */
 main {
     display: grid;
     grid-template-columns: 200px 1fr 300px;
@@ -60,12 +63,49 @@ main #right-column {
     grid-area: right;
 }
 
+/* Left Column Styles */
+#left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .default-avatar {
     width: 100px;
     height: 100px;
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
 }
 
+ul#user-links {
+    list-style-type: none;
+}
+
+#user-links li {
+    width: 150px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: white;
+    line-height: 30px;
+    padding-left: 20px;
+}
+
+#user-links #my-questions {
+    background-color: #c93a43;
+    box-shadow: 5px 5px 5px #cf797f;
+}
+
+#user-links #my-answers {
+    background-color: #469b5b;
+    box-shadow: 5px 5px 5px #79b187;
+}
+
+#user-links #my-comments {
+    background-color: #30aac9;
+    box-shadow: 5px 5px 5px #73c2d6;
+}
+
+/* Main Column Styles */
 #questions-container .question-card {
     box-sizing: border-box;
     width: 500px;
@@ -80,6 +120,23 @@ main #right-column {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.question-edit-delete .question-edit {
+    width: 15px;
+    height: 15px;
+}
+
+.question-edit-delete .question-delete {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    top: -3px;
 }
 
 .question-card > a {
@@ -175,6 +232,9 @@ main #right-column {
 .modal{
     display: none;
 }
+
+
+/* Right Column Styles */
 
 
 
