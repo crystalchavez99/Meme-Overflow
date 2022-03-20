@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const { asyncHandler, csrfProtection, isAuthorized } = require("../utils");
 const { requireAuth } = require('../auth');
 
-router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
+router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     const question = await db.Question.build();
 
     if (!res.locals.authenticated) {
@@ -123,6 +123,7 @@ router.get(
 
 router.post(
     '/:questionId(\\d+)',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const questionId = parseInt(req.params.questionId, 10);
@@ -163,6 +164,7 @@ router.post(
 
 router.get(
     '/:questionId(\\d+)/edit',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
@@ -182,11 +184,12 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
             action: `/questions/${id}/edit`
         });
     }));
 
-router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, asyncHandler(async (req, res) => {
+router.post('/:questionId(\\d+)/edit', requireAuth, csrfProtection, questionValidators, asyncHandler(async (req, res) => {
     const { title, description } = req.body;
     const { userId } = req.session.auth;
     const questionId = parseInt(req.params.questionId, 10)
@@ -212,12 +215,14 @@ router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, async
             csrfToken: req.csrfToken(),
             errors,
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
         });
     }
 }));
 
 router.get(
     '/:questionId(\\d+)/delete',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
@@ -237,11 +242,13 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
         });
     }));
 
 router.post(
     '/:questionId(\\d+)/delete',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
