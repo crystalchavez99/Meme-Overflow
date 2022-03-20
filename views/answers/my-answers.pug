@@ -5,7 +5,7 @@ block content
     each answer in answers
         div
             p=answer.title
-                img(src=`${answer.memeUrl}`)
+                img#answersImg(src=`${answer.memeUrl}`)
                 div
                     a(href=`/answers/${answer.id}/edit`) Edit
                     a(href=`/answers/${answer.id}/delete`) Delete
