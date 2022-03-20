@@ -245,6 +245,11 @@ ul#user-links {
     padding-left: 10px;
 }
 
+#main-column #container-header {
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
 #questions-container .question-card {
     box-sizing: border-box;
     width: 500px;
