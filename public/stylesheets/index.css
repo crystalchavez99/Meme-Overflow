@@ -18,6 +18,71 @@ a {
     text-decoration: none;
 }
 
+#prominent.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 10px;
+    line-height: 50px;
+}
+
+#prominent.top #logo > img {
+    width: 100px;
+    height: 100px;
+}
+
+#prominent.top h1 {
+    font-size: 48px;
+    font-weight: bolder;
+    color: #ff6c37;
+    align-self: center;
+    letter-spacing: -4px;
+}
+
+#login-form,
+#signup-form {
+    width: 600px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 40px 200px;
+}
+
+#login-form input,
+#signup-form input {
+    margin-bottom: 20px;
+}
+
+#signup-form label,
+#signup-form button,
+#login-form label,
+#login-form button {
+    margin-bottom: 10px;
+}
+
+.form-group * {
+    display: block;
+}
+
+#login-form #errors,
+#signup-form #errors {
+    margin-left: 2px;
+    margin-bottom: 25px;
+}
+
+#errors li {
+    font-size: 11px;
+    color: red;
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+#redirect p * {
+    font-size: 14px;
+    color: #ff6c37;
+}
+
 /* Top Nav Styles */
 #top-nav {
     display: flex;
@@ -71,10 +136,35 @@ main #right-column {
     align-items: center;
 }
 
+#left-column #avatar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#left-column #avatar img {
+    height: 70px;
+    width: 70px;
+}
+
 .default-avatar {
-    width: 100px;
-    height: 100px;
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
+}
+
+#avatar .username {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#avatar .user-since {
+    font-weight: 400;
+    font-size: 10px;
+}
+
+#left-column #greeting {
+    padding: 0 5px;
+    font-size: 18px;
 }
 
 ul#user-links {
@@ -106,6 +196,60 @@ ul#user-links {
 }
 
 /* Main Column Styles */
+#main-column #main-column-nav {
+    font-size: 10px;
+    padding: 0 10px;
+}
+
+#main-column #user-card {
+    padding-left: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 40px;
+}
+
+#main-column #user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#main-column #user-card .avatar {
+    width: 100px;
+    height: 100px;
+}
+
+#user-card .username {
+    font-size: 36px;
+}
+
+#user-card .user-likes {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    gap: 30px;
+}
+
+.user-likes .point-icon,
+.user-likes .like-icon {
+    height: 15px;
+    width: 15px;
+}
+
+#main-column h2 {
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+#main-column #container-header {
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
 #questions-container .question-card {
     box-sizing: border-box;
     width: 500px;
@@ -176,13 +320,10 @@ ul#user-links {
     gap: 8px;
 }
 
-.question-author .avatar,
-.question-author .default-avatar {
+#main-column #questions-container .avatar {
     width: 15px;
     height: 15px;
 }
-
-
 
 .single-answer .vote {
     grid-area: vote;
@@ -248,14 +389,16 @@ ul#user-links {
     border-bottom: 5px solid gray;
     width: 100%;
 }
+
 #logout{
     border-radius: 28px;
-  font-family: Arial;
-  color: #fcfcfc;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
+    font-family: Arial;
+    color: #fcfcfc;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
 }
+
 #left-column{
     border-right: 5px solid gray;
 }
@@ -263,6 +406,7 @@ ul#user-links {
 #avatar{
     margin-top: 10px;
 }
+
 #main-column{
     margin: 10px;
 }

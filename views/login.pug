@@ -1,16 +1,19 @@
-extends layout.pug
+extends layout-minimal.pug
 include utils.pug
 block content
-    +errorBlock(errors)
-    form(action="/login", method="post")
-        input(type="hidden" name="_csrf" value=csrfToken)
-        label(for="email") Email:
-        input(type="email" name="email" id="email" required value=user.email)
-        label(for="password") Password:
-        input(type="password" name="password" id="password" required)
-        button(type="submit") Log In
-    form(action="/login-demo" method="post")
-        input(type="hidden" name="_csrf" value=csrfToken)
-        button(type="submit") Demo User
-    div
-        p: a(href="/signup") Don't have an account?
+    #login-form
+        form(action="/login", method="post")
+            input(type="hidden" name="_csrf" value=csrfToken)
+            .form-group
+                label(for="email") Email:
+                input(type="email" name="email" id="email" required value=email)
+            .form-group
+                label(for="password") Password:
+                input(type="password" name="password" id="password" required)
+            +errorBlock(errors)
+            button(type="submit") Log In
+        form(action="/login-demo" method="post")
+            input(type="hidden" name="_csrf" value=csrfToken)
+            button(type="submit") Demo User
+        #redirect
+            p: a(href="/signup") Don't have an account?

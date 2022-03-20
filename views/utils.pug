@@ -1,10 +1,8 @@
 mixin errorBlock(errors)
     if errors
-        div
-            p The following error(s) occurred:
-            ul
-                each error in errors
-                    li= error
+        ul#errors
+            each error in errors
+                li= error
 
 mixin questionForm(action)
     form#question-form(action=action , method="post")
@@ -19,7 +17,7 @@ mixin authorAvatar(avatarUrl, username)
     if avatarUrl
         .author-avatar: img.avatar(src=avatarUrl, alt=username)
     else
-        .author-avatar: img.default-avatar(src="/icons/user-circle-regular.svg", alt=username)
+        .author-avatar: img.avatar.default-avatar(src="/icons/user-circle-regular.svg", alt=username)
 
 mixin editButton(color)
     svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill=color)
@@ -30,3 +28,43 @@ mixin deleteButton(color)
     svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill=color)
         //- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License)
         path(d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z")
+
+mixin questionCard(question)
+    .question-card(class=`color-${question.colorIndex}`)
+        a(href=`/questions/${question.id}`)
+            .question-body(id=`question-${question.id}`)
+                .question-title: p= question.title
+                .question-description: p= question.description
+        a(href=`/users/${question.User.id}/profile`)
+            .question-author
+                +authorAvatar(question.User.avatarUrl, question.User.username)
+                span= question.User.username
+        if question.isAuthorized
+            .question-edit-delete
+                a(href=`/questions/${question.id}/edit`): div.question-edit(id=`edit-${question.id}`)
+                    +editButton("#FFFFFF")
+                a(href=`/questions/${question.id}/delete`): div.question-delete(id=`delete-${question.id}`)
+                    +deleteButton("#FFFFFF")
+
+mixin fireIcon(color)
+    svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill=color)
+        //- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License)
+        path(d="M323.56 51.2c-20.8 19.3-39.58 39.59-56.22 59.97C240.08 73.62 206.28 35.53 168 0 69.74 91.17 0 209.96 0 281.6 0 408.85 100.29 512 224 512s224-103.15 224-230.4c0-53.27-51.98-163.14-124.44-230.4zm-19.47 340.65C282.43 407.01 255.72 416 226.86 416 154.71 416 96 368.26 96 290.75c0-38.61 24.31-72.63 72.79-130.75 6.93 7.98 98.83 125.34 98.83 125.34l58.63-66.88c4.14 6.85 7.91 13.55 11.27 19.97 27.35 52.19 15.81 118.97-33.43 153.42z")
+
+mixin likeIcon(color)
+    svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill=color)
+        //- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License)
+        path(d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z")
+
+mixin questionSamples(questions)
+    each question in questions
+        .question-card(class=`color-${question.colorIndex}`)
+            a(href=`/questions/${question.id}`)
+                .question-body(id=`question-${question.id}`)
+                    .question-title: p= question.title
+                    .question-description: p= question.description
+            .question-edit-delete
+                a(href=`/questions/${question.id}/edit`): div.question-edit(id=`edit-${question.id}`)
+                    +editButton("#FFFFFF")
+                a(href=`/questions/${question.id}/delete`): div.question-delete(id=`delete-${question.id}`)
+                    +deleteButton("#FFFFFF")
