@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { User, Question, Answer } = require("../db/models");
 const { check, validationResult } = require("express-validator")
-const { asyncHandler, csrfProtection, isAuthorized } = require("../utils")
+const { asyncHandler, csrfProtection, isAuthorized, styleResources } = require("../utils")
 const { loginUser, logoutUser, requireAuth } = require('../auth');
 
 const userValidators = [
@@ -55,9 +55,7 @@ router.get(
       order: [['createdAt', 'DESC']],
     });
 
-    questions.forEach((question, i) => {
-      question.colorIndex = i % 5;
-    });
+    styleResources(questions, 5);
 
     if (req.session.auth) {
       questions.forEach((question) => {

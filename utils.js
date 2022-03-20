@@ -29,9 +29,16 @@ const handleValidationErrors = (req, res, next) => {
 
 const isAuthorized = (req, res, resource) => ((res.locals.user) && (resource.userId === res.locals.user.id));
 
+const styleResources = (resources, size) => {
+    resources.forEach((resource, i) => {
+        resource.colorIndex = i % size;
+    });
+}
+
 module.exports = {
     asyncHandler,
     handleValidationErrors,
     csrfProtection,
     isAuthorized,
+    styleResources,
 };

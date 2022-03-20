@@ -25,7 +25,10 @@ block content
         .current-likes-value= user.currentLikes
   h2 My Questions
   #questions-container
+    +questionSamples(questions)
   h2 My Answers
   #answers-container
+    //- +answerSamples(answers)
   h2 My Comments
   #comments-container
+    //- +commentSamples(comments)

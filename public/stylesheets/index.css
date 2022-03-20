@@ -79,8 +79,8 @@ main #right-column {
 }
 
 .default-avatar {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
 }
 
@@ -95,7 +95,8 @@ main #right-column {
 }
 
 #left-column #greeting {
-    font-size: 15px;
+    padding: 0 5px;
+    font-size: 18px;
 }
 
 ul#user-links {
@@ -149,6 +150,11 @@ ul#user-links {
     gap: 10px;
 }
 
+#main-column .default-avatar {
+    width: 100px;
+    height: 100px;
+}
+
 #user-card .username {
     font-size: 36px;
 }
@@ -164,6 +170,11 @@ ul#user-links {
 .user-likes .like-icon {
     height: 15px;
     width: 15px;
+}
+
+#main-column h2 {
+    margin-bottom: 20px;
+    padding-left: 10px;
 }
 
 #questions-container .question-card {

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require("../db/models");
-const { asyncHandler, csrfProtection } = require("../utils");
+const { asyncHandler, csrfProtection, styleResources } = require("../utils");
 const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
 
@@ -27,14 +27,53 @@ router.get(
               include: [db.Comment, db.Upvote, db.Downvote],
             },
           ],
+          order: [['createdAt', 'DESC']],
+          limit: 3,
         },
       ],
-    })
+    });
+
+    let answers = await db.Answer.findAll({
+      where: {
+        userId,
+      },
+      include: [db.Question, db.Comment, db.Upvote, db.Downvote],
+    });
+
+    answers.forEach((answer) => {
+      answer.votes = answer.Upvotes.length - answer.Downvotes.length;
+    });
+
+    answers.sort((a, b) => {
+      if (a.votes !== b.votes) {
+        return b.votes - a.votes;
+      } else {
+        console.log(b.createdAt - a.createdAt);
+        return b.createdAt - a.createdAt;
+      }
+    });
+
+    answers = answers.slice(0, 3);
+
+    let comments = await db.Comment.findAll({
+      where: { userId },
+      order: [['updatedAt', 'DESC']],
+      limit: 3,
+    });
+
+    styleResources(user.Questions, 5);
+    styleResources(answers, 5);
+    styleResources(comments, 5);
 
     res.render('profile', {
       title: `${user.username}'s Profile`,
       user,
+      questions: user.Questions.slice(0, 3),
+      answers,
+      comments,
       csrfToken: req.csrfToken(),
+      isLoggedIn: req.session.auth,
+      currentUser: res.locals.user ? res.locals.user : undefined,
     })
   }));
 
