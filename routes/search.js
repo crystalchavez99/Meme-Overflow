@@ -44,43 +44,43 @@ router.get(
         };
 
 
-        for(let keyword of keywords){
-        //(async (keyword) => {
+        // for(let keyword of keywords){
+        // //(async (keyword) => {
 
-            const questions = await Question.findAll({
-                include: [Answer, User],
-                where: {
-                    title: {
-                        [Op.iLike]: '%' + keyword + '%'
+        //     const questions = await Question.findAll({
+        //         include: [Answer, User],
+        //         where: {
+        //             title: {
+        //                 [Op.iLike]: '%' + keyword + '%'
 
-                    }
-                },
-                limit: 15,
-                order: [['createdAt', 'DESC']],
-            });
-            questionArr = [...questionArr, ...questions]
+        //             }
+        //         },
+        //         limit: 15,
+        //         order: [['createdAt', 'DESC']],
+        //     });
+        //     questionArr = [...questionArr, ...questions]
             //console.log(JSON.stringify(questionArr,null,2))
 
-        };
+        //};
 
-        for(let keyword of keywords){
-            //(async (keyword) => {
+        // for(let keyword of keywords){
+        //     //(async (keyword) => {
 
-                const questions = await Question.findAll({
-                    include: [Answer, User, Comments],
-                    where: {
-                        title: {
-                            [Op.iLike]: '%' + keyword + '%'
+        //         const questions = await Question.findAll({
+        //             include: [Answer, User, Comments],
+        //             where: {
+        //                 title: {
+        //                     [Op.iLike]: '%' + keyword + '%'
 
-                        }
-                    },
-                    limit: 15,
-                    order: [['createdAt', 'DESC']],
-                });
-                questionArr = [...questionArr, ...questions]
-                //console.log(JSON.stringify(questionArr,null,2))
+        //                 }
+        //             },
+        //             limit: 15,
+        //             order: [['createdAt', 'DESC']],
+        //         });
+        //         questionArr = [...questionArr, ...questions]
+        //         //console.log(JSON.stringify(questionArr,null,2))
 
-            };
+        //     };
         //questionArr.sort(?) this way sort by createdAt as one big group
         //console.log(questionArr.length);
 
