@@ -18,8 +18,63 @@ a {
     text-decoration: none;
 }
 
+#prominent.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 10px;
+    line-height: 50px;
+}
+
+#prominent.top #logo > img {
+    width: 100px;
+    height: 100px;
+}
+
+#prominent.top h1 {
+    font-size: 48px;
+    font-weight: bolder;
+    color: #ff6c37;
+    align-self: center;
+    letter-spacing: -4px;
+}
+
+#login-form {
+    width: 600px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 40px 200px;
+}
+
+#login-form input {
+    margin-bottom: 20px;
+}
+
+#login-form label,
+#login-form button {
+    margin-bottom: 10px;
+}
+
 .form-group * {
     display: block;
+}
+
+#login-form #errors {
+    margin-left: 2px;
+    margin-bottom: 5px;
+}
+
+#errors li {
+    font-size: 11px;
+    color: red;
+    list-style: none;
+}
+
+#redirect p * {
+    font-size: 14px;
+    color: #ff6c37;
 }
 
 /* Top Nav Styles */

@@ -166,7 +166,7 @@ router.post(
         }
       }
 
-      errors.push('Login failed for the provided email address and password');
+      errors.push('Invalid email address and/or password');
     } else {
       errors = validatorErrors.array().map((err) => err.msg);
     }

@@ -1,10 +1,8 @@
 mixin errorBlock(errors)
     if errors
-        div
-            p The following error(s) occurred:
-            ul
-                each error in errors
-                    li= error
+        ul#errors
+            each error in errors
+                li= error
 
 mixin questionForm(action)
     form#question-form(action=action , method="post")
