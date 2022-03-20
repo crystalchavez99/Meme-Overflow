@@ -58,3 +58,16 @@
 .forAnswers{
   margin-left: 10px;
 }
+#div-question-form{
+
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color:#cf8578;
+  box-shadow: 5px 5px 5px #c95844;
+}
+#div-question-form input,textarea{
+  border-radius: 8px;
+}
