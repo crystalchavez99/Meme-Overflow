@@ -14,7 +14,9 @@ mixin questionForm(action)
             input(type="text" name="title" id="title" required value=question.title)
             label(for="description") Description:
             textarea(name="description" id="description" rows="3" required)= question.description
-            button(type="submit") Submit
+            div
+                button(type="submit" id="submit-question-form") Submit
+                a(href="/"): button#cencel-button-form Cancel
 
 mixin authorAvatar(avatarUrl, username)
     if avatarUrl
