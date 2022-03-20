@@ -21,7 +21,7 @@ router.get(
 
     asyncHandler(async (req, res) => {
         //const keyword = req.query.search_keyword;
-        console.log(req.query)
+        //console.log(req.query)
         const keywords = req.query.search_keyword.split(" ")
         let questionArr = [];
         for(let keyword of keywords){
@@ -42,8 +42,47 @@ router.get(
             //console.log(JSON.stringify(questionArr,null,2))
 
         };
+
+
+        // for(let keyword of keywords){
+        // //(async (keyword) => {
+
+        //     const questions = await Question.findAll({
+        //         include: [Answer, User],
+        //         where: {
+        //             title: {
+        //                 [Op.iLike]: '%' + keyword + '%'
+
+        //             }
+        //         },
+        //         limit: 15,
+        //         order: [['createdAt', 'DESC']],
+        //     });
+        //     questionArr = [...questionArr, ...questions]
+            //console.log(JSON.stringify(questionArr,null,2))
+
+        //};
+
+        // for(let keyword of keywords){
+        //     //(async (keyword) => {
+
+        //         const questions = await Question.findAll({
+        //             include: [Answer, User, Comments],
+        //             where: {
+        //                 title: {
+        //                     [Op.iLike]: '%' + keyword + '%'
+
+        //                 }
+        //             },
+        //             limit: 15,
+        //             order: [['createdAt', 'DESC']],
+        //         });
+        //         questionArr = [...questionArr, ...questions]
+        //         //console.log(JSON.stringify(questionArr,null,2))
+
+        //     };
         //questionArr.sort(?) this way sort by createdAt as one big group
-        console.log(questionArr.length);
+        //console.log(questionArr.length);
 
 
         //add the search results function
