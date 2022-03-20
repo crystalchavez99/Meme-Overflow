@@ -75,10 +75,13 @@ router.get(
 
         question.isAuthorized = isAuthorized(req, res, question);
 
+        // if user is logged in
         if (req.session.auth) {
+            // check if any answers are owned by current user
             question.Answers.forEach(async (answer) => {
                 answer.isAuthorized = isAuthorized(req, res, answer);
 
+                // check if any comments are owned by current user
                 answer.Comments.forEach(async (comment) => {
                     comment.isAuthorized = isAuthorized(req, res, comment);
                 })
@@ -87,20 +90,24 @@ router.get(
 
         for (let answer of question.Answers) {
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
-            const upvote = await db.Upvote.findOne({
-                where: {
-                    userId: req.session.auth.userId,
-                    answerId: answer.id
-                }
-            })
-            answer.upvoted = !!upvote;
-            const downvote = await db.Downvote.findOne({
-                where: {
-                    userId: req.session.auth.userId,
-                    answerId: answer.id
-                }
-            })
-            answer.downvoted = !!downvote;
+
+            // check if current user has upvoted/downvoted any answers
+            if (req.session.auth) {
+                const upvote = await db.Upvote.findOne({
+                    where: {
+                        userId: req.session.auth.userId,
+                        answerId: answer.id
+                    }
+                })
+                answer.upvoted = !!upvote;
+                const downvote = await db.Downvote.findOne({
+                    where: {
+                        userId: req.session.auth.userId,
+                        answerId: answer.id
+                    }
+                })
+                answer.downvoted = !!downvote;
+            }
         }
 
         res.render('questions/question-display.pug', {

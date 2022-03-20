@@ -27,19 +27,20 @@ block content
         each answer in question.Answers
             div.single-answer(id=`answer-${answer.id}`)
                 .vote(id=`vote-${answer.id}`)
-                    .vote-button-group
-                        .upvote
-                            if answer.upvoted
-                                img(src="/images/upvote.png", alt="Upvote" class="upvote-button voted" id=`upvote-${answer.id}`)
-                            else
-                                img(src="/images/upvote.png", alt="Upvote" class="upvote-button" id=`upvote-${answer.id}`)
-                        span.vote-count(id=`vote-count-${answer.id}`)= answer.voteCount
-                        .downvote
-                            if answer.downvoted
-                                img(src="/images/downvote.png", alt="Downvote" class="downvote-button voted" id=`downvote-${answer.id}`)
-                            else
-                                img(src="/images/downvote.png", alt="Downvote" class="downvote-button" id=`downvote-${answer.id}`)
-                    .vote-placeholder
+                    if isLoggedIn
+                        .vote-button-group
+                            .upvote
+                                if answer.upvoted
+                                    img(src="/images/upvote.png", alt="Upvote" class="upvote-button voted" id=`upvote-${answer.id}`)
+                                else
+                                    img(src="/images/upvote.png", alt="Upvote" class="upvote-button" id=`upvote-${answer.id}`)
+                            span.vote-count(id=`vote-count-${answer.id}`)= answer.voteCount
+                            .downvote
+                                if answer.downvoted
+                                    img(src="/images/downvote.png", alt="Downvote" class="downvote-button voted" id=`downvote-${answer.id}`)
+                                else
+                                    img(src="/images/downvote.png", alt="Downvote" class="downvote-button" id=`downvote-${answer.id}`)
+                        .vote-placeholder
                 .answer-content
                     .answer-title: p= answer.title
                     .answer-meme: img(src=`${answer.memeUrl}`)
