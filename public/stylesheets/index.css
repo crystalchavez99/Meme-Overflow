@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     max-width: 1000px;
     margin: 0 auto;
@@ -18,11 +19,13 @@ a {
     text-decoration: none;
 }
 
+/* Top Nav Styles */
 #top-nav {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
 }
 
 #logo img {
@@ -31,12 +34,6 @@ a {
     filter: invert(71%) sepia(62%) saturate(5581%) hue-rotate(337deg) brightness(101%) contrast(102%);
 }
 
-#search-bar {
-    width: 400px;
-    height: 30px;
-    background-color: aquamarine;
-    border: 2px solid blue;
-}
 
 #auth-buttons {
     display: flex;
@@ -46,6 +43,7 @@ a {
 
 }
 
+/* Main Styles */
 main {
     display: grid;
     grid-template-columns: 200px 1fr 300px;
@@ -59,6 +57,10 @@ main #left-column {
 
 }
 
+p a:hover{
+    opacity: .5;
+}
+
 main #main-column {
     grid-area: main;
 }
@@ -67,22 +69,19 @@ main #right-column {
     grid-area: right;
     border-left: 5px solid gray;
 }
-#main-column{
-    border-top: 5px solid gray;
-}
+
 #left-column{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    border-right: 5px solid gray;
-    border-top: 5px solid gray;
+
 }
 #right-column{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border-top: 5px solid gray;
+
 }
 .default-avatar {
     width: 100px;
@@ -93,6 +92,35 @@ main #right-column {
 
 }
 
+ul#user-links {
+    list-style-type: none;
+}
+
+#user-links li {
+    width: 150px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: white;
+    line-height: 30px;
+    padding-left: 20px;
+}
+
+#user-links #my-questions {
+    background-color: #c93a43;
+    box-shadow: 5px 5px 5px #cf797f;
+}
+
+#user-links #my-answers {
+    background-color: #469b5b;
+    box-shadow: 5px 5px 5px #79b187;
+}
+
+#user-links #my-comments {
+    background-color: #30aac9;
+    box-shadow: 5px 5px 5px #73c2d6;
+}
+
+/* Main Column Styles */
 #questions-container .question-card {
     box-sizing: border-box;
     width: 400px;
@@ -107,6 +135,23 @@ main #right-column {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.question-edit-delete .question-edit {
+    width: 15px;
+    height: 15px;
+}
+
+.question-edit-delete .question-delete {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    top: -3px;
 }
 
 .question-card > a {
@@ -209,8 +254,10 @@ button:hover{
     grid-area: vote;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .vote .vote-button-group {
     display: flex;
@@ -250,4 +297,87 @@ button:hover{
 
 .modal{
     display: none;
+}
+
+
+/* Right Column Styles */
+
+
+
+
+/* answer */
+#top-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 5px solid gray;
+    width: 100%;
+}
+#logout{
+    border-radius: 28px;
+  font-family: Arial;
+  color: #fcfcfc;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+#left-column{
+    border-right: 5px solid gray;
+}
+
+#avatar{
+    margin-top: 10px;
+}
+#main-column{
+    margin: 10px;
+}
+
+
+#right-column{
+    border-left: 5px solid gray;
+}
+
+.new-question{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+#question-container{
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #cf8578;
+    background-color: #c95844;
+    color:white;
+    margin: 25px;
+    padding: 1px 10px 10px 15px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.single-answer .answer-title{
+    font-weight: bold;
+    font-size: x-large;
+}
+.single-comment .delete, .single-comment .edit{
+    opacity: .5;
+}
+.answer-meme img {
+    width: 450px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.single-comment{
+    margin: 10px;
+    background-color: lightgray;
+}
+.single-answer, .single-comment {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    grid-template-areas: "vote answer-content";
+    padding: 1px 10px 10px 15px;
+    border-radius: 25px;
+}
+#comment-container{
+    width: 100%;
 }

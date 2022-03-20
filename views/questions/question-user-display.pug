@@ -12,5 +12,7 @@ block content
                         .question-author
                 if question.isAuthorized
                     .question-edit-delete
-                        a#buttons(href=`/questions/${question.id}/edit`): button.question-edit(id=`edit-${question.id}`) Edit
-                        a(href=`/questions/${question.id}/delete`): button.question-delete(id=`delete-${question.id}`) Delete
+                        a(href=`/questions/${question.id}/edit`): div.question-edit(id=`edit-${question.id}`)
+                            +editButton("#FFFFFF")
+                        a(href=`/questions/${question.id}/delete`): div.question-delete(id=`delete-${question.id}`)
+                            +deleteButton("#FFFFFF")
