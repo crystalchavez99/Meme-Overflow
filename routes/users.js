@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require("../db/models");
-const { asyncHandler, csrfProtection, styleResources } = require("../utils");
+const { asyncHandler, csrfProtection, styleResources, isAuthorized } = require("../utils");
 const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
 
@@ -78,16 +78,29 @@ router.get(
   }));
 
 router.get(`/:userId(\\d+)/questions`, csrfProtection, asyncHandler(async (req, res) => {
-  const user = parseInt(req.params.userId, 10);
-  console.log(user, "USER")
+  const userId = parseInt(req.params.userId, 10);
+  const user = await db.User.findByPk(userId);
   const questions = await db.Question.findAll({
     where: {
-      userId: user
+      userId,
     },
-    include: [db.User]
+    include: [db.User],
+  });
+
+  styleResources(questions, 5);
+
+  if (req.session.auth) {
+    questions.forEach((question) => {
+      question.isAuthorized = isAuthorized(req, res, question);
+    });
+  }
+
+  res.render('index', {
+    title: `${user.username}'s Questions`,
+    questions,
+    isLoggedIn: req.session.auth,
+    currentUser: res.locals.user ? res.locals.user : undefined,
   })
-  console.log(questions, "Question")
-  res.render('questions', { questions })
 }));
 
 router.get(`/:userId(\\d+)/answers`, csrfProtection, asyncHandler(async (req, res) => {
