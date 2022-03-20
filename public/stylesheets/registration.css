@@ -39,6 +39,7 @@
 .katBox,
 .adamBox{
   height: 100px;
+  width: auto;
   border-color: #30aac9;
   background-color: rgb(238, 231, 222);
   border-radius: 8px;
@@ -50,6 +51,10 @@
  }
  #answersImg{
  width: 450px;
- margin: 10px;
+ margin-left: 40px;
+ margin-right: 10px;
  border-radius: 10px;
  }
+.forAnswers{
+  margin-left: 10px;
+}

@@ -39,9 +39,12 @@ router.get('/:userId(\\d+)/answers', asyncHandler(async (req, res) => {
   const id = parseInt(req.params.userId, 10);
 
   const answers = await db.Answer.findAll({
-    include: db.Comment,
+    include: [db.Comment, db.Question],
+    // include: db.Question,
     where: { userId: id }
   })
+
+
   if (req.session.auth) {
     answers.forEach((answer, i) => {
       if ((answer.userId === req.session.auth.userId)) {
@@ -49,10 +52,10 @@ router.get('/:userId(\\d+)/answers', asyncHandler(async (req, res) => {
       }
 
       answer.colorIndex = i % 5;
-
+      console.log("index", answer.colorIndex)
     });
   }
-  console.log(answers)
+
   res.render("./answers/my-answers.pug", {
     answers,
     isLoggedIn: req.session.auth,
@@ -61,6 +64,37 @@ router.get('/:userId(\\d+)/answers', asyncHandler(async (req, res) => {
   })
 
 }))
+
+router.get('/:userId(\\d+)/comments', asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.userId, 10);
+
+  const comments = await db.Comment.findAll({
+    where: { userId: id }
+  })
+
+
+  if (req.session.auth) {
+    comments.forEach((comment, i) => {
+      if ((comment.userId === req.session.auth.userId)) {
+        comment.isAuthorized = true;
+      }
+
+      comment.colorIndex = i % 5;
+
+
+    });
+  }
+
+
+  res.render("./comments/my-commets-display.pug", {
+    comments,
+    isLoggedIn: req.session.auth,
+    currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
+    currentUsername: res.locals.user ? res.locals.user.username : "",
+  })
+
+}))
+
 
 
 module.exports = router;

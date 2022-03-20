@@ -50,12 +50,13 @@ main {
     display: grid;
     grid-template-columns: 200px 1fr 300px;
     grid-template-areas: "left main right";
-    background-color: rgb(232, 232, 232);
-    box-shadow: 5px 4px 1em rgb(187, 181, 181), -1em 0 1em rgb(194, 194, 190);
+    /* background-color: rgb(232, 232, 232); */
+    /* box-shadow: 5px 4px 1em rgb(187, 181, 181), -1em 0 1em rgb(194, 194, 190); */
 }
 
 main #left-column {
     grid-area: left;
+
 }
 
 main #main-column {
@@ -64,12 +65,24 @@ main #main-column {
 
 main #right-column {
     grid-area: right;
+    border-left: 5px solid gray;
+}
+#main-column{
+    border-top: 5px solid gray;
 }
 #left-column{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    border-right: 5px solid gray;
+    border-top: 5px solid gray;
+}
+#right-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-top: 5px solid gray;
 }
 .default-avatar {
     width: 100px;
