@@ -40,7 +40,8 @@ a {
     letter-spacing: -4px;
 }
 
-#login-form {
+#login-form,
+#signup-form {
     width: 600px;
     border: 1px solid #bbb;
     border-radius: 5px;
@@ -48,10 +49,13 @@ a {
     padding: 40px 200px;
 }
 
-#login-form input {
+#login-form input,
+#signup-form input {
     margin-bottom: 20px;
 }
 
+#signup-form label,
+#signup-form button,
 #login-form label,
 #login-form button {
     margin-bottom: 10px;
@@ -61,15 +65,17 @@ a {
     display: block;
 }
 
-#login-form #errors {
+#login-form #errors,
+#signup-form #errors {
     margin-left: 2px;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
 }
 
 #errors li {
     font-size: 11px;
     color: red;
     list-style: none;
+    margin-bottom: 5px;
 }
 
 #redirect p * {
