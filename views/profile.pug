@@ -9,10 +9,10 @@ block content
   #user-card
     #avatar
       if user.avatarUrl
-        img(src=user.avatarUrl, alt=user.username)
+        img.avatar(src=user.avatarUrl, alt=user.username)
       else
         //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
-        img.default-avatar(src="/icons/user-circle-regular.svg", alt=user.username)
+        img.avatar.default-avatar(src="/icons/user-circle-regular.svg", alt=user.username)
     #user-info
       .username= user.username
       .user-since User Since: #{user.createdAt.toISOString().split('T')[0]}

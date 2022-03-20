@@ -19,7 +19,7 @@ mixin authorAvatar(avatarUrl, username)
     if avatarUrl
         .author-avatar: img.avatar(src=avatarUrl, alt=username)
     else
-        .author-avatar: img.default-avatar(src="/icons/user-circle-regular.svg", alt=username)
+        .author-avatar: img.avatar.default-avatar(src="/icons/user-circle-regular.svg", alt=username)
 
 mixin editButton(color)
     svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill=color)

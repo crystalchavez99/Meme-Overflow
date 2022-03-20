@@ -18,6 +18,10 @@ a {
     text-decoration: none;
 }
 
+.form-group * {
+    display: block;
+}
+
 /* Top Nav Styles */
 #top-nav {
     display: flex;
@@ -78,9 +82,12 @@ main #right-column {
     align-items: center;
 }
 
-.default-avatar {
-    width: 70px;
+#left-column #avatar img {
     height: 70px;
+    width: 70px;
+}
+
+.default-avatar {
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
 }
 
@@ -150,7 +157,7 @@ ul#user-links {
     gap: 10px;
 }
 
-#main-column .default-avatar {
+#main-column #user-card .avatar {
     width: 100px;
     height: 100px;
 }
@@ -247,13 +254,10 @@ ul#user-links {
     gap: 8px;
 }
 
-.question-author .avatar,
-.question-author .default-avatar {
+#main-column #questions-container .avatar {
     width: 15px;
     height: 15px;
 }
-
-
 
 .single-answer .vote {
     grid-area: vote;
