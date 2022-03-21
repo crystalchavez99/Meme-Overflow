@@ -71,8 +71,7 @@
 }
 .question-delete-div{
   margin: 30px;
-
-  border: 1px solid gray;
+  border: 3px solid #cccccc;
   border-radius: 8px;
   padding: 10px;
   background-color: white;
