@@ -2,7 +2,6 @@
 body {
     max-width: 1000px;
     margin: 0 auto;
-
 }
 
 header,
@@ -134,6 +133,18 @@ main #right-column {
     border-left: 5px solid gray;
 }
 
+#left-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+#right-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
 #left-column #avatar {
     display: flex;
@@ -146,6 +157,7 @@ main #right-column {
     height: 70px;
     width: 70px;
 }
+
 
 .default-avatar {
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(5deg) brightness(86%) contrast(94%);
@@ -380,6 +392,7 @@ button:hover{
     grid-template-columns: 1fr 9fr;
     grid-template-areas: "vote answer-content";
 }
+
 .single-answer .vote {
     grid-area: vote;
     display: flex;
@@ -513,4 +526,43 @@ button:hover{
 }
 #comment-container{
     width: 100%;
+}
+
+
+/* Footer styles */
+#project-info #project-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.footer-icons {
+    height: 30px;
+    width: 30px;
+    margin: 0 10px;
+}
+
+.footer-icons-2 {
+    height: 30px;
+    width: 23px;
+}
+
+.footer-icons-wide {
+    height: 30px;
+    width: 40px;
+}
+
+.footer-icons-wider {
+    height: 30px;
+    width: 54px;
+}
+
+#project-info ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
 }
