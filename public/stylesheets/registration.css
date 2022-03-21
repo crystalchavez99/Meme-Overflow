@@ -173,15 +173,21 @@ margin: 5px;
  width: 4rem;
 }
 
-/* .box-div, .crystal-box-div{
+ .box-div,
+ .crystal-box-div,
+ .kiki-box-div,
+ .kat-box-div{
   margin-top: 10px;
   display: flex;
   flex-direction: row;
 }
-.box-div h3{
-  margin-left:5px;
-} */
+
 #groutInformation img{
   width: 20px;
   height: 20px;
+  margin-left: 5px;
+}
+#groutInformation h3{
+  padding: 5px;
+  font-family: Arial, Helvetica, sans-serif;
 }
