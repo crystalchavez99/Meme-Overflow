@@ -12,9 +12,11 @@ html
   body
     header
       nav#top-nav
-        a(href="/"): #logo
-          //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
-          img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
+        #logo
+          a(href="/")
+            //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
+            img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
+          h1 MemeOverflow
         #search-bar
           form(action="/search", method="get")
             input(type="text" name="search_keyword" id="search_keyword" required)
