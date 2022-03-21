@@ -15,6 +15,13 @@ html
           //- Source of icon design: https://fontawesome.com/v5/icons/images?s=regular, https://fontawesome.com/icons/face-grin-squint-tears?s=regular
           img(src="/icons/meme-overflow-icon.svg", alt="Meme Overflow")
         #search-bar
+          form(action="/search", method="get")
+            input(type="text" name="search_keyword" id="search_keyword" required)
+            button(type="submit") Search
+            //a(href=`/search/:search_keyword`): button Search
+            //how to link input to the form
+            //how to get rid of the "?"
+
         #auth-buttons
           if isLoggedIn
             form(action="/logout" method="post")
@@ -25,32 +32,9 @@ html
     main
       #left-column
         include left-column.pug
-        //- if isLoggedIn
-        //-   #avatar: a(href="/profile")
-        //-     if currentUserAvatarUrl
-        //-       img(src=currentUserAvatarUrl, alt=currentUsername)
-        //-     else
-        //-       //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
-        //-       img.default-avatar(src="/icons/user-circle-regular.svg", alt=currentUsername)
-        //-     h3 Welcome to Meme Overflow #{user.username}!
-        //-     p @#{user.username}
-        //-     p User Since: #{user.createdAt.toISOString().split('T')[0]}
-        //-     #links
-        //-       p: a(href=`/users/${user.id}/questions`) My Questions
-        //-       p: a(href=`/users/${user.id}/answers`) My Answers
-        //-       p: a(href=`/users/${user.id}/comments`) My Comments
-
-
-        #tags
-
       #main-column
         block content
       #right-column
-        #creators
-         if isLoggedIn
-            #groutInformation
-              .adamBox: p Adam
-              .crystalBox: p Crystal
-              .kikiBox: p Kiki
-              .katBox: p Kat
+       include right-column.pug
     footer
+        include footer.pug

@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require("../db/models");
-const { asyncHandler, csrfProtection } = require("../utils");
 const { check, validationResult } = require('express-validator');
+const { asyncHandler, csrfProtection, isAuthorized } = require("../utils");
+const { requireAuth } = require('../auth');
 
-router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
+router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     const question = await db.Question.build();
 
     if (!res.locals.authenticated) {
@@ -20,7 +21,6 @@ router.get('/new', csrfProtection, asyncHandler(async (req, res) => {
     });
 }));
 
-
 const questionValidators = [
     check('title')
         .exists({ checkFalsy: true })
@@ -30,7 +30,7 @@ const questionValidators = [
         .withMessage('Please provide a value for description'),
 ];
 
-router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req, res) => {
+router.post('/new', requireAuth, csrfProtection, questionValidators, asyncHandler(async (req, res) => {
     const { title, description } = req.body;
     const { userId } = req.session.auth;
 
@@ -50,9 +50,9 @@ router.post('/new', csrfProtection, questionValidators, asyncHandler(async (req,
         res.render('questions/question-form', {
             title: 'Ask A Question',
             question,
+            isLoggedIn: res.locals.authenticated,
             csrfToken: req.csrfToken(),
             errors,
-            isLoggedIn: res.locals.authenticated,
         });
     }
 }));
@@ -64,56 +64,66 @@ router.get(
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
         const question = await db.Question.findByPk(id, {
-            include: {
-                model: db.Answer,
-                include: [db.Comment, db.Upvote, db.Downvote],
-            },
+            include: [
+                db.User,
+                {
+                    model: db.Answer,
+                    include: [db.Comment, db.Upvote, db.Downvote],
+                },
+            ]
         });
-        if(req.session.auth){
-            question.Answers.forEach(async(answer)=>{
-                if(answer.userId===req.session.auth.userId){
-                    answer.unlocked = true;
-                }
-                answer.Comments.forEach(async(comment)=>{
-                    if(comment.userId===req.session.auth.userId){
-                        comment.unlocked = true;
-                    }
+
+        question.isAuthorized = isAuthorized(req, res, question);
+
+        // if user is logged in
+        if (req.session.auth) {
+            // check if any answers are owned by current user
+            question.Answers.forEach(async (answer) => {
+                answer.isAuthorized = isAuthorized(req, res, answer);
+
+                // check if any comments are owned by current user
+                answer.Comments.forEach(async (comment) => {
+                    comment.isAuthorized = isAuthorized(req, res, comment);
                 })
-            })
+            });
         }
 
         for (let answer of question.Answers) {
             answer.voteCount = answer.Upvotes.length - answer.Downvotes.length;
-            const upvote = await db.Upvote.findOne({
-                where: {
-                    userId: req.session.auth.userId,
-                    answerId: answer.id
-                }
-            })
-            answer.upvoted = !!upvote;
-            const downvote = await db.Downvote.findOne({
-                where: {
-                    userId: req.session.auth.userId,
-                    answerId: answer.id
-                }
-            })
-            answer.downvoted = !!downvote;
+
+            // check if current user has upvoted/downvoted any answers
+            if (req.session.auth) {
+                const upvote = await db.Upvote.findOne({
+                    where: {
+                        userId: req.session.auth.userId,
+                        answerId: answer.id
+                    }
+                })
+                answer.upvoted = !!upvote;
+                const downvote = await db.Downvote.findOne({
+                    where: {
+                        userId: req.session.auth.userId,
+                        answerId: answer.id
+                    }
+                })
+                answer.downvoted = !!downvote;
+            }
         }
-        if ((question.userId === req.session.auth.userId)) {
-            question.isAuthorized = true;
-        }
+
         res.render('questions/question-display.pug', {
             title: question.title,
             question,
             answers: question.Answers,
             comments: question.Answers.Comments,
-            csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
+            csrfToken: req.csrfToken(),
         });
     }));
 
 router.post(
     '/:questionId(\\d+)',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const questionId = parseInt(req.params.questionId, 10);
@@ -154,6 +164,7 @@ router.post(
 
 router.get(
     '/:questionId(\\d+)/edit',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
@@ -173,11 +184,12 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
             action: `/questions/${id}/edit`
         });
     }));
 
-router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, asyncHandler(async (req, res) => {
+router.post('/:questionId(\\d+)/edit', requireAuth, csrfProtection, questionValidators, asyncHandler(async (req, res) => {
     const { title, description } = req.body;
     const { userId } = req.session.auth;
     const questionId = parseInt(req.params.questionId, 10)
@@ -203,12 +215,14 @@ router.post('/:questionId(\\d+)/edit', csrfProtection, questionValidators, async
             csrfToken: req.csrfToken(),
             errors,
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
         });
     }
 }));
 
 router.get(
     '/:questionId(\\d+)/delete',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);
@@ -228,11 +242,13 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
+            currentUser: res.locals.user ? res.locals.user : undefined,
         });
     }));
 
 router.post(
     '/:questionId(\\d+)/delete',
+    requireAuth,
     csrfProtection,
     asyncHandler(async (req, res) => {
         const id = parseInt(req.params.questionId, 10);

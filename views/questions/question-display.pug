@@ -2,80 +2,84 @@ extends ../layout.pug
 include ../utils.pug
 block content
     script(src='../javascripts/answer.js')
+    #main-column-nav: a(href="/") Back
     #question-container
-        div(id=`question-${question.id}`)
-            .question-title: p= question.title
-            .question-description: p= question.description
-            if question.isAuthorized
-                a(href=`/questions/${question.id}/edit`): button Edit
-                a(href=`/questions/${question.id}/delete`): button Delete
-            button(type="submit" id="newanswer").newanswer New Answer
-            div.modalForm.modal
-                h2 Your Answer
-                +errorBlock(errors)
-                form(method="POST" action=`/questions/${question.id}`)
-                    input(type="hidden" name="_csrf" value=csrfToken)
-                    label(for="title") Title
-                    input(type="title" name="title" id="title")
-                    label(for="memeUrl") Upload Image
-                    input(type="url" name="memeUrl" id="memeUrl")
-                    button(type="submit") Submit
-                button#cancel Cancel
+        //- div(id=`question-${question.id}`)
+        //-     .question-title: p= question.title
+        //-     .question-description: p= question.description
+        //-     if question.isAuthorized
+        //-         a(href=`/questions/${question.id}/edit`): button Edit
+        //-         a(href=`/questions/${question.id}/delete`): button Delete
+        +questionCard(question)
+        button(type="submit" id="newanswer").newanswer New Answer
+        div.modalForm.modal
+            h2 Your Answer
+            +errorBlock(errors)
+            form(method="POST" action=`/questions/${question.id}`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                label(for="title") Title
+                input(type="title" name="title" id="title")
+                label(for="memeUrl") Upload Image
+                input(type="url" name="memeUrl" id="memeUrl")
+                button(type="submit") Submit
+            button#cancel Cancel
     #answer-container
-                each answer in question.Answers
-                    div.single-answer(id=`answer-${answer.id}`)
-                        .vote(id=`vote-${answer.id}`)
-                            .vote-button-group
-                                .upvote
-                                    if answer.upvoted
-                                        img(src="/images/upvote.png", alt="Upvote" class="upvote-button voted" id=`upvote-${answer.id}`)
-                                    else
-                                        img(src="/images/upvote.png", alt="Upvote" class="upvote-button" id=`upvote-${answer.id}`)
-                                span.vote-count(id=`vote-count-${answer.id}`)= answer.voteCount
-                                .downvote
-                                    if answer.downvoted
-                                        img(src="/images/downvote.png", alt="Downvote" class="downvote-button voted" id=`downvote-${answer.id}`)
-                                    else
-                                        img(src="/images/downvote.png", alt="Downvote" class="downvote-button" id=`downvote-${answer.id}`)
-                            .vote-placeholder
-                        .answer-content
-                            .answer-title: p= answer.title
-                            .answer-meme: img(src=`${answer.memeUrl}`)
-                            div
-                            if answer.unlocked
-                                a(href=`/answers/${answer.id}/edit` class="edit") Edit
-                                a(href=`/questions/${question.id}` class="delete" id=`delete-${answer.id}`) Delete
-                                div.modalDelete.modal
-                                    //- form(id="deleteForm" method="post" action=`/answers/${answer.id}`)
-                                    //-     input(type="hidden" name="id" value=answer.id)
-                                    //-     input(type="hidden" name="_csrf" value=csrfToken)
-                                    p Do you want to delete this answer?
-                                    button(type="submit" class="yes" id=`yes-${answer.id}`) Yes
-                                    button#cancel No
+        each answer in question.Answers
+            div.single-answer(id=`answer-${answer.id}`)
+                .vote(id=`vote-${answer.id}`)
+                    if isLoggedIn
+                        .vote-button-group
+                            .upvote
+                                if answer.upvoted
+                                    img(src="/images/upvote.png", alt="Upvote" class="upvote-button voted" id=`upvote-${answer.id}`)
+                                else
+                                    img(src="/images/upvote.png", alt="Upvote" class="upvote-button" id=`upvote-${answer.id}`)
+                            span.vote-count(id=`vote-count-${answer.id}`)= answer.voteCount
+                            .downvote
+                                if answer.downvoted
+                                    img(src="/images/downvote.png", alt="Downvote" class="downvote-button voted" id=`downvote-${answer.id}`)
+                                else
+                                    img(src="/images/downvote.png", alt="Downvote" class="downvote-button" id=`downvote-${answer.id}`)
+                        .vote-placeholder
+                .answer-content
+                    .answer-title: p= answer.title
+                    .answer-meme: img(src=`${answer.memeUrl}`)
+                    div
+                    if answer.isAuthorized
+                        div.answer-buttons
+                            a(href=`/answers/${answer.id}/edit` class="edit") Edit
+                            a(href=`/questions/${question.id}` class="delete" id=`delete-${answer.id}`) Delete
+                            div.modalDelete.modal
+                                //- form(id="deleteForm" method="post" action=`/answers/${answer.id}`)
+                                //-     input(type="hidden" name="id" value=answer.id)
+                                //-     input(type="hidden" name="_csrf" value=csrfToken)
+                                p Do you want to delete this answer?
+                                button(type="submit" class="yes" id=`yes-${answer.id}`) Yes
+                                button#cancel No
                             button(type="submit" class="newcomment") New Comment
-                            div.modalComment.modal
-                                form(method="post" action=`/answers/${answer.id}`)
-                                    input(type="hidden" name="_csrf" value=csrfToken)
-                                    input(type="hidden" name="answerId" value=answer.id)
-                                    label(for="content") Content
-                                    input(type="text" name="content" id="content")
-                                    button(type="submit") Submit
-                                button#cancel Cancel
-                            hr
-                        h4 Comments
-                        #comment-container
-                            each comment in answer.Comments
-                                div.single-comment(id=`comment-${comment.id}`)
-                                    p= comment.content
-                                    div
-                                    if comment.unlocked
-                                        a(href=`/comments/${comment.id}/edit` class="edit") Edit
-                                        a(href=`/questions/${question.id}` class="delete" id=`delete-${comment.id}`) Delete
-                                        div.modalDelete.modal
-                                            form(method="post" action=`/comments/${comment.id}/delete`)
-                                                //input(type="hidden" name="id" value=comment.id)
-                                                input(type="hidden" name="_csrf" value=csrfToken)
-                                                p Do you want to delete this comment?
-                                                button(type="submit" id=`yes-${comment.id}`) Yes
-                                            button#cancel No
+                    div.modalComment.modal
+                        form(method="post" action=`/answers/${answer.id}`)
+                            input(type="hidden" name="_csrf" value=csrfToken)
+                            input(type="hidden" name="answerId" value=answer.id)
+                            label(for="content") Content
+                            input(type="text" name="content" id="content")
+                            button(type="submit") Submit
+                        button#cancel Cancel
+                    hr
+                h4 Comments
+                #comment-container
+                    each comment in answer.Comments
+                        div.single-comment(id=`comment-${comment.id}`)
+                            p= comment.content
+                            div
+                            if comment.isAuthorized
+                                a(href=`/comments/${comment.id}/edit` class="edit") Edit
+                                a(href=`/questions/${question.id}` class="delete" id=`delete-${comment.id}`) Delete
+                                div.modalDelete.modal
+                                    form(method="post" action=`/comments/${comment.id}/delete`)
+                                        //input(type="hidden" name="id" value=comment.id)
+                                        input(type="hidden" name="_csrf" value=csrfToken)
+                                        p Do you want to delete this comment?
+                                        button(type="submit" id=`yes-${comment.id}`) Yes
+                                    button#cancel No
     script(src="/javascripts/question-display.js" )

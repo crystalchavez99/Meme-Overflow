@@ -1,9 +1,15 @@
 if isLoggedIn
     #avatar: a(href="/profile")
-        img.default-avatar(src="/icons/user-circle-regular.svg", alt=user.username)
-    p Welcome, #{user.username}!
+        if user.avatarUrl
+            img(src=user.avatarUrl, alt=user.username)
+        else
+            //- Source of icon design: https://fontawesome.com/v5/icons/user-circle?s=regular
+            img.default-avatar(src="/icons/user-circle-regular.svg", alt=user.username)
+        .username @#{user.username}
+        .user-since User Since: #{user.createdAt.toISOString().split('T')[0]}
+    #greeting
+        p Welcome to Meme Overflow, #{user.username}!
     ul#user-links
         li#my-questions: a(href=`/users/${user.id}/questions`) My Questions
         li#my-answers: a(href=`/users/${user.id}/answers`) My Answers
-        li#my-comments: a(href=`/users/${user.id}/comments`) My Comments
     #tags

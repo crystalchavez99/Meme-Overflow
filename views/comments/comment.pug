@@ -4,4 +4,6 @@ block content
     h1 Your Comments
         #comment-container
             each comment in comments
+                p= comment.Answer.title
+                img(src=`${comment.Answer.memeUrl}`)
                 p= comment.content

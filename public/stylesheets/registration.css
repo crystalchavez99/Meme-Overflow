@@ -2,22 +2,7 @@
  display: flex;
  flex-direction: column;
  align-items: center;
-
-}
-#login{
-  border-radius: 8px;
-  width: 300px;
-}
-.email{
- width: 200px;
-}
-#sighnInForm label{
-   padding: 20px;
-
-}
-#sighnInForm input{
- border-radius: 5px;
-} */
+*/
 #main-column{
 
  display: flex;
@@ -29,7 +14,7 @@
 .kikiBox,
 .katBox,
 .adamBox{
-  height: 100px;
+  height: 130px;
   width: auto;
   border-color: #30aac9;
   background-color: rgb(238, 231, 222);
@@ -37,9 +22,7 @@
   margin: 15px;
 
 }
- .katBox{
-   background-color: gray;
- }
+
  #answersImg{
  width: 450px;
  margin-left: 40px;
@@ -101,4 +84,104 @@ color: black;
 .buttons-deleting-form{
   margin-left: 20px;
 
+}
+#newanswer , .newcomment{
+
+height: 30px;
+width: 100px;
+background-color: #cacaca;
+border-radius: 9px;
+color: black;
+border: rgb(138, 138, 138);
+box-shadow: 2px 0px 0.4em gray;
+margin: 5px;
+}
+#newanswer:hover{
+  background-color: gray;
+
+ }
+.edit, .delete{
+  text-align: center;
+  background-color: #cacaca;
+  border-radius: 9px;
+  color: black;
+  border: rgb(138, 138, 138);
+  box-shadow: 2px 0px 0.4em gray;
+  margin: 5px;
+ font-size: small;
+ padding:5px;
+}
+.edit:hover, .delete:hover{
+  background-color: gray;
+}
+.answer-buttons{
+  display: flex;
+  flex-direction: row;
+}
+.delete{
+  width: 50px;
+}
+.edit-answer-form,.edit-comment-form{
+  background-color: #c95844;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 100px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color:#cf8578;
+  box-shadow: 5px 5px 5px #c95844;
+}
+.edit-answer-form input{
+  width: 270px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+}
+#edit-answer-cencel-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #cacaca;
+  border-radius: 10px;
+  color: black;
+  border: rgb(138, 138, 138);
+  box-shadow: 2px 0px 0.4em gray;
+  margin: 5px;
+ font-size: small;
+ padding:5px;
+ height: 20px;
+ width: 4rem;
+}
+.edit-answer-btns, .edit-comment-btns{
+  display: flex;
+  flex-direction: row;
+}
+#comment-cencel-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #cacaca;
+  border-radius: 10px;
+  color: black;
+  border: rgb(138, 138, 138);
+  box-shadow: 2px 0px 0.4em gray;
+  margin: 5px;
+ font-size: small;
+ padding:5px;
+ height: 20px;
+ width: 4rem;
+}
+
+/* .box-div, .crystal-box-div{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.box-div h3{
+  margin-left:5px;
+} */
+#groutInformation img{
+  width: 20px;
+  height: 20px;
 }
