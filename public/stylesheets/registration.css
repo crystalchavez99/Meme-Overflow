@@ -1,8 +1,3 @@
-/* #sighnInForm{
- display: flex;
- flex-direction: column;
- align-items: center;
-*/
 #main-column{
 
  display: flex;
@@ -10,6 +5,7 @@
  align-items: center;
  justify-content: space-between;
 }
+
 .crystalBox,
 .kikiBox,
 .katBox,
@@ -32,8 +28,8 @@
 .forAnswers{
   margin-left: 10px;
 }
-#div-question-form{
 
+#div-question-form{
   display: flex;
   flex-direction: column;
   margin-top: 100px;
@@ -173,15 +169,8 @@ margin: 5px;
  width: 4rem;
 }
 
-/* .box-div, .crystal-box-div{
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-}
-.box-div h3{
-  margin-left:5px;
-} */
 #groutInformation img{
   width: 20px;
   height: 20px;
 }
+

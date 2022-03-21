@@ -5,6 +5,7 @@ const { asyncHandler, csrfProtection, styleResources, isAuthorized } = require("
 const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
 /* GET users listing. */
+
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
@@ -15,6 +16,7 @@ router.get(
   csrfProtection,
   asyncHandler(async (req, res) => {
     const userId = res.locals.user.id;
+
 
     const user = await db.User.findByPk(userId, {
       include: [
@@ -100,6 +102,7 @@ router.get(`/:userId(\\d+)/questions`, csrfProtection, asyncHandler(async (req, 
     isLoggedIn: req.session.auth,
     currentUser: res.locals.user ? res.locals.user : undefined,
   })
+
 }));
 
 router.get(`/:userId(\\d+)/answers`, csrfProtection, asyncHandler(async (req, res) => {
@@ -114,6 +117,7 @@ router.get(`/:userId(\\d+)/answers`, csrfProtection, asyncHandler(async (req, re
   console.log(answers, "Question")
   res.render('./answers/answer', { answers })
 }));
+
 
 router.get(`/:userId(\\d+)/comments`, csrfProtection, asyncHandler(async (req, res) => {
   const user = parseInt(req.params.userId, 10);
