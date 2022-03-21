@@ -5,14 +5,14 @@ block content
         p My Answers
         each answer in answers
             div
+                p=answer.title
+                    img#answersImg(src=`${answer.memeUrl}`)
+                    //- div
+                    //-     a(href=`/answers/${answer.id}/edit`) Edit
+                    //-     a(href=`/answers/${answer.id}/delete`) Delete
                 a(href=`/questions/${answer.Question.id}`)
                     .question-card(class=`color-${answer.colorIndex} forAnswers`)
                         .question-title: p= answer.Question.title
                         .question-description: p= answer.Question.description
                         .question-author
-                p=answer.title
-                    img#answersImg(src=`${answer.memeUrl}`)
-                    div
-                        a(href=`/answers/${answer.id}/edit`) Edit
-                        a(href=`/answers/${answer.id}/delete`) Delete
                     hr
