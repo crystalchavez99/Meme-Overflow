@@ -1,18 +1,5 @@
 include utils.pug
+h1#container-header Questions
 #questions-container
     each question in questions
-        .question-card(class=`color-${question.colorIndex}`)
-            a(href=`/questions/${question.id}`)
-                .question-body(id=`question-${question.id}`)
-                    .question-title: p= question.title
-                    .question-description: p= question.description
-            a(href=`/users/${question.User.id}/profile`)
-                .question-author
-                    +authorAvatar(question.User.avatarUrl, question.User.username)
-                    span= question.User.username
-            if question.isAuthorized
-                .question-edit-delete
-                    a(href=`/questions/${question.id}/edit`): div.question-edit(id=`edit-${question.id}`)
-                        +editButton("#FFFFFF")
-                    a(href=`/questions/${question.id}/delete`): div.question-delete(id=`delete-${question.id}`)
-                        +deleteButton("#FFFFFF")
+        +questionCard(question)

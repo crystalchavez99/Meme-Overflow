@@ -1,7 +1,7 @@
 const { check, validationResult } = require('express-validator');
 const csrf = require("csurf");
 
-const csrfProtection = csrf({cookie:true});
+const csrfProtection = csrf({ cookie: true });
 
 const asyncHandler = (handler) => (req, res, next) => handler(req, res, next).catch(next);
 
@@ -27,9 +27,18 @@ const handleValidationErrors = (req, res, next) => {
     next();
 };
 
+const isAuthorized = (req, res, resource) => ((res.locals.user) && (resource.userId === res.locals.user.id));
+
+const styleResources = (resources, size) => {
+    resources.forEach((resource, i) => {
+        resource.colorIndex = i % size;
+    });
+}
 
 module.exports = {
     asyncHandler,
     handleValidationErrors,
     csrfProtection,
+    isAuthorized,
+    styleResources,
 };

@@ -3,8 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { User, Question, Answer } = require("../db/models");
 const { check, validationResult } = require("express-validator")
-const { asyncHandler, handleValidationErrors, csrfProtection } = require("../utils")
-const { loginUser, restoreUser, requireAuth, logoutUser } = require('../auth');
+const { asyncHandler, csrfProtection, isAuthorized, styleResources } = require("../utils")
+const { loginUser, logoutUser, requireAuth } = require('../auth');
 
 const userValidators = [
   check('username')
@@ -54,22 +54,18 @@ router.get(
       include: [Answer, User],
       order: [['createdAt', 'DESC']],
     });
-    const user = await User.findByPk(req.session.auth.userId)
-    console.log(user)
+
+    styleResources(questions, 5);
+
     if (req.session.auth) {
-      questions.forEach((question, i) => {
-        if ((question.userId === req.session.auth.userId)) {
-          question.isAuthorized = true;
-        }
-
-        question.colorIndex = i % 5;
-
+      questions.forEach((question) => {
+        question.isAuthorized = isAuthorized(req, res, question);
       });
     }
+
     res.render('index', {
       title: 'Meme Overflow',
       questions,
-      user,
       isLoggedIn: req.session.auth,
       currentUser: res.locals.user ? res.locals.user : undefined,
     });
@@ -170,7 +166,7 @@ router.post(
         }
       }
 
-      errors.push('Login failed for the provided email address and password');
+      errors.push('Invalid email address and/or password');
     } else {
       errors = validatorErrors.array().map((err) => err.msg);
     }
@@ -191,5 +187,10 @@ router.post('/login-demo', csrfProtection, asyncHandler(async (req, res) => {
 }));
 
 router.post("/logout", (req, res) => logoutUser(req, res));
+
+router.get("/profile", requireAuth, (req, res) => {
+  const currentUser = res.locals.user;
+  res.redirect(`/users/${currentUser.id}/profile`);
+})
 
 module.exports = router;

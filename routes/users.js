@@ -1,118 +1,111 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const db = require("../db/models");
-const { asyncHandler, csrfProtection } = require("../utils");
+const { asyncHandler, csrfProtection, styleResources, isAuthorized } = require("../utils");
+const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
 /* GET users listing. */
 
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
-///hello
-router.get('/:userId(\\d+)/questions', asyncHandler(async (req, res) => {
-  const id = parseInt(req.params.userId, 10);
-  const user = await db.User.findByPk(req.session.auth.userId)
-  const questions = await db.Question.findAll({
-    where: { userId: id }
-  })
-  if (req.session.auth) {
-    questions.forEach((question, i) => {
-      if ((question.userId === req.session.auth.userId)) {
-        question.isAuthorized = true;
-      }
 
-      question.colorIndex = i % 5;
+router.get(
+  '/:userId(\\d+)/profile',
+  requireAuth,
+  csrfProtection,
+  asyncHandler(async (req, res) => {
+    const userId = res.locals.user.id;
 
+
+    const user = await db.User.findByPk(userId, {
+      include: [
+        {
+          model: db.Question,
+          include: [
+            {
+              model: db.Answer,
+              include: [db.Comment, db.Upvote, db.Downvote],
+            },
+          ],
+          order: [['createdAt', 'DESC']],
+          limit: 3,
+        },
+      ],
     });
-  }
 
-  res.render("./questions/question-user-display", {
-    questions,
-    user,
-    isLoggedIn: req.session.auth,
-    currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
-    currentUsername: res.locals.user ? res.locals.user.username : "",
-  })
-
-}))
-
-router.get('/:userId(\\d+)/answers', asyncHandler(async (req, res) => {
-  const id = parseInt(req.params.userId, 10);
-
-  const answers = await db.Answer.findAll({
-    include: [db.Comment, db.Question],
-    // include: db.Question,
-    where: { userId: id }
-  })
-
-
-  if (req.session.auth) {
-    answers.forEach((answer, i) => {
-      if ((answer.userId === req.session.auth.userId)) {
-        answer.isAuthorized = true;
-      }
-
-      answer.colorIndex = i % 5;
-      console.log("index", answer.colorIndex)
+    let answers = await db.Answer.findAll({
+      where: {
+        userId,
+      },
+      include: [db.Question, db.Comment, db.Upvote, db.Downvote],
     });
-  }
 
-  res.render("./answers/my-answers.pug", {
-    answers,
-    isLoggedIn: req.session.auth,
-    currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
-    currentUsername: res.locals.user ? res.locals.user.username : "",
-  })
-
-}))
-
-router.get('/:userId(\\d+)/comments', asyncHandler(async (req, res) => {
-  const id = parseInt(req.params.userId, 10);
-
-  const comments = await db.Comment.findAll({
-    where: { userId: id }
-  })
-
-
-  if (req.session.auth) {
-    comments.forEach((comment, i) => {
-      if ((comment.userId === req.session.auth.userId)) {
-        comment.isAuthorized = true;
-      }
-
-      comment.colorIndex = i % 5;
-
-
+    answers.forEach((answer) => {
+      answer.votes = answer.Upvotes.length - answer.Downvotes.length;
     });
-  }
 
+    answers.sort((a, b) => {
+      if (a.votes !== b.votes) {
+        return b.votes - a.votes;
+      } else {
+        console.log(b.createdAt - a.createdAt);
+        return b.createdAt - a.createdAt;
+      }
+    });
 
-  res.render("./comments/my-commets-display.pug", {
-    comments,
-    isLoggedIn: req.session.auth,
-    currentUserAvatarUrl: res.locals.user ? res.locals.user.avatarUrl : undefined,
-    currentUsername: res.locals.user ? res.locals.user.username : "",
-  })
+    answers = answers.slice(0, 3);
 
-}))
+    let comments = await db.Comment.findAll({
+      where: { userId },
+      order: [['updatedAt', 'DESC']],
+      limit: 3,
+    });
 
+    styleResources(user.Questions, 5);
+    styleResources(answers, 5);
+    styleResources(comments, 5);
 
+    res.render('profile', {
+      title: `${user.username}'s Profile`,
+      user,
+      questions: user.Questions.slice(0, 3),
+      answers,
+      comments,
+      csrfToken: req.csrfToken(),
+      isLoggedIn: req.session.auth,
+      currentUser: res.locals.user ? res.locals.user : undefined,
+    })
+  }));
 
-
-router.get(`/:userId/questions`, csrfProtection, asyncHandler(async (req, res) => {
-  const user = parseInt(req.params.userId, 10);
-  console.log(user, "USER")
+router.get(`/:userId(\\d+)/questions`, csrfProtection, asyncHandler(async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  const user = await db.User.findByPk(userId);
   const questions = await db.Question.findAll({
     where: {
-      userId: user
+      userId,
     },
-    include: [db.User]
+    include: [db.User],
+  });
+
+  styleResources(questions, 5);
+
+  if (req.session.auth) {
+    questions.forEach((question) => {
+      question.isAuthorized = isAuthorized(req, res, question);
+    });
+  }
+
+  res.render('index', {
+    title: `${user.username}'s Questions`,
+    questions,
+    isLoggedIn: req.session.auth,
+    currentUser: res.locals.user ? res.locals.user : undefined,
   })
-  console.log(questions, "Question")
-  res.render('questions', { questions })
+
 }));
 
-router.get(`/:userId/answers`, csrfProtection, asyncHandler(async (req, res) => {
+router.get(`/:userId(\\d+)/answers`, csrfProtection, asyncHandler(async (req, res) => {
   const user = parseInt(req.params.userId, 10);
   console.log(user, "USER")
   const answers = await db.Answer.findAll({
@@ -125,7 +118,8 @@ router.get(`/:userId/answers`, csrfProtection, asyncHandler(async (req, res) => 
   res.render('./answers/answer', { answers })
 }));
 
-router.get(`/:userId/comments`, csrfProtection, asyncHandler(async (req, res) => {
+
+router.get(`/:userId(\\d+)/comments`, csrfProtection, asyncHandler(async (req, res) => {
   const user = parseInt(req.params.userId, 10);
   console.log(user, "USER")
   const comments = await db.Comment.findAll({
