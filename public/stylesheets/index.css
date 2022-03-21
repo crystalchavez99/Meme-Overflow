@@ -529,3 +529,41 @@ button:hover{
     width: 100%;
 }
 
+
+/* Footer styles */
+#project-info #project-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.footer-icons {
+    height: 30px;
+    width: 30px;
+    margin: 0 10px;
+}
+
+.footer-icons-2 {
+    height: 30px;
+    width: 23px;
+}
+
+.footer-icons-wide {
+    height: 30px;
+    width: 40px;
+}
+
+.footer-icons-wider {
+    height: 30px;
+    width: 54px;
+}
+
+#project-info ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}

@@ -1,5 +1,27 @@
 include utils.pug
 #project-info
-    a(href="https://github.com/adamtang5/aa_mod4_meme_overflow_project")
-        +githubIcon("#000000")
-    span
+    #project-name
+        a(href="https://github.com/adamtang5/aa_mod4_meme_overflow_project")
+            .footer-icons
+                +githubIcon("#000000")
+        a(href="https://github.com/adamtang5/aa_mod4_meme_overflow_project")
+            span MemeOverflow Project
+        span , created with
+    ul#feature-technologies
+        li: a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript")
+            .footer-icons
+                +jsIcon("#000000")
+        li: a(href="https://expressjs.com")
+                img.footer-icons-wider(src="/icons/expressjs-2.png", alt="Express.js")
+        li: a(href="https://postgresql.org")
+            img.footer-icons(src="https://postgresql.org/media/img/about/press/elephant.png", alt="Postgresql")
+        li: a(href="https://pugjs.org")
+            img.footer-icons-wide(src="/icons/pugjs.png", alt="Pug JS")
+        li: a(href="https://sequelize.org/v5/manual/")
+            img.footer-icons(src="https://sequelize.org/v5/manual/asset/logo-small.png", alt="Sequelize")
+        li: a(href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5")
+            .footer-icons-2
+                +html5Icon("#000000")
+        li: a(href="https://developer.mozilla.org/en-US/docs/Web/CSS")
+            .footer-icons-2
+                +css3Icon("#000000")
