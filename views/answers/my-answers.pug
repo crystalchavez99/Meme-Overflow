@@ -1,22 +1,18 @@
 extends ../layout.pug
 include ../utils.pug
 block content
-    #questions-container.myanswers
-        My Answers
+    #questions-container
+        p My Answers
         each answer in answers
-            div.answerbox
-                div.answerElement
-                    p=answer.title
-                        img#answersImg(src=`${answer.memeUrl}`)
-                        //- div
-                        //-     a(href=`/answers/${answer.id}/edit`) Edit
-                        //-     a(href=`/answers/${answer.id}/delete`) Delete
+            div
                 a(href=`/questions/${answer.Question.id}`)
-                    .question-content(class=`color-${answer.colorIndex} forAnswers`)
+                    .question-card(class=`color-${answer.colorIndex} forAnswers`)
                         .question-title: p= answer.Question.title
                         .question-description: p= answer.Question.description
                         .question-author
-            #comment-container
-                        each comment in answer.Comments
-                            div.single-comment(id=`comment-${comment.id}`)
-                                p= comment.content
+                p=answer.title
+                    img#answersImg(src=`${answer.memeUrl}`)
+                    div
+                        a(href=`/answers/${answer.id}/edit`) Edit
+                        a(href=`/answers/${answer.id}/delete`) Delete
+                    hr

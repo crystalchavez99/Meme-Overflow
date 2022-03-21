@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 const db = require("../db/models");
 const { asyncHandler, csrfProtection, styleResources, isAuthorized } = require("../utils");
 const { requireAuth } = require('../auth');
@@ -128,6 +128,7 @@ router.get(`/:userId(\\d+)/comments`, csrfProtection, asyncHandler(async (req, r
     },
     include: [db.User, db.Answer]
   })
+
   console.log(comments, "Question")
   res.render('./comments/comment', { comments })
 }));

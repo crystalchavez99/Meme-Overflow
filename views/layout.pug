@@ -7,7 +7,6 @@ html
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(rel='stylesheet' href='/stylesheets/index.css')
         link(rel='stylesheet' href='/stylesheets/registration.css')
-        link(rel='stylesheet' href='/stylesheets/myanswers.css')
         link(rel='icon' href='/icons/favicon.ico' type='image/x-icon')
   body
     header
@@ -36,12 +35,6 @@ html
       #main-column
         block content
       #right-column
-        #creators
-         if isLoggedIn
-            #groutInformation
-              .adamBox: p Adam
-              .crystalBox: p Crystal
-              .kikiBox: p Kiki
-              .katBox: p Kat
+       include right-column.pug
     footer
         include footer.pug

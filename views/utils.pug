@@ -6,12 +6,15 @@ mixin errorBlock(errors)
 
 mixin questionForm(action)
     form#question-form(action=action , method="post")
-        input(type="hidden" name="_csrf" value=csrfToken)
-        label(for="title") Title:
-        input(type="text" name="title" id="title" required value=question.title)
-        label(for="description") Description:
-        textarea(name="description" id="description" rows="3" required)= question.description
-        button(type="submit") Submit
+        div#div-question-form
+            input(type="hidden" name="_csrf" value=csrfToken)
+            label(for="title") Title:
+            input(type="text" name="title" id="title" required value=question.title)
+            label(for="description") Description:
+            textarea(name="description" id="description" rows="3" required)= question.description
+            div
+                button(type="submit" id="submit-question-form") Submit
+                button(type="cancel" onclick="javascript:window.location='/';") Cancel
 
 mixin authorAvatar(avatarUrl, username)
     if avatarUrl

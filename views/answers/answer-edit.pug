@@ -1,17 +1,14 @@
+extends ../layout.pug
 include ../utils.pug
-
-html
-    head
-        title Answer Page
-    body
-
-        h2 Your Answer
-        +errorBlock(errors)
-        form(method="post" action=`/answers/${answer.id}/edit`)
-            input(type="hidden" name="_csrf" value=csrfToken)
-            label(for="title") Title
-            input(type="title" name="title" id="title" value=answer.title)
-            label(for="memeUrl") Upload Image
-            input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
+block content
+    h2 Your Answer
+    +errorBlock(errors)
+    form.edit-answer-form(method="post" action=`/answers/${answer.id}/edit`)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        label(for="title") Title
+        input(type="title" name="title" id="title" value=answer.title)
+        label(for="memeUrl") Upload Image
+        input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
+        .edit-answer-btns
             button(type="submit") Submit
-        a(href=`/questions/${answer.questionId}`) Cancel
+            a#edit-answer-cencel-btn(href=`/questions/${answer.questionId}`) Cancel

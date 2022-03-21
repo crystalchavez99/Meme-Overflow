@@ -2,7 +2,6 @@
 body {
     max-width: 1000px;
     margin: 0 auto;
-    background-color: #e0e0e0;
 }
 
 header,
@@ -147,7 +146,6 @@ main #right-column {
     flex-direction: column;
     justify-content: flex-start;
 }
-
 
 #left-column #avatar {
     display: flex;
@@ -395,7 +393,6 @@ button:hover{
     grid-template-columns: 1fr 9fr;
     grid-template-areas: "vote answer-content";
 }
-
 
 .single-answer .vote {
     grid-area: vote;
