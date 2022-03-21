@@ -120,7 +120,6 @@ a {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    background-color: #cacaca;
 
 }
 
@@ -397,7 +396,6 @@ button{
     border-radius: 9px;
     color: black;
     border: rgb(138, 138, 138);
-    width: 4rem;
     box-shadow: 2px 0px 0.4em gray;
     margin: 5px;
 }
