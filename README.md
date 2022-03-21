@@ -40,7 +40,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
+------- INSERT A WEBPAGE SCREENSHOT HERE  [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
 
 Meme Overflow is a clone of StackOverflow, a website for users to ask questions, answer with memes, and comment on memes!
 
@@ -58,11 +58,11 @@ Meme Overflow is a clone of StackOverflow, a website for users to ask questions,
 ### Built With
 
 * [Javascript](https://www.javascript.com)
-* [Heroku](https://vuejs.org/)
+* [Express](http://expressjs.com)
 * [PostgreSQL](https://www.postgresql.org/docs/)
 * [Heroku](https://www.heroku.com)
+* [BCrypt](https://www.npmjs.com/package/bcrypt)
 
-etc...
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -72,101 +72,23 @@ etc...
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Users can signup and login to use Meme Overflow, and can login as a demo user to experience the website quickly.
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+* Users can signup and login to use Meme Overflow, and can login as a demo user to experience the website quickly.
 
 
 
-Once logged in, the user is directed to the main question page, where logged-in users can view a list of questions based on time created, as well as their user profile page on left column, and a search bar on the top.
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
+* Once logged in, the user is directed to the main question page, where logged-in users can view a list of questions based on time created, as well as their user profile page on left column, and a search bar on the top.
 
 
 
-Logged in users can add a new question/comment/answer. For questions a user owns, they can edit and delete. Users can also upvote and downvote an answer.
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
+* Logged in users can create a new question/comment/answer. For questions/comments/answers a user owns, they can also be edited and deleted. Users can also upvote and downvote an answer.
 
 
 
-Adding a question:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
+* Users can click into user's profile page to view their information.
 
 
 
-Editing a question:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Deleting a question:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Upvote and downvote an answer:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Users can add, edit, and delete an answer they own.
-
-Adding an answer:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Editing an answer:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Deleting an answer:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-User can also add, edit, and delete a comment they own.
-
-Adding a comment:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Editing a comment:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Deleteing a comment:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
-
-
-Users can click into user's profile page to view their information:
-
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/m) --------
-
-
-
-Login and unlogin users can also search one or multiple keywords in the search bar to search for questions:
-
-------- INSERT [![Product Name Screen Shot][product-screenshot]](https://aa-meme-overflow.herokuapp.com/) --------
-
+* Login and unlogin users can also search questions by one or multiple keywords based on question title and content.
 
 
 

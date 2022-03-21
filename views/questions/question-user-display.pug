@@ -1,0 +1,18 @@
+extends ../layout.pug
+include ../utils.pug
+block content
+    #questions-container
+        h1.h2Title My questions
+        each question in questions
+            .question-card(class=`color-${question.colorIndex}`)
+                a(href=`/questions/${question.id}`)
+                    .question-body(id=`question-${question.id}`)
+                        .question-title: p= question.title
+                        .question-description: p= question.description
+                        .question-author
+                if question.isAuthorized
+                    .question-edit-delete
+                        a(href=`/questions/${question.id}/edit`): div.question-edit(id=`edit-${question.id}`)
+                            +editButton("#FFFFFF")
+                        a(href=`/questions/${question.id}/delete`): div.question-delete(id=`delete-${question.id}`)
+                            +deleteButton("#FFFFFF")

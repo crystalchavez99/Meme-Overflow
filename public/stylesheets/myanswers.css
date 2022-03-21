@@ -1,0 +1,32 @@
+.myanswers{
+    display: flex;
+    flex-wrap: wrap;
+}
+.answerbox{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+}
+.answerElement{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    text-align: center;
+    width: 40%;
+}
+
+.answerElement #answersImg{
+    width: 275px;
+}
+
+
+.myanswers .question-content{
+    float: left;
+    width: 200px;
+    border-radius: 8px;
+    color: white;
+    padding: 5px;
+}
+

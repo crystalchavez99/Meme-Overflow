@@ -1,6 +1,7 @@
 extends layout-minimal.pug
 include utils.pug
 block content
+
     #login-form
         form(action="/login", method="post")
             input(type="hidden" name="_csrf" value=csrfToken)

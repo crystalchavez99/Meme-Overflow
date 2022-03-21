@@ -1,0 +1,60 @@
+#sighnInForm{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+
+}
+#login{
+  border-radius: 8px;
+  width: 300px;
+}
+.email{
+ width: 200px;
+}
+#sighnInForm label{
+   padding: 20px;
+
+}
+#sighnInForm input{
+ border-radius: 5px;
+}
+#main-column{
+
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: space-between;
+}
+#loginForm{
+  background-color: blueviolet;
+  border-radius: 9px;
+  background-color:#73c2d6;
+  width: 200px;
+  box-shadow: 5px 5px 5px #30aac9;
+}
+/* hello */
+
+.crystalBox,
+.kikiBox,
+.katBox,
+.adamBox{
+  height: 100px;
+  width: auto;
+  border-color: #30aac9;
+  background-color: rgb(238, 231, 222);
+  border-radius: 8px;
+  margin: 15px;
+
+}
+ .katBox{
+   background-color: gray;
+ }
+ #answersImg{
+ width: 450px;
+ margin-left: 40px;
+ margin-right: 10px;
+ border-radius: 10px;
+ }
+.forAnswers{
+  margin-left: 10px;
+}
