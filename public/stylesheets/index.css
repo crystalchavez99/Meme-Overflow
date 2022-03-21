@@ -459,3 +459,24 @@ ul#user-links {
 #comment-container{
     width: 100%;
 }
+
+
+/* Footer styles */
+#project-info #project-name {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.footer-icons {
+    height: 30px;
+    width: 30px;
+}
+
+#project-info ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}
