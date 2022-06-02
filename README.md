@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://aa-meme-overflow.herokuapp.com"> -->
+   <a href="https://aa-meme-overflow.herokuapp.com"> 
     <img src="public/icons/meme-overflow-icon.png" alt="Logo" width="80" height="80">
   </a>
 
