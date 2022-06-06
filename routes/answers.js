@@ -30,7 +30,7 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render("./answers/answer", { answers })
 }))
 
-router.post('/:answerId', requireAuth, commentValidators,csrfProtection, asyncHandler(async (req, res) => {
+router.post('/:answerId', requireAuth, commentValidators, csrfProtection, asyncHandler(async (req, res) => {
     //console.log("IN ANSWER POST ROUTE ======================================================")
     //parse in the string of the questionId into integer
     const answerId = parseInt(req.params.answerId)
@@ -104,10 +104,12 @@ router.get('/:answerId/edit', requireAuth, csrfProtection, asyncHandler(async (r
         return res.redirect('/');
     }
 
-
-    res.render('./answers/answer-edit', { answer, csrfToken: req.csrfToken(), isLoggedIn: res.locals.authenticated, })
-
-
+    res.render('./answers/answer-edit', {
+        answer,
+        csrfToken: req.csrfToken(),
+        isLoggedIn: res.locals.authenticated,
+        sessionUser: res.locals.user ? res.locals.user : undefined,
+    })
 
 }))
 
@@ -155,23 +157,23 @@ router.post('/:answerId/edit', requireAuth, csrfProtection, answerValidators, as
 //     res.render('./answers/answer-delete', { answer, csrfToken: req.csrfToken() })
 // }))
 
-router.use((req,res,next)=>{
+router.use((req, res, next) => {
     console.log("------REQUEST HITS HERE RIGHT BEFORE ROUTE-------")
     next();
 })
 
 router.delete('/:answerId', requireAuth, asyncHandler(async (req, res) => {
     console.log("CHECK =============================================")
-    console.log(req.session,"THIS IS SESSION")
+    console.log(req.session, "THIS IS SESSION")
     const answerId = parseInt(req.params.answerId, 10)
     console.log("ANSWER ID IN ANSWERrouter.JS", answerId)
     const answer = await db.Answer.findByPk(answerId)
     console.log("THIS IS ANSWER RETURN VALUE OF QUERY", answer)
-    if(answer){
+    if (answer) {
         console.log("IF ANSWER CONDITIONAL TRUE")
         await answer.destroy()
         console.log("DESTROY =============================================")
-        res.json({"message": "Success"})
+        res.json({ "message": "Success" })
         //res.redirect(`/questions/${answer.questionId}`)
     }
     //await answer.destroy();
