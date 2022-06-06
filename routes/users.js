@@ -75,7 +75,7 @@ router.get(
       comments,
       csrfToken: req.csrfToken(),
       isLoggedIn: req.session.auth,
-      currentUser: res.locals.user ? res.locals.user : undefined,
+      sessionUser: res.locals.user ? res.locals.user : undefined,
     })
   }));
 
@@ -101,7 +101,7 @@ router.get(`/:userId(\\d+)/questions`, csrfProtection, asyncHandler(async (req, 
     title: `${user.username}'s Questions`,
     questions,
     isLoggedIn: req.session.auth,
-    currentUser: res.locals.user ? res.locals.user : undefined,
+    sessionUser: res.locals.user ? res.locals.user : undefined,
   })
 
 }));

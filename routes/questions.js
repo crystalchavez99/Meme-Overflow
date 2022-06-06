@@ -116,7 +116,7 @@ router.get(
             answers: question.Answers,
             comments: question.Answers.Comments,
             isLoggedIn: res.locals.authenticated,
-            currentUser: res.locals.user ? res.locals.user : undefined,
+            sessionUser: res.locals.user ? res.locals.user : undefined,
             csrfToken: req.csrfToken(),
         });
     }));
@@ -184,7 +184,7 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
-            currentUser: res.locals.user ? res.locals.user : undefined,
+            sessionUser: res.locals.user ? res.locals.user : undefined,
             action: `/questions/${id}/edit`
         });
     }));
@@ -215,7 +215,7 @@ router.post('/:questionId(\\d+)/edit', requireAuth, csrfProtection, questionVali
             csrfToken: req.csrfToken(),
             errors,
             isLoggedIn: res.locals.authenticated,
-            currentUser: res.locals.user ? res.locals.user : undefined,
+            sessionUser: res.locals.user ? res.locals.user : undefined,
         });
     }
 }));
@@ -242,7 +242,7 @@ router.get(
             question,
             csrfToken: req.csrfToken(),
             isLoggedIn: res.locals.authenticated,
-            currentUser: res.locals.user ? res.locals.user : undefined,
+            sessionUser: res.locals.user ? res.locals.user : undefined,
         });
     }));
 

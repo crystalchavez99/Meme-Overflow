@@ -67,7 +67,7 @@ router.get(
       title: 'Meme Overflow',
       questions,
       isLoggedIn: req.session.auth,
-      currentUser: res.locals.user ? res.locals.user : undefined,
+      sessionUser: res.locals.user ? res.locals.user : undefined,
     });
   }));
 
@@ -189,8 +189,8 @@ router.post('/login-demo', csrfProtection, asyncHandler(async (req, res) => {
 router.post("/logout", (req, res) => logoutUser(req, res));
 
 router.get("/profile", requireAuth, (req, res) => {
-  const currentUser = res.locals.user;
-  res.redirect(`/users/${currentUser.id}/profile`);
+  const sessionUser = res.locals.user;
+  res.redirect(`/users/${sessionUser.id}/profile`);
 })
 
 module.exports = router;

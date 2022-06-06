@@ -121,7 +121,7 @@ router.get(
                 questions:questionArr,
                 user,
                 isLoggedIn: req.session.auth,
-                currentUser: res.locals.user ? res.locals.user : undefined,
+                sessionUser: res.locals.user ? res.locals.user : undefined,
             });
     }));
 
