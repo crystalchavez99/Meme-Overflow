@@ -17,6 +17,7 @@ router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) =>
         question,
         csrfToken: req.csrfToken(),
         isLoggedIn: res.locals.authenticated,
+        sessionUser: res.locals.user ? res.locals.user : undefined,
         action: `/questions/new`
     });
 }));
