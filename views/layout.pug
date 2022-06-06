@@ -9,6 +9,7 @@ html
         link(rel='stylesheet' href='/stylesheets/extra.css')
         link(rel='stylesheet' href='/stylesheets/myanswers.css')
         link(rel='icon' href='/icons/favicon.ico' type='image/x-icon')
+        script(src="https://kit.fontawesome.com/c5eef61d41.js" crossorigin="anonymous")
   body
     header
       nav#top-nav
@@ -21,7 +22,7 @@ html
         #search-bar
           form(action="/search", method="get")
             input(type="text" name="search_keyword" id="search_keyword" required)
-            button(type="submit") Search
+            button.button(type="submit") Search
             //a(href=`/search/:search_keyword`): button Search
             //how to link input to the form
             //how to get rid of the "?"
@@ -29,10 +30,10 @@ html
         #auth-buttons
           if isLoggedIn
             form(action="/logout" method="post")
-              #logout: button(type="submit") Log Out
+              #logout: button.button(type="submit") Log Out
           else
-            #login: a(href="/login"): button Log In
-            #sign-up: a(href="/signup"): button Sign Up
+            #login: a(href="/login"): button.button Log In
+            #sign-up: a(href="/signup"): button.button Sign Up
     main
       #left-column
         include left-column.pug
