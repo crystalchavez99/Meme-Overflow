@@ -10,6 +10,10 @@ main {
     margin: 0 40px;
 }
 
+main {
+    margin-bottom: 115px;
+}
+
 h1 {
     color: #555555;
 }
@@ -645,5 +649,5 @@ button:hover {
 
 #cencel-btn-edit-q:hover {
     background-color: #79b187;
-    box-shadow: 5px  #469b5b
+    box-shadow: 5px #469b5b
 }
