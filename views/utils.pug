@@ -14,7 +14,7 @@ mixin questionForm(action)
             textarea(name="description" id="description" rows="3" required)= question.description
             div
                 button(type="submit" id="submit-question-form") Submit
-                button(type="cancel" onclick="javascript:window.location='/';") Cancel
+                a(href=`/` id="cencel-btn-edit-q") Cancel
 
 mixin authorAvatar(avatarUrl, username)
     if avatarUrl
