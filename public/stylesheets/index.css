@@ -629,3 +629,21 @@ button:hover {
     justify-content: center;
     gap: 20px;
 }
+
+#cencel-btn-edit-q {
+    background-color: #cacaca;
+    height: 20px;
+    border-radius: 9px;
+    color: black;
+    border: rgb(138, 138, 138);
+    box-shadow: 2px 0px 0.4em grey;
+    margin: 5px;
+    padding: 3px;
+    font-family: Arial;
+    font-size: 13.3333px;
+}
+
+#cencel-btn-edit-q:hover {
+    background-color: #79b187;
+    box-shadow: 5px  #469b5b
+}
