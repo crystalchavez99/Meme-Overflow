@@ -15,7 +15,8 @@ router.get(
   requireAuth,
   csrfProtection,
   asyncHandler(async (req, res) => {
-    const userId = res.locals.user.id;
+    const userId = req.params.userId;
+
 
 
     const user = await db.User.findByPk(userId, {

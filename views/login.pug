@@ -15,6 +15,6 @@ block content
             button(type="submit") Log In
         form(action="/login-demo" method="post")
             input(type="hidden" name="_csrf" value=csrfToken)
-            button(type="submit") Demo User
+            button(type="submit" class="demo-user-button") Demo User
         #redirect
             p: a(href="/signup") Don't have an account?
