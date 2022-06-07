@@ -10,8 +10,8 @@ html
         form(method="post" action="/answers/new")
             input(type="hidden" name="_csrf" value=csrfToken)
             label(for="title") Title
-            input(type="title" name="title" id="title")
+            input(type="title" name="title" id="title" required)
             label(for="memeUrl") Upload Image
-            input(type="url" name="memeUrl" id="memeUrl")
+            input(type="url" name="memeUrl" id="memeUrl" required)
             button(type="submit") Submit
             a(href=`/`) Cancel

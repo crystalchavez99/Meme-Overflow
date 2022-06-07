@@ -79,8 +79,8 @@ block content
                                 div.modalDelete.modal
                                     form(method="post" action=`/comments/${comment.id}/delete`)
                                         //input(type="hidden" name="id" value=comment.id)
-                                        input(type="hidden" name="_csrf" value=csrfToken)
+                                        input(type="hidden" name="_csrf" value=csrfToken required placeholder="comment")
                                         p Do you want to delete this comment?
                                         button(type="submit" id=`yes-${comment.id}`) Yes
-                                    button#cancel No
+                                    button(type="button")#cancel Cancel
     script(src="/javascripts/question-display.js" )

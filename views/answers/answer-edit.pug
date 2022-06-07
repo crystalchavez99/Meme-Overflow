@@ -6,9 +6,9 @@ block content
     form.edit-answer-form(method="post" action=`/answers/${answer.id}/edit`)
         input(type="hidden" name="_csrf" value=csrfToken)
         label(for="title") Title
-        input(type="title" name="title" id="title" value=answer.title)
+        input(type="title" name="title" id="title" value=answer.title required placeholder="title...")
         label(for="memeUrl") Upload Image
-        input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl)
+        input(type="url" name="memeUrl" id="memeUrl" value=answer.memeUrl required placeholder="url(255)...")
         .edit-answer-btns
             button(type="submit") Submit
             a#edit-answer-cencel-btn(href=`/questions/${answer.questionId}`) Cancel
