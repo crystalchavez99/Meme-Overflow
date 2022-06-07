@@ -312,7 +312,7 @@ ul#user-links {
 
 #questions-container .question-card {
     box-sizing: border-box;
-    width: 400px;
+    min-width: 400px;
     border-radius: 10px;
     margin-bottom: 25px;
     padding: 1px 10px 10px 15px;
@@ -322,6 +322,7 @@ ul#user-links {
 
 .question-card .question-edit-delete {
     position: absolute;
+    min-width: 400px;
     top: 10px;
     right: 10px;
     display: flex;
@@ -552,6 +553,7 @@ button:hover {
 
 #question-container {
     border-radius: 10px;
+    min-width: 400px;
     box-shadow: 5px 5px 5px #cf8578;
     background-color: #c95844;
     color: white;

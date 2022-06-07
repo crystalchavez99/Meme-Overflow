@@ -1,5 +1,7 @@
 extends ../layout.pug
 include ../utils.pug
+append head
+    link(rel='stylesheet' href='/stylesheets/index.css')
 block content
     script(src='../javascripts/answer.js')
     #main-column-nav: a(href="/") Back
