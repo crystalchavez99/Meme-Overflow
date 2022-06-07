@@ -11,18 +11,19 @@ block content
         //-         a(href=`/questions/${question.id}/edit`): button Edit
         //-         a(href=`/questions/${question.id}/delete`): button Delete
         +questionCard(question)
-        button(type="submit" id="newanswer").newanswer New Answer
+        if isLoggedIn
+            button(type="submit" id="newanswer").newanswer New Answer
         div.modalForm.modal
             h2 Your Answer
             +errorBlock(errors)
             form(method="POST" action=`/questions/${question.id}`)
                 input(type="hidden" name="_csrf" value=csrfToken)
                 label(for="title") Title
-                input(type="title" name="title" id="title")
+                input(type="title" name="title" id="title" required placeholder="title...")
                 label(for="memeUrl") Upload Image
-                input(type="url" name="memeUrl" id="memeUrl")
+                input(type="url" name="memeUrl" id="memeUrl" required placeholder="url(255)...")
                 button(type="submit") Submit
-            button#cancel Cancel
+                button(type="button")#cancel Cancel
     #answer-container
         each answer in question.Answers
             div.single-answer(id=`answer-${answer.id}`)
