@@ -16,16 +16,17 @@ block content
         if isLoggedIn
             button(type="submit" id="newanswer").newanswer New Answer
         div.modalForm.modal
-            h2 Your Answer
             +errorBlock(errors)
             form(method="POST" action=`/questions/${question.id}`)
+                h2 Your Answer
                 input(type="hidden" name="_csrf" value=csrfToken)
                 label(for="title") Title
                 input(type="title" name="title" id="title" required placeholder="title...")
                 label(for="memeUrl") Upload Image
                 input(type="url" name="memeUrl" id="memeUrl" required placeholder="url(255)...")
-                button(type="submit") Submit
-                button(type="button")#cancel Cancel
+                div
+                    button(type="submit") Submit
+                    button(type="button")#cancel Cancel
     #answer-container
         each answer in question.Answers
             div.single-answer(id=`answer-${answer.id}`)
@@ -63,9 +64,9 @@ block content
                         div.modalComment.modal
                                 form(method="post" action=`/answers/${answer.id}`)
                                     input(type="hidden" name="_csrf" value=csrfToken)
-                                    input(type="hidden" name="answerId" value=answer.id required placeholder="comment")
+                                    input(type="hidden" name="answerId" value=answer.id)
                                     label(for="content") Content
-                                    input(type="text" name="content" id="content")
+                                    input(type="text" name="content" id="content" required placeholder="comment")
                                     button(type="submit") Submit
                                     button(type="button")#cancel Cancel
                     hr

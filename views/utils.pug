@@ -41,7 +41,7 @@ mixin questionCard(question)
         a(href=`/users/${question.User.id}/profile`)
             .question-author
                 +authorAvatar(question.User.avatarUrl, question.User.username)
-                span=`User: ${question.User.username}`
+                span=`${question.User.username}`
         if question.isAuthorized
             .question-edit-delete
                 a(href=`/questions/${question.id}/edit`): div.question-edit(id=`edit-${question.id}`)

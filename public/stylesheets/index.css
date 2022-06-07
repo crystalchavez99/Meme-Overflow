@@ -502,8 +502,15 @@ button:hover {
 .modal {
     display: none;
 }
-
-
+.modalForm, .modalForm form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modalForm input, .modalComment input{
+    border-radius: 1rem;
+}
 /* Right Column Styles */
 
 
@@ -652,4 +659,8 @@ button:hover {
 #cencel-btn-edit-q:hover {
     background-color: #79b187;
     box-shadow: 5px #469b5b
+}
+
+span{
+    font-weight: 700;
 }
