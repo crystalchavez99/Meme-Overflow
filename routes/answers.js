@@ -23,7 +23,7 @@ const commentValidators = [
 
 router.get('/', asyncHandler(async (req, res) => {
     const answers = await db.Answer.findAll({
-        include: db.Comment,
+        include: [db.Question, db.Comment],
         order: [["createdAt", "DESC"]]
 
     })
