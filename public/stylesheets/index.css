@@ -312,7 +312,7 @@ ul#user-links {
 
 #questions-container .question-card {
     box-sizing: border-box;
-    width: 400px;
+    min-width: 400px;
     border-radius: 10px;
     margin-bottom: 25px;
     padding: 1px 10px 10px 15px;
@@ -322,6 +322,7 @@ ul#user-links {
 
 .question-card .question-edit-delete {
     position: absolute;
+    min-width: 400px;
     top: 10px;
     right: 10px;
     display: flex;
@@ -501,8 +502,15 @@ button:hover {
 .modal {
     display: none;
 }
-
-
+.modalForm, .modalForm form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modalForm input, .modalComment input{
+    border-radius: 1rem;
+}
 /* Right Column Styles */
 
 
@@ -552,6 +560,7 @@ button:hover {
 
 #question-container {
     border-radius: 10px;
+    min-width: 400px;
     box-shadow: 5px 5px 5px #cf8578;
     background-color: #c95844;
     color: white;
@@ -650,4 +659,8 @@ button:hover {
 #cencel-btn-edit-q:hover {
     background-color: #79b187;
     box-shadow: 5px #469b5b
+}
+
+span{
+    font-weight: 700;
 }

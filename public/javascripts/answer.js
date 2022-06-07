@@ -23,6 +23,7 @@ function displayCommentForm(){
     for (let i=0;i<newComment.length;i++){
         newComment[i].addEventListener("click", ()=>{
         modal[i].style.display = "block"
+        //console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CLICKED")
     })
     }
 }
@@ -64,7 +65,7 @@ function deleteAnswer(){
         yes[i].addEventListener("click",async(e)=>{
             e.preventDefault();
             const answerId = e.target.id.split('-')[1];
-            console.log("ANSWER ID IN ANSWERScript.JS", answerId)
+            //console.log("ANSWER ID IN ANSWERScript.JS", answerId)
             const res = await fetch(`/answers/${answerId}`, {
                 method: 'DELETE'
             })
